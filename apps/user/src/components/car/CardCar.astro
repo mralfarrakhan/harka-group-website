@@ -17,10 +17,10 @@ const isSold = car.data.archiveReason === "sold";
 	<a href={`/view/${car.id}`} class="relative isolate flex flex-col gap-8 xxl:flex-row">
 		<div class="relative aspect-[4/3] xxl:w-72 lg:shrink-0 ribbon">
 			{
-				car.data.image ? (
+				car.data.gallery?.[0]?.image ? (
 					<img
-						src={car.data.image}
-						alt={car.data.imageAlt}
+						src={car.data.gallery?.[0]?.image}
+						alt={car.data.gallery?.[0]?.imageAlt}
 						class="absolute inset-0 size-full bg-gray-50 object-cover"
 					/>
 				) : (

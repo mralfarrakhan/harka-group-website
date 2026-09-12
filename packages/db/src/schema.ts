@@ -3,8 +3,6 @@ import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 export const cars = sqliteTable("cars", {
 	id: text("id").primaryKey(), // The slug
 	title: text("title").notNull(),
-	image: text("image"),
-	imageAlt: text("image_alt").default(""),
 	gallery: text("gallery", { mode: "json" }).$type<{ image: string; alt: string }[]>(),
 	videoTourUrl: text("video_tour_url"),
 	excerpt: text("excerpt"),

@@ -6,13 +6,25 @@ import { env } from "cloudflare:workers";
 
 export const PUT: APIRoute = async ({ request, params }) => {
 	try {
-		const formData = await request.formData();
+		const payload = await request.json();
 		const id = params.id as string;
+		const db = getDb(env as any);
 
-		const generalStr = formData.get("general") as string;
-		const historyStr = formData.get("history") as string;
-		const general = generalStr ? JSON.parse(generalStr) : {};
-		const history = historyStr ? JSON.parse(historyStr) : {};
+		const {
+			general = {},
+			history = {},
+			title,
+			excerpt,
+			videoTourUrl,
+			gallery,
+			technical,
+			efficiency,
+			options,
+			security,
+			exterior,
+			interior,
+			misc,
+		} = payload;
 
 		if (
 			!general.make ||
@@ -28,53 +40,42 @@ export const PUT: APIRoute = async ({ request, params }) => {
 			);
 		}
 
-		const updateData: any = {};
-		let title = formData.get("title") as string;
-		if (!title || title.trim() === "") {
-			title = `${general.make} ${general.model} ${history.year}`;
-		}
-		updateData.title = title;
-		updateData.excerpt = formData.get("excerpt") as string;
-		updateData.imageAlt = formData.get("imageAlt") as string;
-		updateData.videoTourUrl = formData.get("videoTourUrl") as string;
-
-		const imageFile = formData.get("imageFile") as File | null;
-		if (imageFile && imageFile.size > 0) {
-			const arrayBuffer = await imageFile.arrayBuffer();
-			const ext = imageFile.name.split(".").pop();
-			const filename = `${id}-${Date.now()}.${ext}`;
-
-			await (env as any).IMAGES_BUCKET.put(filename, arrayBuffer, {
-				httpMetadata: { contentType: imageFile.type },
-			});
-			updateData.image = `/api/images/${filename}`;
-		} else {
-			updateData.image = formData.get("image") as string; // Keep existing image
+		let finalTitle = title;
+		if (!finalTitle || finalTitle.trim() === "") {
+			finalTitle = `${general.make} ${general.model} ${history.year}`;
 		}
 
-		const jsonFields = [
-			"gallery",
-			"general",
-			"history",
-			"technical",
-			"efficiency",
-			"options",
-			"security",
-			"exterior",
-			"interior",
-			"misc",
-		];
+		// Cleanup orphaned images
+		const oldCar = await db.query.cars.findFirst({ where: eq(carsTable.id, id) });
+		const oldGallery = oldCar?.gallery || [];
+		const newGallery = gallery || [];
 
-		for (const field of jsonFields) {
-			const val = formData.get(field) as string;
-			if (val && val.trim() !== "") {
-				updateData[field] = JSON.parse(val);
-			} else {
-				updateData[field] = null;
+		const newImageUrls = new Set(newGallery.map((g: any) => g.image));
+		const orphanedImages = oldGallery.filter((g: any) => !newImageUrls.has(g.image));
+
+		for (const img of orphanedImages) {
+			const filename = img.image.split("/").pop();
+			if (filename) {
+				await (env as any).IMAGES_BUCKET.delete(filename).catch(console.error);
 			}
 		}
 
-		const db = getDb(env as any);
+		const updateData = {
+			title: finalTitle,
+			excerpt: excerpt || null,
+			videoTourUrl: videoTourUrl || null,
+			gallery: gallery || null,
+			general: general || null,
+			history: history || null,
+			technical: technical || null,
+			efficiency: efficiency || null,
+			options: options || null,
+			security: security || null,
+			exterior: exterior || null,
+			interior: interior || null,
+			misc: misc || null,
+		};
+
 		await db.update(carsTable).set(updateData).where(eq(carsTable.id, id));
 
 		return new Response(JSON.stringify({ success: true, redirect: "/cars" }), {
@@ -98,10 +99,12 @@ export const DELETE: APIRoute = async ({ request, params }) => {
 
 		if (reason === "delete") {
 			const car = await db.query.cars.findFirst({ where: eq(carsTable.id, id) });
-			if (car?.image) {
-				const filename = car.image.split("/").pop();
-				if (filename) {
-					await (env as any).IMAGES_BUCKET.delete(filename);
+			if (car?.gallery && car.gallery.length > 0) {
+				for (const img of car.gallery) {
+					const filename = img.image.split("/").pop();
+					if (filename) {
+						await (env as any).IMAGES_BUCKET.delete(filename).catch(console.error);
+					}
 				}
 			}
 			await db.delete(carsTable).where(eq(carsTable.id, id));

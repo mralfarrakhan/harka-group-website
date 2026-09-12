@@ -124,8 +124,6 @@ export interface PriceProps {
 }
 
 export interface SliderProps {
-	image: string | null;
-	alt: string | null;
 	gallery: { image: string; alt: string }[] | null;
 	videoTour?: string | null;
 }
