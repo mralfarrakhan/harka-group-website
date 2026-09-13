@@ -107,22 +107,6 @@ export interface WideImageProps extends ClassNameProps {
 	alt: string;
 }
 
-export interface LoanCalculatorProps {
-	price: number;
-}
-
-export interface CardPriceProps {
-	data: {
-		price: number;
-	};
-}
-
-export interface PriceProps {
-	properties: {
-		price: number;
-	};
-}
-
 export interface SliderProps {
 	gallery: { image: string; alt: string }[] | null;
 	videoTour?: string | null;
