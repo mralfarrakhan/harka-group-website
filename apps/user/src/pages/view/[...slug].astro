@@ -61,11 +61,8 @@ const isSold = car.data.archiveReason === "sold";
 				<div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
 					<div id="gallery-wrapper" class="relative">
 						{
-							(car.data.gallery && car.data.gallery.length > 0) ? (
-								<Slider
-									gallery={car.data.gallery}
-									videoTour={car.data.videoTourUrl}
-								/>
+							car.data.gallery && car.data.gallery.length > 0 ? (
+								<Slider gallery={car.data.gallery} videoTour={car.data.videoTourUrl} />
 							) : (
 								<div class="lg:absolute inset-0 text-gray-200 size-full bg-gray-50 flex flex-col gap-4 items-center justify-center">
 									<IconLogo class="h-24" />

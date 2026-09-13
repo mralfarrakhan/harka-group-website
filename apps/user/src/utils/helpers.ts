@@ -23,15 +23,6 @@ export function getMileageUnit(): string {
 }
 
 /**
- * Returns the label for mileage based on the unit system.
- *
- * @returns {string} The label, either "Mileage" for imperial or "Kilometerage" for metric.
- */
-export function getMileageLabel(): string {
-	return (unitSystem as string) === "imperial" ? "Mileage" : "Kilometerage";
-}
-
-/**
  * Formats a given price number into a localized currency string representation.
  *
  * @param price - The price number to be formatted.
@@ -46,23 +37,6 @@ export function getPrice(price: number): string {
 	})
 		.format(price)
 		.replace(/^Rp(?! )/, "Rp ");
-}
-
-/**
- * Returns the currency symbol based on the site language and currency.
- *
- * @returns {string} The currency symbol.
- */
-export function getCurrencySymbol(): string {
-	const formatter = new Intl.NumberFormat(siteLang, {
-		style: "currency",
-		currency: siteCurrency,
-		minimumFractionDigits: 2,
-		maximumFractionDigits: 2,
-	});
-	const parts = formatter.formatToParts(0);
-	const symbol = parts.find((part) => part.type === "currency")?.value;
-	return symbol || "";
 }
 
 /**

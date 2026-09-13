@@ -16,7 +16,7 @@ export default defineConfig({
 	vite: {
 		plugins: [tailwindcss()],
 		optimizeDeps: {
-			exclude: ["@astrojs/svelte", "svelte"]
-		}
+			exclude: ["@astrojs/svelte", "svelte"],
+		},
 	},
 });

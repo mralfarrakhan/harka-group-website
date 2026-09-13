@@ -345,7 +345,7 @@
 							bind:value={technical.transmission}
 							class="w-full p-2 border border-gray-300 rounded bg-white"
 						>
-							<option value="Automatic">Automatic</option>
+							<option value="Automatic">Matic</option>
 							<option value="Manual">Manual</option>
 							<option value="Dual-Clutch">Dual-Clutch</option>
 							<option value="CVT">CVT</option>
@@ -366,10 +366,10 @@
 							bind:value={efficiency.fuelType}
 							class="w-full p-2 border border-gray-300 rounded bg-white"
 						>
-							<option value="Petrol">Petrol</option>
+							<option value="Petrol">Bensin</option>
 							<option value="Diesel">Diesel</option>
 							<option value="Hybrid">Hybrid</option>
-							<option value="Electric">Electric</option>
+							<option value="Electric">Listrik</option>
 						</select>
 					</div>
 					<div>
