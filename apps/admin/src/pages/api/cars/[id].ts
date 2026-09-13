@@ -6,7 +6,7 @@ import { env } from "cloudflare:workers";
 
 export const PUT: APIRoute = async ({ request, params }) => {
 	try {
-		const payload = await request.json();
+		const payload = (await request.json()) as any;
 		const id = params.id as string;
 		const db = getDb(env as any);
 

@@ -6,7 +6,7 @@ import { env } from "cloudflare:workers";
 
 export const POST: APIRoute = async ({ request }) => {
 	try {
-		const payload = await request.json();
+		const payload = (await request.json()) as any;
 
 		const {
 			general = {},

@@ -5,7 +5,7 @@ export const POST: APIRoute = async ({ request }) => {
 	try {
 		const formData = await request.formData();
 		const files = formData.getAll("file") as File[];
-		
+
 		if (!files || files.length === 0) {
 			return new Response(JSON.stringify({ error: "No files uploaded" }), { status: 400 });
 		}

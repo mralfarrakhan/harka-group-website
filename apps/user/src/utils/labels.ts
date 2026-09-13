@@ -17,7 +17,7 @@ export const labels: ShapeToLabels<Car["data"]> = {
 	id: "ID",
 	title: "Judul",
 	image: "Gambar",
-	imageAlt: "Teks Alternatif Gambar",
+	alt: "Teks Alternatif Gambar",
 	gallery: {
 		image: "Gambar",
 		alt: "Teks Alternatif",

@@ -20,7 +20,7 @@ const isSold = car.data.archiveReason === "sold";
 				car.data.gallery?.[0]?.image ? (
 					<img
 						src={car.data.gallery?.[0]?.image}
-						alt={car.data.gallery?.[0]?.imageAlt}
+						alt={car.data.gallery?.[0]?.alt}
 						class="absolute inset-0 size-full bg-gray-50 object-cover"
 					/>
 				) : (

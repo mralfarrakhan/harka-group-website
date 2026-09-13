@@ -55,7 +55,7 @@ export interface GridProps {
 export interface GridItemProps {
 	span?: number;
 	image?: ImageMetadata;
-	imageAlt?: string;
+	alt?: string;
 	As?: "div" | "a";
 	link?: string;
 	xl?: boolean;

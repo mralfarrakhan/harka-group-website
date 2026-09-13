@@ -115,7 +115,7 @@
 					method: "POST",
 					body: uploadFormData,
 				});
-				const uploadData = await uploadRes.json();
+				const uploadData = (await uploadRes.json()) as any;
 				if (!uploadRes.ok) throw new Error(uploadData.error || "Failed to upload images");
 				uploadedUrls = uploadData.urls;
 			}
@@ -153,7 +153,7 @@
 				body: JSON.stringify(payload),
 			});
 
-			const data = await response.json();
+			const data = (await response.json()) as any;
 			if (!response.ok) throw new Error(data.error || "Failed to save car");
 
 			const action = car?.id ? "updated" : "created";
@@ -167,9 +167,13 @@
 	};
 </script>
 
-<div class="max-w-4xl mx-auto bg-white text-gray-900 rounded-xl shadow-md overflow-hidden border border-gray-200 mb-12">
+<div
+	class="max-w-4xl mx-auto bg-white text-gray-900 rounded-xl shadow-md overflow-hidden border border-gray-200 mb-12"
+>
 	<!-- Header -->
-	<div class="bg-gray-50 p-6 border-b border-gray-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+	<div
+		class="bg-gray-50 p-6 border-b border-gray-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4"
+	>
 		<div>
 			<h2 class="text-xl font-bold text-gray-900">
 				{car?.id ? "Edit Kendaraan" : "Tambah Kendaraan Baru"}
@@ -180,11 +184,15 @@
 		</div>
 		<div class="flex items-center gap-2">
 			{#if misc.hidden}
-				<div class="px-3 py-1 rounded text-xs font-bold uppercase tracking-widest bg-yellow-100 text-yellow-800 border border-yellow-200">
+				<div
+					class="px-3 py-1 rounded text-xs font-bold uppercase tracking-widest bg-yellow-100 text-yellow-800 border border-yellow-200"
+				>
 					Sembunyi (Draf)
 				</div>
 			{:else}
-				<div class="px-3 py-1 rounded text-xs font-bold uppercase tracking-widest bg-green-100 text-green-800 border border-green-200">
+				<div
+					class="px-3 py-1 rounded text-xs font-bold uppercase tracking-widest bg-green-100 text-green-800 border border-green-200"
+				>
 					Publik (Live)
 				</div>
 			{/if}
@@ -193,9 +201,20 @@
 
 	<div class="p-8">
 		{#if errorMessage}
-			<div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center gap-3">
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-					<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+			<div
+				class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center gap-3"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-5 w-5"
+					viewBox="0 0 20 20"
+					fill="currentColor"
+				>
+					<path
+						fill-rule="evenodd"
+						d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+						clip-rule="evenodd"
+					/>
 				</svg>
 				<span class="font-medium">{errorMessage}</span>
 			</div>
@@ -210,27 +229,55 @@
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 					<div class="col-span-1 md:col-span-2">
 						<label class="block text-sm font-medium text-gray-700 mb-1">Judul Tampilan</label>
-						<input type="text" bind:value={title} class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 bg-white" placeholder="mis. 2026 Porsche 911" />
+						<input
+							type="text"
+							bind:value={title}
+							class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 bg-white"
+							placeholder="mis. 2026 Porsche 911"
+						/>
 					</div>
 					<div class="col-span-1 md:col-span-2">
 						<label class="block text-sm font-medium text-gray-700 mb-1">Kutipan Singkat</label>
-						<input type="text" bind:value={excerpt} class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 bg-white" />
+						<input
+							type="text"
+							bind:value={excerpt}
+							class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 bg-white"
+						/>
 					</div>
 					<div>
 						<label class="block text-sm font-medium text-gray-700 mb-1">Merek *</label>
-						<input type="text" bind:value={general.make} required class="w-full p-2 border border-gray-300 rounded bg-white" />
+						<input
+							type="text"
+							bind:value={general.make}
+							required
+							class="w-full p-2 border border-gray-300 rounded bg-white"
+						/>
 					</div>
 					<div>
 						<label class="block text-sm font-medium text-gray-700 mb-1">Model *</label>
-						<input type="text" bind:value={general.model} required class="w-full p-2 border border-gray-300 rounded bg-white" />
+						<input
+							type="text"
+							bind:value={general.model}
+							required
+							class="w-full p-2 border border-gray-300 rounded bg-white"
+						/>
 					</div>
 					<div>
 						<label class="block text-sm font-medium text-gray-700 mb-1">Harga (Rp) *</label>
-						<input type="number" bind:value={general.price} required min="1" class="w-full p-2 border border-gray-300 rounded bg-white" />
+						<input
+							type="number"
+							bind:value={general.price}
+							required
+							min="1"
+							class="w-full p-2 border border-gray-300 rounded bg-white"
+						/>
 					</div>
 					<div>
 						<label class="block text-sm font-medium text-gray-700 mb-1">Tipe Body</label>
-						<select bind:value={general.bodyType} class="w-full p-2 border border-gray-300 rounded bg-white">
+						<select
+							bind:value={general.bodyType}
+							class="w-full p-2 border border-gray-300 rounded bg-white"
+						>
 							<option value="SUV">SUV</option>
 							<option value="Sedan">Sedan</option>
 							<option value="Hatchback">Hatchback</option>
@@ -241,7 +288,11 @@
 					</div>
 					<div class="col-span-1 md:col-span-2 pt-4 border-t border-gray-200 mt-2">
 						<label class="flex items-center gap-3 cursor-pointer w-fit">
-							<input type="checkbox" bind:checked={misc.hidden} class="w-5 h-5 text-blue-600 border-gray-300 rounded" />
+							<input
+								type="checkbox"
+								bind:checked={misc.hidden}
+								class="w-5 h-5 text-blue-600 border-gray-300 rounded"
+							/>
 							<span class="text-sm font-medium text-gray-900">Sembunyikan (Status Draf)</span>
 						</label>
 					</div>
@@ -256,23 +307,44 @@
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 					<div>
 						<label class="block text-sm font-medium text-gray-700 mb-1">Tahun Model *</label>
-						<input type="number" bind:value={history.year} required class="w-full p-2 border border-gray-300 rounded bg-white" />
+						<input
+							type="number"
+							bind:value={history.year}
+							required
+							class="w-full p-2 border border-gray-300 rounded bg-white"
+						/>
 					</div>
 					<div>
 						<label class="block text-sm font-medium text-gray-700 mb-1">Jarak Tempuh (km) *</label>
-						<input type="number" bind:value={history.mileage} required class="w-full p-2 border border-gray-300 rounded bg-white" />
+						<input
+							type="number"
+							bind:value={history.mileage}
+							required
+							class="w-full p-2 border border-gray-300 rounded bg-white"
+						/>
 					</div>
 					<div>
 						<label class="block text-sm font-medium text-gray-700 mb-1">Tenaga (PS)</label>
-						<input type="number" bind:value={technical.horsePower} class="w-full p-2 border border-gray-300 rounded bg-white" />
+						<input
+							type="number"
+							bind:value={technical.horsePower}
+							class="w-full p-2 border border-gray-300 rounded bg-white"
+						/>
 					</div>
 					<div>
 						<label class="block text-sm font-medium text-gray-700 mb-1">Kapasitas Mesin</label>
-						<input type="number" bind:value={technical.engineSizeCC} class="w-full p-2 border border-gray-300 rounded bg-white" />
+						<input
+							type="number"
+							bind:value={technical.engineSizeCC}
+							class="w-full p-2 border border-gray-300 rounded bg-white"
+						/>
 					</div>
 					<div>
 						<label class="block text-sm font-medium text-gray-700 mb-1">Transmisi</label>
-						<select bind:value={technical.transmission} class="w-full p-2 border border-gray-300 rounded bg-white">
+						<select
+							bind:value={technical.transmission}
+							class="w-full p-2 border border-gray-300 rounded bg-white"
+						>
 							<option value="Automatic">Automatic</option>
 							<option value="Manual">Manual</option>
 							<option value="Dual-Clutch">Dual-Clutch</option>
@@ -290,7 +362,10 @@
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 					<div>
 						<label class="block text-sm font-medium text-gray-700 mb-1">Bahan Bakar</label>
-						<select bind:value={efficiency.fuelType} class="w-full p-2 border border-gray-300 rounded bg-white">
+						<select
+							bind:value={efficiency.fuelType}
+							class="w-full p-2 border border-gray-300 rounded bg-white"
+						>
 							<option value="Petrol">Petrol</option>
 							<option value="Diesel">Diesel</option>
 							<option value="Hybrid">Hybrid</option>
@@ -299,7 +374,11 @@
 					</div>
 					<div>
 						<label class="block text-sm font-medium text-gray-700 mb-1">Warna Eksterior</label>
-						<input type="text" bind:value={exterior.color} class="w-full p-2 border border-gray-300 rounded bg-white" />
+						<input
+							type="text"
+							bind:value={exterior.color}
+							class="w-full p-2 border border-gray-300 rounded bg-white"
+						/>
 					</div>
 				</div>
 			</div>
@@ -312,56 +391,151 @@
 				<div class="space-y-4">
 					<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 						{#each galleryItems as item, idx (item.id)}
-							<div class="bg-gray-50 border border-gray-200 rounded-lg overflow-hidden flex flex-col group relative">
+							<div
+								class="bg-gray-50 border border-gray-200 rounded-lg overflow-hidden flex flex-col group relative"
+							>
 								{#if idx === 0}
-									<div class="absolute top-2 left-2 bg-blue-600 text-white text-[10px] uppercase font-bold px-2 py-1 rounded z-10">
+									<div
+										class="absolute top-2 left-2 bg-blue-600 text-white text-[10px] uppercase font-bold px-2 py-1 rounded z-10"
+									>
 										Cover
 									</div>
 								{/if}
 								<div class="relative h-32 bg-gray-200 flex-shrink-0">
 									<!-- Use object-contain in admin for full preview -->
 									<img src={item.preview} alt="" class="w-full h-full object-contain" />
-									
-									<div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-										<button type="button" class="bg-white/90 p-1.5 rounded hover:bg-white text-gray-800 disabled:opacity-50" on:click={() => moveItem(idx, -1)} disabled={idx === 0}>
-											<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+
+									<div
+										class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2"
+									>
+										<button
+											type="button"
+											class="bg-white/90 p-1.5 rounded hover:bg-white text-gray-800 disabled:opacity-50"
+											on:click={() => moveItem(idx, -1)}
+											disabled={idx === 0}
+										>
+											<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+												><path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													stroke-width="2"
+													d="M15 19l-7-7 7-7"
+												/></svg
+											>
 										</button>
-										<button type="button" class="bg-red-500/90 p-1.5 rounded hover:bg-red-500 text-white" on:click={() => removeGalleryItem(idx)}>
-											<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+										<button
+											type="button"
+											class="bg-red-500/90 p-1.5 rounded hover:bg-red-500 text-white"
+											on:click={() => removeGalleryItem(idx)}
+										>
+											<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+												><path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													stroke-width="2"
+													d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+												/></svg
+											>
 										</button>
-										<button type="button" class="bg-white/90 p-1.5 rounded hover:bg-white text-gray-800 disabled:opacity-50" on:click={() => moveItem(idx, 1)} disabled={idx === galleryItems.length - 1}>
-											<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+										<button
+											type="button"
+											class="bg-white/90 p-1.5 rounded hover:bg-white text-gray-800 disabled:opacity-50"
+											on:click={() => moveItem(idx, 1)}
+											disabled={idx === galleryItems.length - 1}
+										>
+											<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+												><path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													stroke-width="2"
+													d="M9 5l7 7-7 7"
+												/></svg
+											>
 										</button>
 									</div>
 								</div>
 								<div class="p-2 border-t border-gray-200">
-									<input type="text" bind:value={item.alt} placeholder="Alt text (opsional)" class="w-full text-xs p-1 border border-transparent hover:border-gray-300 focus:border-blue-500 outline-none rounded bg-transparent focus:bg-white" />
+									<input
+										type="text"
+										bind:value={item.alt}
+										placeholder="Alt text (opsional)"
+										class="w-full text-xs p-1 border border-transparent hover:border-gray-300 focus:border-blue-500 outline-none rounded bg-transparent focus:bg-white"
+									/>
 								</div>
 							</div>
 						{/each}
 
 						<!-- Upload Button -->
-						<div class="border-2 border-dashed border-gray-300 hover:border-blue-500 rounded-lg h-full min-h-[160px] flex flex-col items-center justify-center text-center transition cursor-pointer relative group bg-gray-50">
-							<input type="file" accept="image/*" multiple on:change={handleFileSelect} class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
-							<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto mb-2 text-gray-400 group-hover:text-blue-500 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+						<div
+							class="border-2 border-dashed border-gray-300 hover:border-blue-500 rounded-lg h-full min-h-[160px] flex flex-col items-center justify-center text-center transition cursor-pointer relative group bg-gray-50"
+						>
+							<input
+								type="file"
+								accept="image/*"
+								multiple
+								on:change={handleFileSelect}
+								class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+							/>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-8 w-8 mx-auto mb-2 text-gray-400 group-hover:text-blue-500 transition"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M12 4v16m8-8H4"
+								/>
 							</svg>
-							<span class="text-sm font-medium text-gray-500 group-hover:text-blue-600">Tambah Foto</span>
+							<span class="text-sm font-medium text-gray-500 group-hover:text-blue-600"
+								>Tambah Foto</span
+							>
 						</div>
 					</div>
 
 					<div class="mt-4 pt-4 border-t border-gray-100">
-						<label class="block text-sm font-medium text-gray-700 mb-1">URL Tur Video (YouTube)</label>
-						<input type="url" bind:value={videoTourUrl} class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 bg-white" placeholder="https://youtube.com/watch?v=..." />
+						<label class="block text-sm font-medium text-gray-700 mb-1"
+							>URL Tur Video (YouTube)</label
+						>
+						<input
+							type="url"
+							bind:value={videoTourUrl}
+							class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 bg-white"
+							placeholder="https://youtube.com/watch?v=..."
+						/>
 					</div>
 				</div>
 			</div>
 
 			<!-- Actions Footer -->
 			<div class="mt-10 flex items-center justify-end pt-6 border-t border-gray-200">
-				<button type="submit" disabled={isLoading || !isFormValid || galleryItems.length === 0} class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2.5 rounded font-bold uppercase tracking-wider text-sm transition disabled:opacity-50 flex items-center gap-2 w-full sm:w-auto justify-center">
+				<button
+					type="submit"
+					disabled={isLoading || !isFormValid || galleryItems.length === 0}
+					class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2.5 rounded font-bold uppercase tracking-wider text-sm transition disabled:opacity-50 flex items-center gap-2 w-full sm:w-auto justify-center"
+				>
 					{#if isLoading}
-						<svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+						<svg
+							class="animate-spin h-4 w-4 text-white"
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							><circle
+								class="opacity-25"
+								cx="12"
+								cy="12"
+								r="10"
+								stroke="currentColor"
+								stroke-width="4"
+							></circle><path
+								class="opacity-75"
+								fill="currentColor"
+								d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+							></path></svg
+						>
 						Menyimpan...
 					{:else}
 						Simpan Kendaraan
@@ -373,21 +547,35 @@
 </div>
 
 {#if popup.show}
-	<div class="fixed top-20 right-4 md:right-8 z-50 animate-fade-in max-w-sm w-full shadow-xl rounded-lg border-l-4 p-4 {popup.type === 'success' ? 'bg-white border-green-500' : 'bg-white border-red-500'}">
+	<div
+		class="fixed top-20 right-4 md:right-8 z-50 animate-fade-in max-w-sm w-full shadow-xl rounded-lg border-l-4 p-4 {popup.type ===
+		'success'
+			? 'bg-white border-green-500'
+			: 'bg-white border-red-500'}"
+	>
 		<div class="flex items-start gap-3">
 			<div class="flex-1">
 				<h4 class="font-bold text-gray-900">{popup.title}</h4>
 				<p class="text-sm text-gray-600 mt-1">{popup.message}</p>
 			</div>
-			<button class="ml-auto text-gray-400 hover:text-gray-600" on:click={() => (popup.show = false)}>✕</button>
+			<button
+				class="ml-auto text-gray-400 hover:text-gray-600"
+				on:click={() => (popup.show = false)}>✕</button
+			>
 		</div>
 	</div>
 {/if}
 
 <style>
 	@keyframes fadeIn {
-		from { opacity: 0; transform: translateY(10px); }
-		to { opacity: 1; transform: translateY(0); }
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
 	}
 	.animate-fade-in {
 		animation: fadeIn 0.4s ease-out forwards;
