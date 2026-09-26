@@ -1,31 +1,53 @@
 import type { APIRoute } from "astro";
-import { getDb } from "@harka/db";
-import { cars as carsTable } from "@harka/db";
-import { eq } from "drizzle-orm";
 import { env } from "cloudflare:workers";
+import { Effect, Console } from "effect";
+import { restoreCar, makeCoreLayer } from "@harka/core";
 
-export const POST: APIRoute = async ({ params }) => {
-	try {
-		const id = params.id as string;
-		const db = getDb(env);
+export const POST: APIRoute = ({ params }) => {
+	const id = params.id as string;
 
-		await db
-			.update(carsTable)
-			.set({
-				deletedAt: null,
-				archiveReason: null,
-			})
-			.where(eq(carsTable.id, id));
+	const program = restoreCar(id).pipe(
+		Effect.map(
+			() =>
+				new Response(JSON.stringify({ success: true, redirect: "/cars" }), {
+					status: 200,
+					headers: { "Content-Type": "application/json" },
+				}),
+		),
+		Effect.catchTags({
+			ValidationError: (err) =>
+				Effect.succeed(
+					new Response(JSON.stringify({ error: err.message }), {
+						status: 400,
+						headers: { "Content-Type": "application/json" },
+					}),
+				),
+			DatabaseError: () =>
+				Effect.succeed(
+					new Response(JSON.stringify({ error: "Gagal memulihkan kendaraan di database" }), {
+						status: 500,
+						headers: { "Content-Type": "application/json" },
+					}),
+				),
+		}),
+		Effect.catchAllCause((cause) =>
+			Console.error(
+				JSON.stringify({
+					event: "admin_restore_car_error",
+					cause: cause.toJSON(),
+				}),
+			).pipe(
+				Effect.map(
+					() =>
+						new Response(JSON.stringify({ error: "Internal Server Error" }), {
+							status: 500,
+							headers: { "Content-Type": "application/json" },
+						}),
+				),
+			),
+		),
+		Effect.provide(makeCoreLayer(env)),
+	);
 
-		return new Response(JSON.stringify({ success: true, redirect: "/cars" }), {
-			status: 200,
-			headers: { "Content-Type": "application/json" },
-		});
-	} catch (e: unknown) {
-		const message = e instanceof Error ? e.message : "Failed to restore car";
-		return new Response(JSON.stringify({ error: message }), {
-			status: 500,
-			headers: { "Content-Type": "application/json" },
-		});
-	}
+	return Effect.runPromise(program);
 };

@@ -1,6 +1,7 @@
 ---
-import { getDb, cars as carsTable, maskPlateNumber } from "@harka/db";
-import { eq } from "drizzle-orm";
+import { maskPlateNumber } from "@harka/db";
+import { getCarById, makeCoreLayer } from "@harka/core";
+import { Effect } from "effect";
 
 import Layout from "~/layouts/Layout.astro";
 import Section from "~/components/Section.astro";
@@ -39,14 +40,17 @@ export const prerender = false;
 
 const { id } = Astro.params;
 
-const db = getDb(env);
-const rawCar = id
-	? await db.query.cars.findFirst({
-			where: eq(carsTable.id, id),
-		})
-	: null;
+let rawCar = null;
+if (id) {
+	rawCar = await Effect.runPromise(
+		getCarById(id, { adminView: false }).pipe(
+			Effect.catchAll(() => Effect.succeed(null)),
+			Effect.provide(makeCoreLayer(env)),
+		),
+	);
+}
 
-const notFound = !rawCar || rawCar.hidden || rawCar.archiveReason === "removed";
+const notFound = !rawCar;
 if (notFound) {
 	Astro.response.status = 404;
 }

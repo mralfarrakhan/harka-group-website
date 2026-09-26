@@ -4,16 +4,19 @@ import Layout from "~/layouts/Layout.astro";
 import Container from "~/components/Container.astro";
 import Section from "~/components/Section.astro";
 import CarForm from "~/components/admin/CarForm.svelte";
-import { getDb } from "@harka/db";
-import { cars as carsTable } from "@harka/db";
-import { eq } from "drizzle-orm";
+import { getCarById, makeCoreLayer } from "@harka/core";
+import { Effect } from "effect";
 import { env } from "cloudflare:workers";
 
 const { id } = Astro.params;
-const db = getDb(env);
-const car = await db.query.cars.findFirst({
-	where: eq(carsTable.id, id as string),
-});
+const car = id
+	? await Effect.runPromise(
+			getCarById(id as string, { adminView: true }).pipe(
+				Effect.catchAll(() => Effect.succeed(null)),
+				Effect.provide(makeCoreLayer(env)),
+			),
+		)
+	: null;
 
 if (!car) {
 	return Astro.redirect("/cars");

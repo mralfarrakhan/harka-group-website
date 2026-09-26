@@ -2,43 +2,73 @@ export const prerender = false;
 
 import type { APIRoute } from "astro";
 import { env } from "cloudflare:workers";
-import { getFilteredCars } from "~/utils/getFilteredCars";
+import { Effect, Console } from "effect";
+import { getFilteredCars, makeCoreLayer } from "@harka/core";
 
-export const GET: APIRoute = async ({ request }) => {
+export const GET: APIRoute = ({ request }) => {
 	const start = performance.now();
 	const url = new URL(request.url);
 	const searchParams = Object.fromEntries(url.searchParams.entries());
 
-	try {
-		const allCars = await getFilteredCars(searchParams, env);
+	const program = getFilteredCars(searchParams, { adminView: false }).pipe(
+		Effect.map((allCars) => {
+			const afterSort = performance.now();
+			const performanceResults = {
+				"Total time": afterSort - start,
+			};
 
-		const afterSort = performance.now();
-		const performanceResults = {
-			"Total time": afterSort - start,
-		};
+			if (!allCars || allCars.length === 0) {
+				return new Response(JSON.stringify({ error: "No cars found", allCars: [] }), {
+					status: 404,
+					headers: { "content-type": "application/json" },
+				});
+			}
 
-		if (!allCars || allCars.length === 0) {
-			return new Response(JSON.stringify({ error: "No cars found" }), {
-				status: 404,
-				headers: { "content-type": "application/json" },
-			});
-		}
+			return new Response(
+				JSON.stringify({
+					performance: performanceResults,
+					allCars,
+				}),
+				{
+					status: 200,
+					headers: { "content-type": "application/json" },
+				},
+			);
+		}),
+		Effect.catchTags({
+			ValidationError: (err) =>
+				Effect.succeed(
+					new Response(JSON.stringify({ error: err.message }), {
+						status: 400,
+						headers: { "content-type": "application/json" },
+					}),
+				),
+			DatabaseError: () =>
+				Effect.succeed(
+					new Response(JSON.stringify({ error: "Database error" }), {
+						status: 500,
+						headers: { "content-type": "application/json" },
+					}),
+				),
+		}),
+		Effect.catchAllCause((cause) =>
+			Console.error(
+				JSON.stringify({
+					event: "filter_cars_error",
+					cause: cause.toJSON(),
+				}),
+			).pipe(
+				Effect.map(
+					() =>
+						new Response(JSON.stringify({ error: "Internal Server Error" }), {
+							status: 500,
+							headers: { "content-type": "application/json" },
+						}),
+				),
+			),
+		),
+		Effect.provide(makeCoreLayer(env)),
+	);
 
-		return new Response(
-			JSON.stringify({
-				performance: performanceResults,
-				allCars,
-			}),
-			{
-				status: 200,
-				headers: { "content-type": "application/json" },
-			},
-		);
-	} catch (error: unknown) {
-		const message = error instanceof Error ? error.message : "Terjadi kesalahan";
-		return new Response(JSON.stringify({ error: message }), {
-			status: 400,
-			headers: { "content-type": "application/json" },
-		});
-	}
+	return Effect.runPromise(program);
 };
