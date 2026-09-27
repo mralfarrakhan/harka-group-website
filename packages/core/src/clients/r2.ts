@@ -1,9 +1,7 @@
-import { Context, Data, Effect, Layer, Option } from "effect";
+import { Context, Effect, Layer, Option } from "effect";
+import { R2Error } from "../errors";
 
-export class R2Error extends Data.TaggedError("R2Error")<{
-	readonly cause: unknown;
-	readonly message?: string;
-}> {}
+export { R2Error };
 
 export class R2Client extends Context.Tag("harka/R2Client")<
 	R2Client,

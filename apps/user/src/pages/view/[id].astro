@@ -1,7 +1,6 @@
 ---
 import { maskPlateNumber } from "@harka/db";
-import { getCarById, makeCoreLayer } from "@harka/core";
-import { Effect } from "effect";
+import { createCore } from "@harka/core";
 
 import Layout from "~/layouts/Layout.astro";
 import Section from "~/components/Section.astro";
@@ -40,15 +39,8 @@ export const prerender = false;
 
 const { id } = Astro.params;
 
-let rawCar = null;
-if (id) {
-	rawCar = await Effect.runPromise(
-		getCarById(id, { adminView: false }).pipe(
-			Effect.catchAll(() => Effect.succeed(null)),
-			Effect.provide(makeCoreLayer(env)),
-		),
-	);
-}
+const core = createCore(env);
+const rawCar = id ? await core.cars.getById(id, { adminView: false }).catch(() => null) : null;
 
 const notFound = !rawCar;
 if (notFound) {

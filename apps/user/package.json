@@ -27,7 +27,6 @@
 		"astro": "^7.3.3",
 		"astro-icon": "^1.2.0",
 		"drizzle-orm": "0.45.2",
-		"effect": "^3.13.0",
 		"embla-carousel": "^8.6.0",
 		"embla-carousel-autoplay": "^8.6.0",
 		"glightbox": "^3.3.1",

@@ -4,8 +4,7 @@ export const prerender = false;
 import Layout from "~/layouts/Layout.astro";
 import Container from "~/components/Container.astro";
 import Section from "~/components/Section.astro";
-import { getTradeInSubmissions, makeCoreLayer } from "@harka/core";
-import { Effect } from "effect";
+import { createCore } from "@harka/core";
 import { env } from "cloudflare:workers";
 import { getPrice } from "~/utils/helpers";
 
@@ -13,16 +12,15 @@ const pageParam = Astro.url.searchParams.get("page");
 const currentPage = Math.max(1, Number(pageParam) || 1);
 const limit = 15;
 
+const core = createCore(env);
 const {
 	items: submissions,
 	total,
 	totalPages,
-} = await Effect.runPromise(
-	getTradeInSubmissions({
-		page: currentPage,
-		limit,
-	}).pipe(Effect.provide(makeCoreLayer(env))),
-);
+} = await core.tradeIn.getSubmissions({
+	page: currentPage,
+	limit,
+});
 
 const startIndex = total === 0 ? 0 : (currentPage - 1) * limit + 1;
 const endIndex = Math.min(total, currentPage * limit);

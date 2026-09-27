@@ -1,28 +1,65 @@
-import { Data } from "effect";
+export class DatabaseError extends Error {
+	readonly _tag = "DatabaseError";
+	readonly status = 500;
+	readonly cause?: unknown;
+	constructor(args: { cause: unknown; message?: string }) {
+		super(args.message ?? "Terjadi kesalahan pada basis data");
+		this.name = "DatabaseError";
+		this.cause = args.cause;
+	}
+}
 
-export { R2Error } from "../clients/r2";
-
-export class DatabaseError extends Data.TaggedError("DatabaseError")<{
-	readonly cause: unknown;
-	readonly message?: string;
-}> {}
-
-export class CarNotFoundError extends Data.TaggedError("CarNotFoundError")<{
+export class CarNotFoundError extends Error {
+	readonly _tag = "CarNotFoundError";
+	readonly status = 404;
 	readonly id: string;
-	readonly message?: string;
-}> {}
+	constructor(args: { id: string; message?: string }) {
+		super(args.message ?? `Mobil ID ${args.id} tidak ditemukan`);
+		this.name = "CarNotFoundError";
+		this.id = args.id;
+	}
+}
 
-export class TradeInNotFoundError extends Data.TaggedError("TradeInNotFoundError")<{
+export class TradeInNotFoundError extends Error {
+	readonly _tag = "TradeInNotFoundError";
+	readonly status = 404;
 	readonly id: string;
-	readonly message?: string;
-}> {}
+	constructor(args: { id: string; message?: string }) {
+		super(args.message ?? `Pengajuan ID ${args.id} tidak ditemukan`);
+		this.name = "TradeInNotFoundError";
+		this.id = args.id;
+	}
+}
 
-export class StorageFileNotFoundError extends Data.TaggedError("StorageFileNotFoundError")<{
+export class StorageFileNotFoundError extends Error {
+	readonly _tag = "StorageFileNotFoundError";
+	readonly status = 404;
 	readonly id: string;
-	readonly message?: string;
-}> {}
+	constructor(args: { id: string; message?: string }) {
+		super(args.message ?? `Berkas ${args.id} tidak ditemukan`);
+		this.name = "StorageFileNotFoundError";
+		this.id = args.id;
+	}
+}
 
-export class ValidationError extends Data.TaggedError("ValidationError")<{
-	readonly message: string;
+export class ValidationError extends Error {
+	readonly _tag = "ValidationError";
+	readonly status = 400;
 	readonly details?: unknown;
-}> {}
+	constructor(args: { message: string; details?: unknown }) {
+		super(args.message);
+		this.name = "ValidationError";
+		this.details = args.details;
+	}
+}
+
+export class R2Error extends Error {
+	readonly _tag = "R2Error";
+	readonly status = 502;
+	readonly cause?: unknown;
+	constructor(args: { cause: unknown; message?: string }) {
+		super(args.message ?? "Operasi penyimpanan Cloudflare R2 gagal");
+		this.name = "R2Error";
+		this.cause = args.cause;
+	}
+}

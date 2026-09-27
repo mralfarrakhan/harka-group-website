@@ -6,8 +6,7 @@ import Container from "~/components/Container.astro";
 import Section from "~/components/Section.astro";
 import VehicleInspectionCard from "~/components/admin/VehicleInspectionCard.astro";
 import TradeInReviewActions from "~/components/admin/TradeInReviewActions.svelte";
-import { getTradeInById, makeCoreLayer } from "@harka/core";
-import { Effect } from "effect";
+import { createCore } from "@harka/core";
 import { env } from "cloudflare:workers";
 
 const { id } = Astro.params;
@@ -16,12 +15,8 @@ if (!id) {
 	return Astro.redirect("/trade-in");
 }
 
-const sub = await Effect.runPromise(
-	getTradeInById(id).pipe(
-		Effect.catchAll(() => Effect.succeed(null)),
-		Effect.provide(makeCoreLayer(env)),
-	),
-);
+const core = createCore(env);
+const sub = await core.tradeIn.getById(id).catch(() => null);
 
 if (!sub) {
 	return Astro.redirect("/trade-in");

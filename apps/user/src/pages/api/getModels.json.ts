@@ -2,62 +2,18 @@ export const prerender = false;
 
 import type { APIRoute } from "astro";
 import { env } from "cloudflare:workers";
-import { Effect, Console } from "effect";
-import { getDistinctModelsByMake, makeCoreLayer } from "@harka/core";
+import { createCore } from "@harka/core";
 
 export const GET: APIRoute = ({ request }) => {
+	const core = createCore(env);
 	const url = new URL(request.url);
 	const make = url.searchParams.get("make");
 
 	if (!make) {
-		return new Response(JSON.stringify({ error: "Invalid search parameters" }), {
-			status: 400,
-			headers: { "content-type": "application/json" },
-		});
+		return Response.json({ error: "Invalid search parameters" }, { status: 400 });
 	}
 
-	const program = getDistinctModelsByMake(make, false).pipe(
-		Effect.map(
-			(models) =>
-				new Response(JSON.stringify(models), {
-					status: 200,
-					headers: { "content-type": "application/json" },
-				}),
-		),
-		Effect.catchTags({
-			ValidationError: (err) =>
-				Effect.succeed(
-					new Response(JSON.stringify({ error: err.message }), {
-						status: 400,
-						headers: { "content-type": "application/json" },
-					}),
-				),
-			DatabaseError: () =>
-				Effect.succeed(
-					new Response(JSON.stringify({ error: "Database error" }), {
-						status: 500,
-						headers: { "content-type": "application/json" },
-					}),
-				),
-		}),
-		Effect.catchAllCause((cause) =>
-			Console.error(
-				JSON.stringify({
-					event: "get_models_error",
-					cause: cause.toJSON(),
-				}),
-			).pipe(
-				Effect.map(
-					() =>
-						new Response(JSON.stringify({ error: "Internal Server Error" }), {
-							status: 500,
-							headers: { "content-type": "application/json" },
-						}),
-				),
-			),
-		),
-		Effect.provide(makeCoreLayer(env)),
-	);
-
-	return Effect.runPromise(program);
+	return core.respond(() => core.cars.getDistinctModels(make, { adminView: false }), {
+		eventName: "get_models_error",
+	});
 };
