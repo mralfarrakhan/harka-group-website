@@ -1,7 +1,9 @@
 {
-  "name": "gsheet",
-  "module": "index.ts",
+  "name": "@harka/gsheet",
   "type": "module",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "devDependencies": {
     "@types/bun": "latest",
     "@types/node": "^26.6.3"
