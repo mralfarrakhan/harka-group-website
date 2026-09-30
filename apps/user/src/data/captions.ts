@@ -76,7 +76,7 @@ export const buttonLabels = {
 	askAQuestion: "Tanya Kami",
 	share: "Bagikan",
 	copyLink: "Salin tautan",
-	print: "Print",
+	linkCopied: "Tersalin!",
 };
 
 export const loanLabels = {

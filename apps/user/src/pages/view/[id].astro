@@ -18,7 +18,6 @@ import ModalSlider from "~/components/modals/ModalSlider.astro";
 // Buttons
 import ButtonGoBack from "~/components/buttons/ButtonGoBack.astro";
 import ButtonShare from "~/components/buttons/ButtonShare.astro";
-import ButtonPrint from "~/components/buttons/ButtonPrint.astro";
 import ButtonCall from "~/components/buttons/ButtonCall.astro";
 import ButtonInquire from "~/components/buttons/ButtonInquire.astro";
 import { env } from "cloudflare:workers";
@@ -221,9 +220,8 @@ const pageSchemas = [dealerSchema, carSchema, breadcrumbSchema].filter(Boolean) 
 											)}
 										</div>
 
-										<div class="sm:ml-auto flex items-center max-sm:justify-center gap-x-4 shrink-0">
-											<ButtonShare />
-											<ButtonPrint />
+										<div class="sm:ml-auto flex items-center max-sm:justify-center shrink-0">
+											<ButtonShare car={car} url={`${SITE_URL}/view/${car.id}`} />
 										</div>
 									</div>
 								</div>
