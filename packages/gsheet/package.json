@@ -1,0 +1,16 @@
+{
+  "name": "gsheet",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^26.6.3"
+  },
+  "peerDependencies": {
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "google-auth-library": "^11.1.0",
+    "google-spreadsheet": "^5.3.0"
+  }
+}
