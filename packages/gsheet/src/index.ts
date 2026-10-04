@@ -3,10 +3,17 @@ import { GoogleSpreadsheet } from "google-spreadsheet";
 
 export const hello = () => console.log("Hello, World!");
 
+export interface ClientConfig {
+	email: string;
+	key: string;
+	scopes: string | string[];
+	sheet_id: string;
+}
+
 export class Client {
 	public readonly doc: GoogleSpreadsheet;
 
-	constructor(config: { email: string; key: string; scopes: string | string[]; sheet_id: string }) {
+	constructor(config: ClientConfig) {
 		const auth = new JWT({
 			email: config.email,
 			key: config.key,

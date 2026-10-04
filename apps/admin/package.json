@@ -11,7 +11,8 @@
 		"astro": "astro",
 		"gen": "wrangler types",
 		"lint": "eslint .",
-		"check": "wrangler types --check && astro check && eslint ."
+		"check": "wrangler types --check && astro check && eslint .",
+		"deploy": "wrangler deploy"
 	},
 	"dependencies": {
 		"@astrojs/cloudflare": "^14.3.2",

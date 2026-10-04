@@ -25,13 +25,20 @@
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
 		"lint": "bun --filter='*' run lint",
-		"check": "prettier --check . && bun --filter='*' run check"
+		"check": "prettier --check . && bun --filter='*' run check",
+		"deploy:user": "bun run build:user && bun --filter=user run deploy",
+		"deploy:admin": "bun run build:admin && bun --filter=admin run deploy",
+		"deploy:all": "bun run build:admin && bun --filter=admin run deploy && bun run build:user && bun --filter=user run deploy"
 	},
 	"devDependencies": {
+		"@semantic-release/changelog": "^7.0.0",
+		"@semantic-release/git": "^11.0.1",
+		"@semantic-release/github": "^12.0.10",
 		"prettier": "^3.9.9",
 		"prettier-plugin-astro": "^1.1.0",
 		"prettier-plugin-svelte": "^4.1.1",
-		"prettier-plugin-tailwindcss": "^0.8.1"
+		"prettier-plugin-tailwindcss": "^0.8.1",
+		"semantic-release": "^25.0.9"
 	},
 	"dependencies": {
 		"@iconify-json/bi": "^1.2.7",
