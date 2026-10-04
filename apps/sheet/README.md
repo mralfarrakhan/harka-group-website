@@ -1,4 +1,4 @@
-# gsheet
+# sheet
 
 To install dependencies:
 
