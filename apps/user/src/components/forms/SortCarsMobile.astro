@@ -5,7 +5,9 @@ import { sortLabels } from "~/data/captions";
 
 <form id="form-sort-mobile" class="max-lg:shrink-0">
 	<div class="text-gray-800">
-		<label class="sr-only" for="sort">Sort</label>
+		<label class="sr-only" for="sort">
+			Sort
+		</label>
 		<div class="grid grid-cols-1">
 			<select
 				name="sort"
@@ -21,9 +23,7 @@ import { sortLabels } from "~/data/captions";
 				<option value="year-desc">{sortLabels.yearDesc}</option>
 				<option value="year-asc">{sortLabels.yearAsc}</option>
 			</select>
-			<IconSort
-				class="pointer-events-none text-white col-start-1 row-start-1 size-5 self-center justify-self-end"
-			/>
+			<IconSort class="pointer-events-none text-white col-start-1 row-start-1 size-5 self-center justify-self-end" />
 		</div>
 	</div>
 </form>

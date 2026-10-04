@@ -24,7 +24,7 @@
 	input:not([type="checkbox"]):not([type="radio"]),
 	textarea,
 	select {
-		@apply mt-1 bg-white block transition w-full rounded-md px-3 py-2 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-gray-900;
+		@apply mt-1 block w-full rounded-md bg-white px-3 py-2 text-base outline-1 -outline-offset-1 outline-gray-300 transition placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-gray-900;
 	}
 
 	input[type="checkbox"],
@@ -171,11 +171,11 @@
 
 html,
 body {
-	@apply h-full antialiased scroll-smooth;
+	@apply h-full scroll-smooth antialiased;
 }
 
 body {
-	@apply h-full scroll-smooth text-lg font-inter text-gray-800;
+	@apply font-inter h-full scroll-smooth text-lg text-gray-800;
 }
 
 h1,
@@ -222,23 +222,23 @@ p {
 }
 
 .button {
-	@apply inline-flex text-center items-center justify-center px-4 py-3 text-base transition duration-300 font-bold shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2;
+	@apply inline-flex items-center justify-center px-4 py-3 text-center text-base font-bold shadow-sm transition duration-300 focus-visible:outline-2 focus-visible:outline-offset-2;
 }
 
 .button-white-outline {
-	@apply bg-transparent hover:bg-white/10 border border-white text-white focus-visible:outline-gray-800;
+	@apply border border-white bg-transparent text-white hover:bg-white/10 focus-visible:outline-gray-800;
 }
 
 .button-black {
-	@apply bg-gray-800 hover:bg-gray-500 text-white focus-visible:outline-gray-800;
+	@apply bg-gray-800 text-white hover:bg-gray-500 focus-visible:outline-gray-800;
 }
 
 .button-white {
-	@apply bg-white hover:opacity-90 text-gray-800 focus-visible:outline-white;
+	@apply bg-white text-gray-800 hover:opacity-90 focus-visible:outline-white;
 }
 
 .button-primary {
-	@apply bg-red-700 hover:bg-red-800 text-white focus-visible:outline-red-700;
+	@apply bg-red-700 text-white hover:bg-red-800 focus-visible:outline-red-700;
 }
 
 .menu-item-active {
@@ -253,35 +253,35 @@ section.bg-white + section.bg-white > .container {
 
 .embla__button {
 	-webkit-tap-highlight-color: transparent;
-	@apply absolute w-8 h-14 z-10 inline-flex items-center justify-center cursor-pointer border-0 p-0 m-0 appearance-none bg-gray-800/50 touch-manipulation print:hidden;
+	@apply absolute z-10 m-0 inline-flex h-14 w-8 cursor-pointer touch-manipulation appearance-none items-center justify-center border-0 bg-gray-800/50 p-0 print:hidden;
 }
 
 /* Car Card */
 .card-car[data-car-on-sale="true"] .price.on-sale {
-	@apply line-through text-base;
+	@apply text-base line-through;
 }
 
 .card-car[data-car-on-sale="true"] mark.price-on-sale {
-	@apply font-bold text-lg bg-red-700 text-white px-2;
+	@apply bg-red-700 px-2 text-lg font-bold text-white;
 }
 
 .card-car[data-car-on-sale="true"]:not([data-car-available="sold"]) .ribbon::after {
 	content: "On Sale";
-	@apply absolute z-20 bg-red-700 text-white text-sm font-bold px-4 py-1;
+	@apply absolute z-20 bg-red-700 px-4 py-1 text-sm font-bold text-white;
 }
 
 .card-car[data-car-available="sold"] .ribbon::after {
 	content: "Sold";
-	@apply absolute z-20 bg-red-200 text-sm font-bold px-4 py-1 text-red-900;
+	@apply absolute z-20 bg-red-200 px-4 py-1 text-sm font-bold text-red-900;
 }
 
 .embla-testimonials .embla__dot {
-	@apply appearance-none touch-manipulation inline-flex items-center justify-center cursor-pointer border-0 p-0 m-0 bg-transparent size-6 rounded-full;
+	@apply m-0 inline-flex size-6 cursor-pointer touch-manipulation appearance-none items-center justify-center rounded-full border-0 bg-transparent p-0;
 	-webkit-tap-highlight-color: transparent;
 }
 .embla-testimonials .embla__dot:after {
 	content: "";
-	@apply size-3 rounded-full flex items-center bg-gray-200;
+	@apply flex size-3 items-center rounded-full bg-gray-200;
 }
 .embla-testimonials .embla__dot--selected:after {
 	content: "";
@@ -290,17 +290,17 @@ section.bg-white + section.bg-white > .container {
 
 /* Icons */
 svg.icon-chevron-down {
-	@apply pointer-events-none text-gray-800 col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end sm:size-4;
+	@apply pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-800 sm:size-4;
 }
 
 .feature-icon::before {
 	content: "";
-	@apply relative size-5 mr-2 inline-block align-middle -mt-1;
+	@apply relative -mt-1 mr-2 inline-block size-5 align-middle;
 }
 
 .service-icon::before {
 	content: "";
-	@apply absolute inset-0 size-7 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+	@apply absolute inset-0 top-1/2 left-1/2 size-7 -translate-x-1/2 -translate-y-1/2;
 }
 
 .feature-icon-description::before {

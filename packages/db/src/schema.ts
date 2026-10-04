@@ -217,4 +217,3 @@ export const tradeInSubmissions = sqliteTable(
 
 export type TradeInSubmission = typeof tradeInSubmissions.$inferSelect;
 export type InsertTradeInSubmission = typeof tradeInSubmissions.$inferInsert;
-

@@ -9,7 +9,4 @@ export interface CoreEnv {
 }
 
 export const makeCoreLayer = (env: CoreEnv) =>
-	Layer.mergeAll(
-		makeDatabaseLayer(env.DB),
-		makeR2Layer(env.IMAGES_BUCKET),
-	);
+	Layer.mergeAll(makeDatabaseLayer(env.DB), makeR2Layer(env.IMAGES_BUCKET));

@@ -21,14 +21,10 @@ const autoDealerSchema = generateAutoDealerSchema(SITE_URL);
 >
 	<Section class:list={"bg-gray-50"}>
 		<Container>
-			<div
-				class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden max-w-5xl mx-auto"
-			>
+			<div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden max-w-5xl mx-auto">
 				<div class="grid grid-cols-1 lg:grid-cols-2">
 					<!-- Left Column: Showroom Information -->
-					<div
-						class="p-8 sm:p-10 lg:p-12 bg-gray-50/70 border-b lg:border-b-0 lg:border-r border-gray-200 flex flex-col justify-between"
-					>
+					<div class="p-8 sm:p-10 lg:p-12 bg-gray-50/70 border-b lg:border-b-0 lg:border-r border-gray-200 flex flex-col justify-between">
 						<div>
 							<Heading class:list={"mb-8"}>
 								<h1 class="h3 font-bold text-gray-900" slot="heading-title">
@@ -40,98 +36,84 @@ const autoDealerSchema = generateAutoDealerSchema(SITE_URL);
 							</Heading>
 
 							<dl class="space-y-6 text-sm">
-								{
-									address && (
-										<div class="flex gap-x-4">
-											<dt class="flex-none text-red-700 pt-0.5">
-												<span class="sr-only">{contactPage.addressLabel}</span>
-												<DynamicIcon class="size-5" name="mdi:office-building-marker" />
-											</dt>
-											<dd class="text-gray-700">
-												<p class="font-semibold text-gray-900 mb-0.5">{contactPage.addressLabel}</p>
-												<div>{address.street}</div>
-												<div>
-													{address.city}, {address.state} {address.zip}
+								{address && (
+									<div class="flex gap-x-4">
+										<dt class="flex-none text-red-700 pt-0.5">
+											<span class="sr-only">{contactPage.addressLabel}</span>
+											<DynamicIcon class="size-5" name="mdi:office-building-marker" />
+										</dt>
+										<dd class="text-gray-700">
+											<p class="font-semibold text-gray-900 mb-0.5">{contactPage.addressLabel}</p>
+											<div>{address.street}</div>
+											<div>
+												{address.city}, {address.state} {address.zip}
+											</div>
+											{googleMapsUrl && (
+												<div class="mt-2">
+													<a
+														href={googleMapsUrl}
+														target="_blank"
+														rel="noopener noreferrer"
+														class="inline-flex items-center gap-1.5 text-xs font-semibold text-red-700 hover:text-red-800 transition-colors"
+													>
+														<DynamicIcon class="size-4" name="mdi:map-marker-radius" />
+														<span>{contactPage.openInMaps}</span>
+													</a>
 												</div>
-												{googleMapsUrl && (
-													<div class="mt-2">
-														<a
-															href={googleMapsUrl}
-															target="_blank"
-															rel="noopener noreferrer"
-															class="inline-flex items-center gap-1.5 text-xs font-semibold text-red-700 hover:text-red-800 transition-colors"
-														>
-															<DynamicIcon class="size-4" name="mdi:map-marker-radius" />
-															<span>{contactPage.openInMaps}</span>
-														</a>
-													</div>
-												)}
-											</dd>
-										</div>
-									)
-								}
+											)}
+										</dd>
+									</div>
+								)}
 
-								{
-									phone && (
-										<div class="flex gap-x-4">
-											<dt class="flex-none text-red-700 pt-0.5">
-												<span class="sr-only">{contactPage.phoneLabel}</span>
-												<DynamicIcon class="size-5" name="mdi:phone" />
-											</dt>
-											<dd class="text-gray-700">
-												<p class="font-semibold text-gray-900 mb-0.5">{contactPage.phoneLabel}</p>
-												<a
-													class="hover:text-red-700 transition-colors font-medium"
-													href={phone.href}
-												>
-													{phone.label}
-												</a>
-											</dd>
-										</div>
-									)
-								}
+								{phone && (
+									<div class="flex gap-x-4">
+										<dt class="flex-none text-red-700 pt-0.5">
+											<span class="sr-only">{contactPage.phoneLabel}</span>
+											<DynamicIcon class="size-5" name="mdi:phone" />
+										</dt>
+										<dd class="text-gray-700">
+											<p class="font-semibold text-gray-900 mb-0.5">{contactPage.phoneLabel}</p>
+											<a class="hover:text-red-700 transition-colors font-medium" href={phone.href}>
+												{phone.label}
+											</a>
+										</dd>
+									</div>
+								)}
 
-								{
-									email && (
-										<div class="flex gap-x-4">
-											<dt class="flex-none text-red-700 pt-0.5">
-												<span class="sr-only">{contactPage.emailLabel}</span>
-												<DynamicIcon class="size-5" name="mdi:email" />
-											</dt>
-											<dd class="text-gray-700">
-												<p class="font-semibold text-gray-900 mb-0.5">{contactPage.emailLabel}</p>
-												<a
-													class="hover:text-red-700 transition-colors font-medium"
-													href={email.href}
-												>
-													{email.label}
-												</a>
-											</dd>
-										</div>
-									)
-								}
+								{email && (
+									<div class="flex gap-x-4">
+										<dt class="flex-none text-red-700 pt-0.5">
+											<span class="sr-only">{contactPage.emailLabel}</span>
+											<DynamicIcon class="size-5" name="mdi:email" />
+										</dt>
+										<dd class="text-gray-700">
+											<p class="font-semibold text-gray-900 mb-0.5">{contactPage.emailLabel}</p>
+											<a class="hover:text-red-700 transition-colors font-medium" href={email.href}>
+												{email.label}
+											</a>
+										</dd>
+									</div>
+								)}
 
-								{
-									hours && (
-										<div class="flex gap-x-4">
-											<dt class="flex-none text-red-700 pt-0.5">
-												<span class="sr-only">{contactPage.hoursLabel}</span>
-												<DynamicIcon class="size-5" name="mdi:clock-outline" />
-											</dt>
-											<dd class="text-gray-700 w-full max-w-xs">
-												<p class="font-semibold text-gray-900 mb-1.5">{contactPage.hoursLabel}</p>
-												<div class="space-y-1 text-xs">
-													<div class="flex justify-between gap-x-4">
-														<span class="text-gray-600">
-															{contactPage.days.monday} - {contactPage.days.sunday}:
-														</span>
-														<span class="font-semibold text-gray-900">{hours.monday}</span>
-													</div>
+								{hours && (
+									<div class="flex gap-x-4">
+										<dt class="flex-none text-red-700 pt-0.5">
+											<span class="sr-only">{contactPage.hoursLabel}</span>
+											<DynamicIcon class="size-5" name="mdi:clock-outline" />
+										</dt>
+										<dd class="text-gray-700 w-full max-w-xs">
+											<p class="font-semibold text-gray-900 mb-1.5">{contactPage.hoursLabel}</p>
+											<div class="space-y-1 text-xs">
+												<div class="flex justify-between gap-x-4">
+													<span class="text-gray-600">
+														{contactPage.days.monday} - {contactPage.days.sunday}:
+													</span>
+													<span class="font-semibold text-gray-900">{hours.monday}</span>
 												</div>
-											</dd>
-										</div>
-									)
-								}
+											</div>
+										</dd>
+									</div>
+								)}
 							</dl>
 						</div>
 					</div>

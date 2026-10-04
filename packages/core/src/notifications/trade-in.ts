@@ -1,10 +1,7 @@
 import { Effect } from "effect";
 import type { TradeInSubmission } from "@harka/db";
 
-export const notifyTradeInSubmission = (
-	submission: TradeInSubmission,
-	webhookUrl?: string,
-) =>
+export const notifyTradeInSubmission = (submission: TradeInSubmission, webhookUrl?: string) =>
 	Effect.gen(function* () {
 		yield* Effect.sync(() => {
 			console.log(

@@ -16,7 +16,7 @@
 <button
 	onclick={signInWithGoogle}
 	disabled={isLoading}
-	class="flex items-center justify-center gap-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:opacity-50"
+	class="flex items-center justify-center gap-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-gray-300 ring-inset hover:bg-gray-50 disabled:opacity-50"
 >
 	<svg class="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
 		<path

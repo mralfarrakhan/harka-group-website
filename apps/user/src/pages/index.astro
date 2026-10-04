@@ -40,14 +40,12 @@ const metaDescription = `${siteSlogan}. Jual beli & tukar tambah mobil bekas ber
 				<h1 slot="heading-title" class="mb-0 lg:text-7xl text-balance">
 					{homePage.headingTitle}
 				</h1>
-				<p slot="heading-content">
-					{homePage.headingContent}
-				</p>
+				<p slot="heading-content">{homePage.headingContent}</p>
 			</Heading>
 			<div class="flex justify-center mt-8">
-				<Button href="/cars" color="white" class:list={"px-8 py-3 text-lg"}
-					>{homePage.browseButtonLabel}</Button
-				>
+				<Button href="/cars" color="white" class:list={"px-8 py-3 text-lg"}>
+					{homePage.browseButtonLabel}
+				</Button>
 			</div>
 		</Container>
 	</Section>
@@ -56,7 +54,9 @@ const metaDescription = `${siteSlogan}. Jual beli & tukar tambah mobil bekas ber
 	<Section class:list={"bg-gray-50"}>
 		<Container>
 			<Heading>
-				<h2 slot="heading-title" class="mb-0">{homePage.recentTitle}</h2>
+				<h2 slot="heading-title" class="mb-0">
+					{homePage.recentTitle}
+				</h2>
 				<p slot="heading-content">{homePage.recentContent}</p>
 			</Heading>
 
@@ -66,13 +66,17 @@ const metaDescription = `${siteSlogan}. Jual beli & tukar tambah mobil bekas ber
 
 	{/* CTA */}
 	<Section
-		class:list={"relative overflow-hidden bg-linear-to-br from-gray-900/20 via-gray-800/50 to-gray-950/20"}
+		class:list={
+			"relative overflow-hidden bg-linear-to-br from-gray-900/20 via-gray-800/50 to-gray-950/20"
+		}
 	>
 		<Image
 			src={CtaTextures}
 			alt=""
 			aria-hidden="true"
-			class:list={"absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-overlay pointer-events-none select-none"}
+			class:list={
+				"absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-overlay pointer-events-none select-none"
+			}
 		/>
 		<Container class:list={"relative z-10"}>
 			<Heading class:list={"mb-0 lg:mb-0 prose-invert text-center mx-auto"}>
@@ -80,7 +84,9 @@ const metaDescription = `${siteSlogan}. Jual beli & tukar tambah mobil bekas ber
 
 				<p slot="heading-content">{homePage.ctaContent}</p>
 
-				<Button href="/contact" color="white" class:list={"mt-8"}>{homePage.contactUsLabel}</Button>
+				<Button href="/contact" color="white" class:list={"mt-8"}>
+					{homePage.contactUsLabel}
+				</Button>
 			</Heading>
 		</Container>
 	</Section>

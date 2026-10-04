@@ -134,9 +134,9 @@
 <div class="space-y-6">
 	<!-- Alerts -->
 	{#if errorMessage}
-		<div class="rounded-lg bg-red-50 p-4 border border-red-200 flex items-start gap-3">
+		<div class="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
 			<svg
-				class="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0"
+				class="mt-0.5 h-5 w-5 flex-shrink-0 text-red-500"
 				viewBox="0 0 20 20"
 				fill="currentColor"
 			>
@@ -149,7 +149,7 @@
 			<div class="flex-1 text-sm text-red-700">{errorMessage}</div>
 			<button
 				onclick={() => (errorMessage = null)}
-				class="text-red-400 hover:text-red-600 text-sm font-medium"
+				class="text-sm font-medium text-red-400 hover:text-red-600"
 				aria-label="Tutup"
 			>
 				&times;
@@ -158,9 +158,9 @@
 	{/if}
 
 	{#if successMessage}
-		<div class="rounded-lg bg-emerald-50 p-4 border border-emerald-200 flex items-start gap-3">
+		<div class="flex items-start gap-3 rounded-lg border border-emerald-200 bg-emerald-50 p-4">
 			<svg
-				class="h-5 w-5 text-emerald-500 mt-0.5 flex-shrink-0"
+				class="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500"
 				viewBox="0 0 20 20"
 				fill="currentColor"
 			>
@@ -173,7 +173,7 @@
 			<div class="flex-1 text-sm text-emerald-700">{successMessage}</div>
 			<button
 				onclick={() => (successMessage = null)}
-				class="text-emerald-400 hover:text-emerald-600 text-sm font-medium"
+				class="text-sm font-medium text-emerald-400 hover:text-emerald-600"
 				aria-label="Tutup"
 			>
 				&times;
@@ -182,16 +182,16 @@
 	{/if}
 
 	<!-- Add Admin Card -->
-	<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-		<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+	<div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+		<div class="mb-4 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
 			<div>
 				<h2 class="text-lg font-bold text-gray-900">Tambah Anggota Admin</h2>
-				<p class="text-xs text-gray-500 mt-1">
+				<p class="mt-1 text-xs text-gray-500">
 					Masukkan alamat email Google akun yang ingin diberikan hak akses ke dasbor ini.
 				</p>
 			</div>
 			<span
-				class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200 w-fit"
+				class="inline-flex w-fit items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-medium text-amber-700"
 			>
 				<svg
 					class="h-3.5 w-3.5 text-amber-500"
@@ -210,7 +210,7 @@
 			</span>
 		</div>
 
-		<form onsubmit={handleAddAdmin} class="flex flex-col sm:flex-row gap-3">
+		<form onsubmit={handleAddAdmin} class="flex flex-col gap-3 sm:flex-row">
 			<div class="relative flex-1">
 				<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
 					<svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
@@ -228,16 +228,16 @@
 					bind:value={newEmail}
 					placeholder="contoh@gmail.com"
 					disabled={isSubmitting}
-					class="w-full rounded-lg border border-gray-300 bg-white py-2.5 pl-10 pr-3 text-sm text-gray-900 placeholder-gray-400 focus:border-red-600 focus:outline-none focus:ring-1 focus:ring-red-600 disabled:bg-gray-50"
+					class="w-full rounded-lg border border-gray-300 bg-white py-2.5 pr-3 pl-10 text-sm text-gray-900 placeholder-gray-400 focus:border-red-600 focus:ring-1 focus:ring-red-600 focus:outline-none disabled:bg-gray-50"
 				/>
 			</div>
 			<button
 				type="submit"
 				disabled={isSubmitting}
-				class="inline-flex items-center justify-center gap-2 rounded-lg bg-red-700 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 disabled:opacity-50 transition"
+				class="inline-flex items-center justify-center gap-2 rounded-lg bg-red-700 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-800 focus:ring-2 focus:ring-red-600 focus:ring-offset-2 focus:outline-none disabled:opacity-50"
 			>
 				{#if isSubmitting}
-					<svg class="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none">
+					<svg class="h-4 w-4 animate-spin text-white" viewBox="0 0 24 24" fill="none">
 						<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
 						></circle>
 						<path
@@ -267,8 +267,8 @@
 	</div>
 
 	<!-- Whitelist Table -->
-	<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-		<div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+	<div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+		<div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
 			<div class="flex items-center gap-2">
 				<h3 class="font-bold text-gray-900">Admin</h3>
 			</div>
@@ -280,7 +280,7 @@
 		<div class="overflow-x-auto">
 			<table class="w-full text-left text-sm text-gray-600">
 				<thead
-					class="bg-gray-50 text-xs font-semibold uppercase text-gray-500 border-b border-gray-200"
+					class="border-b border-gray-200 bg-gray-50 text-xs font-semibold text-gray-500 uppercase"
 				>
 					<tr>
 						<th class="px-6 py-3.5">Email Pengguna</th>
@@ -299,7 +299,7 @@
 								class="px-6 py-12 text-center text-gray-400"
 							>
 								<svg
-									class="mx-auto h-10 w-10 text-gray-300 mb-2"
+									class="mx-auto mb-2 h-10 w-10 text-gray-300"
 									fill="none"
 									viewBox="0 0 24 24"
 									stroke="currentColor"
@@ -319,21 +319,21 @@
 							{@const isSelf = member.email.toLowerCase() === currentUserEmail.toLowerCase()}
 							{@const isSuperadmin = member.role === "superadmin"}
 
-							<tr class="hover:bg-gray-50/75 transition">
+							<tr class="transition hover:bg-gray-50/75">
 								<td class="px-6 py-4">
 									<div class="flex items-center gap-3">
 										<div
-											class="flex h-9 w-9 items-center justify-center rounded-full font-semibold text-xs uppercase border bg-gray-100 text-gray-700 border-gray-200"
+											class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-gray-100 text-xs font-semibold text-gray-700 uppercase"
 										>
 											{member.email.charAt(0)}
 										</div>
-										<div class="flex items-center gap-2 flex-wrap">
+										<div class="flex flex-wrap items-center gap-2">
 											<span class="font-medium text-gray-900">
 												{member.email}
 											</span>
 											{#if isSelf}
 												<span
-													class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-gray-200/90 text-gray-700 border border-gray-300"
+													class="inline-flex items-center rounded border border-gray-300 bg-gray-200/90 px-2 py-0.5 text-[11px] font-semibold text-gray-700"
 												>
 													Anda
 												</span>
@@ -344,7 +344,7 @@
 								<td class="px-6 py-4 text-xs text-gray-500">
 									{member.createdBy || "Sistem (Migrasi Awal)"}
 								</td>
-								<td class="px-6 py-4 text-xs text-gray-500 whitespace-nowrap">
+								<td class="px-6 py-4 text-xs whitespace-nowrap text-gray-500">
 									{formatDate(member.createdAt)}
 								</td>
 								{#if currentUserRole === "superadmin"}
@@ -354,7 +354,7 @@
 												type="button"
 												disabled
 												title="Akun superadmin tidak dapat dihapus melalui antarmuka"
-												class="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-gray-400 bg-gray-100 border border-gray-200 rounded-md cursor-not-allowed opacity-60"
+												class="inline-flex cursor-not-allowed items-center gap-1 rounded-md border border-gray-200 bg-gray-100 px-3 py-1 text-xs font-medium text-gray-400 opacity-60"
 											>
 												<svg
 													class="h-3.5 w-3.5 text-gray-400"
@@ -375,11 +375,11 @@
 											<button
 												onclick={() => (confirmDeleteEmail = member.email)}
 												disabled={deletingEmail === member.email}
-												class="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 rounded-md transition disabled:opacity-50"
+												class="inline-flex items-center gap-1 rounded-md border border-red-200 bg-red-50 px-3 py-1 text-xs font-medium text-red-600 transition hover:bg-red-100 disabled:opacity-50"
 											>
 												{#if deletingEmail === member.email}
 													<svg
-														class="animate-spin h-3 w-3 text-red-600"
+														class="h-3 w-3 animate-spin text-red-600"
 														viewBox="0 0 24 24"
 														fill="none"
 													>
@@ -431,10 +431,10 @@
 {#if confirmDeleteEmail}
 	{@const isDeletingSelf = confirmDeleteEmail.toLowerCase() === currentUserEmail.toLowerCase()}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 p-4">
-		<div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl space-y-4">
+		<div class="w-full max-w-md space-y-4 rounded-xl bg-white p-6 shadow-xl">
 			<div class="flex items-center gap-3">
 				<div
-					class="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-red-600 flex-shrink-0"
+					class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600"
 				>
 					<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 						<path
@@ -454,7 +454,7 @@
 			</div>
 
 			{#if isDeletingSelf}
-				<div class="rounded-lg bg-red-50 p-3 border border-red-200 text-xs text-red-800 space-y-1">
+				<div class="space-y-1 rounded-lg border border-red-200 bg-red-50 p-3 text-xs text-red-800">
 					<p class="font-bold">Peringatan Kritis:</p>
 					<p>
 						Anda akan menghapus hak akses admin untuk akun Anda sendiri (<strong
@@ -474,14 +474,14 @@
 				<button
 					type="button"
 					onclick={() => (confirmDeleteEmail = null)}
-					class="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 transition"
+					class="rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-200"
 				>
 					Batal
 				</button>
 				<button
 					type="button"
 					onclick={handleDelete}
-					class="rounded-lg px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 transition shadow-sm"
+					class="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700"
 				>
 					{isDeletingSelf ? "Ya, Hapus Akun Saya" : "Ya, Hapus Akses"}
 				</button>

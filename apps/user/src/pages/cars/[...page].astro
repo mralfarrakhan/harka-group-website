@@ -82,20 +82,16 @@ const catalogDescription = `Lihat katalog lengkap mobil bekas berkualitas bergar
 						</div>
 
 						<ul class="grid grid-cols-1 lg:gap-16">
-							{
-								paginatedCars.length > 0 ? (
-									paginatedCars.map((car) => <CardCar car={car} />)
-								) : (
-									<li class="text-center text-gray-500">{carsPage.noResultFound}</li>
-								)
-							}
+							{paginatedCars.length > 0 ? (
+								paginatedCars.map((car) => <CardCar car={car} />)
+							) : (
+								<li class="text-center text-gray-500">{carsPage.noResultFound}</li>
+							)}
 						</ul>
 
-						{
-							paginatedCars.length > 0 && totalPages > 1 && (
-								<Pagination page={page} totalPages={totalPages} searchParams={searchParamsValue} />
-							)
-						}
+						{paginatedCars.length > 0 && totalPages > 1 && (
+							<Pagination page={page} totalPages={totalPages} searchParams={searchParamsValue} />
+						)}
 					</div>
 				</main>
 			</div>

@@ -100,23 +100,21 @@ const socialLinks = [
 		tabindex="-1"
 	>
 		<div class="py-1" role="none">
-			{
-				socialLinks.map((item) => (
-					<a
-						href={item.href}
-						{...(item.isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-						class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition gap-2.5"
-						role="menuitem"
-						tabindex="-1"
-					>
-						{item.icon === "whatsapp" && <IconWhatsApp class="size-4 text-emerald-600 shrink-0" />}
-						{item.icon === "facebook" && <IconFacebook class="size-4 text-blue-600 shrink-0" />}
-						{item.icon === "x" && <IconX class="size-4 text-gray-900 shrink-0" />}
-						{item.icon === "email" && <IconEmail class="size-4 text-gray-600 shrink-0" />}
-						<span>{item.name}</span>
-					</a>
-				))
-			}
+			{socialLinks.map((item) => (
+				<a
+					href={item.href}
+					{...(item.isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+					class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition gap-2.5"
+					role="menuitem"
+					tabindex="-1"
+				>
+					{item.icon === "whatsapp" && <IconWhatsApp class="size-4 text-emerald-600 shrink-0" />}
+					{item.icon === "facebook" && <IconFacebook class="size-4 text-blue-600 shrink-0" />}
+					{item.icon === "x" && <IconX class="size-4 text-gray-900 shrink-0" />}
+					{item.icon === "email" && <IconEmail class="size-4 text-gray-600 shrink-0" />}
+					<span>{item.name}</span>
+				</a>
+			))}
 		</div>
 		<div class="py-1" role="none">
 			<button

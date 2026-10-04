@@ -16,27 +16,25 @@ const allLinks = [...menuNavigation.items, ...menuMisc.items];
 		<a href="/" class="mb-8">
 			<div class="flex items-center gap-x-2">
 				<Image src={icon} class="h-16 w-28 inline-block" alt={""} />
-				<span class="font-bold text-2xl lg:text-4xl"
-					>Harka <span class="font-normal">Group</span></span
-				>
+				<span class="font-bold text-2xl lg:text-4xl">
+					Harka <span class="font-normal">Group</span>
+				</span>
 			</div>
 		</a>
 
 		<!-- Navigation Links -->
 		<nav class="mb-8 w-full">
 			<ul class="flex flex-wrap justify-center gap-x-8 gap-y-4">
-				{
-					allLinks.map((item) => (
-						<li>
-							<a
-								href={item.url}
-								class="text-base font-medium text-gray-600 hover:text-gray-900 transition"
-							>
-								{item.name}
-							</a>
-						</li>
-					))
-				}
+				{allLinks.map((item) => (
+					<li>
+						<a
+							href={item.url}
+							class="text-base font-medium text-gray-600 hover:text-gray-900 transition"
+						>
+							{item.name}
+						</a>
+					</li>
+				))}
 			</ul>
 		</nav>
 

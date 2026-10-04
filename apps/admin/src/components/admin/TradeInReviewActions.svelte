@@ -111,7 +111,7 @@
 </script>
 
 <div
-	class={`relative bg-white rounded-2xl shadow-sm border border-gray-200 p-5 sm:p-6 mb-8 border-l-4 transition-all ${
+	class={`relative mb-8 rounded-2xl border border-l-4 border-gray-200 bg-white p-5 shadow-sm transition-all sm:p-6 ${
 		currentStatus === "approved"
 			? "border-l-emerald-500"
 			: currentStatus === "rejected"
@@ -122,10 +122,10 @@
 	<!-- Toast Message -->
 	{#if toast.show}
 		<div
-			class={`absolute -top-4 right-6 px-4 py-2 rounded-xl text-xs font-semibold shadow-lg transition-all flex items-center gap-2 z-30 ${
+			class={`absolute -top-4 right-6 z-30 flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-semibold shadow-lg transition-all ${
 				toast.type === "success"
-					? "bg-gray-900 text-emerald-300 border border-gray-700"
-					: "bg-red-900 text-white border border-red-700"
+					? "border border-gray-700 bg-gray-900 text-emerald-300"
+					: "border border-red-700 bg-red-900 text-white"
 			}`}
 		>
 			{#if toast.type === "success"}
@@ -161,24 +161,24 @@
 		</div>
 	{/if}
 
-	<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+	<div class="flex flex-col justify-between gap-5 lg:flex-row lg:items-center">
 		<!-- Left: Status Badge & Information -->
 		<div class="space-y-1.5">
-			<div class="flex items-center gap-3 flex-wrap">
-				<span class="text-xs font-bold text-gray-500 uppercase tracking-wider">
+			<div class="flex flex-wrap items-center gap-3">
+				<span class="text-xs font-bold tracking-wider text-gray-500 uppercase">
 					Status Verifikasi
 				</span>
 
 				{#if currentStatus === "pending"}
 					<span
-						class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200"
+						class="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-bold text-amber-800"
 					>
-						<span class="size-2 rounded-full bg-amber-500 animate-pulse"></span>
+						<span class="size-2 animate-pulse rounded-full bg-amber-500"></span>
 						Menunggu Review
 					</span>
 				{:else if currentStatus === "approved"}
 					<span
-						class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200"
+						class="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-800"
 					>
 						<svg class="size-3.5 text-emerald-600" viewBox="0 0 20 20" fill="currentColor">
 							<path
@@ -192,7 +192,7 @@
 
 					{#if linkedCarId}
 						<span
-							class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200"
+							class="inline-flex items-center gap-1 rounded-full border border-indigo-200 bg-indigo-50 px-2.5 py-0.5 text-[11px] font-bold text-indigo-700"
 						>
 							<svg class="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 								<path
@@ -207,7 +207,7 @@
 					{/if}
 				{:else}
 					<span
-						class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-50 text-red-800 border border-red-200"
+						class="inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-bold text-red-800"
 					>
 						<svg class="size-3.5 text-red-600" viewBox="0 0 20 20" fill="currentColor">
 							<path
@@ -221,18 +221,18 @@
 				{/if}
 			</div>
 
-			<p class="text-xs sm:text-sm text-gray-500">
+			<p class="text-xs text-gray-500 sm:text-sm">
 				{#if currentStatus === "pending"}
 					Unit pengajuan ini belum diverifikasi. Periksa spesifikasi dan kelengkapan fisik sebelum
 					menyetujui.
 				{:else if currentStatus === "approved"}
 					Unit telah diverifikasi dan disetujui{#if reviewedBy}
-						oleh <strong class="text-gray-800 font-medium">{reviewedBy}</strong
+						oleh <strong class="font-medium text-gray-800">{reviewedBy}</strong
 						>{/if}{#if reviewedAt}
 						pada {formatDate(reviewedAt)}{/if}.
 				{:else}
 					Pengajuan ini ditandai tidak memenuhi syarat / ditolak{#if reviewedBy}
-						oleh <strong class="text-gray-800 font-medium">{reviewedBy}</strong
+						oleh <strong class="font-medium text-gray-800">{reviewedBy}</strong
 						>{/if}{#if reviewedAt}
 						pada {formatDate(reviewedAt)}{/if}.
 				{/if}
@@ -240,17 +240,17 @@
 		</div>
 
 		<!-- Right: Action Buttons with uniform height -->
-		<div class="flex items-center gap-2.5 flex-wrap shrink-0">
+		<div class="flex shrink-0 flex-wrap items-center gap-2.5">
 			{#if currentStatus === "pending"}
 				<!-- Primary Button: Reviewed & Approved -->
 				<button
 					type="button"
 					disabled={isLoading}
 					onclick={() => updateStatus("approved")}
-					class="h-10 inline-flex items-center justify-center gap-2 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-95 disabled:opacity-50 text-white font-bold text-xs transition shadow-sm cursor-pointer"
+					class="inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 text-xs font-bold text-white shadow-sm transition hover:bg-emerald-700 active:scale-95 disabled:opacity-50"
 				>
 					{#if isLoading}
-						<svg class="animate-spin size-3.5 text-white" fill="none" viewBox="0 0 24 24">
+						<svg class="size-3.5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
 							<circle
 								class="opacity-25"
 								cx="12"
@@ -278,7 +278,7 @@
 					type="button"
 					disabled={isLoading}
 					onclick={() => updateStatus("rejected")}
-					class="h-10 inline-flex items-center justify-center gap-1.5 px-4 rounded-xl bg-white border border-red-200 hover:border-red-300 hover:bg-red-50 text-red-700 disabled:opacity-50 font-semibold text-xs transition shadow-xs cursor-pointer"
+					class="inline-flex h-10 cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-red-200 bg-white px-4 text-xs font-semibold text-red-700 shadow-xs transition hover:border-red-300 hover:bg-red-50 disabled:opacity-50"
 				>
 					<svg class="size-3.5" viewBox="0 0 20 20" fill="currentColor">
 						<path
@@ -293,7 +293,7 @@
 				{#if linkedCarId}
 					<a
 						href={`/cars/edit/${linkedCarId}`}
-						class="h-10 inline-flex items-center justify-center gap-2 px-5 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold text-xs transition shadow-sm cursor-pointer"
+						class="inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 text-xs font-bold text-white shadow-sm transition hover:bg-indigo-700 active:scale-95"
 					>
 						<svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 							<path
@@ -308,7 +308,7 @@
 				{:else}
 					<a
 						href={`/cars/new?fromTradeIn=${submissionId}`}
-						class="h-10 inline-flex items-center justify-center gap-2 px-5 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-xs transition shadow-sm cursor-pointer"
+						class="inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 text-xs font-bold text-white shadow-sm transition hover:bg-blue-700 active:scale-95"
 					>
 						<svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 							<path
@@ -326,7 +326,7 @@
 					type="button"
 					disabled={isLoading}
 					onclick={() => updateStatus("pending")}
-					class="h-10 inline-flex items-center justify-center px-3 text-gray-400 hover:text-gray-700 text-xs font-medium hover:underline transition cursor-pointer"
+					class="inline-flex h-10 cursor-pointer items-center justify-center px-3 text-xs font-medium text-gray-400 transition hover:text-gray-700 hover:underline"
 					title="Kembalikan status ke Menunggu Review"
 				>
 					<span>Batal Review</span>
@@ -336,7 +336,7 @@
 					type="button"
 					disabled={isLoading}
 					onclick={() => updateStatus("pending")}
-					class="h-10 inline-flex items-center justify-center gap-1.5 px-4 rounded-xl bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 disabled:opacity-50 font-semibold text-xs transition shadow-xs cursor-pointer"
+					class="inline-flex h-10 cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-gray-300 bg-white px-4 text-xs font-semibold text-gray-700 shadow-xs transition hover:bg-gray-50 disabled:opacity-50"
 				>
 					<svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 						<path

@@ -10,10 +10,8 @@
 		"preview:build": "wrangler types --check && astro build && wrangler dev --config ./dist/server/wrangler.json --persist-to ../../.wrangler/state",
 		"astro": "astro",
 		"gen": "wrangler types",
-		"format": "prettier --write .",
-		"format:check": "prettier --check .",
 		"lint": "eslint .",
-		"check": "wrangler types --check && prettier --check . && astro check && eslint ."
+		"check": "wrangler types --check && astro check && eslint ."
 	},
 	"dependencies": {
 		"@astrojs/cloudflare": "^14.3.2",
@@ -47,8 +45,6 @@
 		"eslint-plugin-svelte": "^3.23.0",
 		"globals": "^17.12.0",
 		"gray-matter": "^4.0.3",
-		"prettier": "^3.9.8",
-		"prettier-plugin-astro": "^0.14.1",
 		"svelte-eslint-parser": "^1.8.1",
 		"typescript": "^6.0.3",
 		"typescript-eslint": "^8.70.0"

@@ -4,17 +4,15 @@ import DynamicIcon from "./DynamicIcon.astro";
 ---
 
 <Fragment>
-	{
-		Object.values(socialMedia).map((item: { url: string; label: string; icon: string }) => (
-			<a
-				href={item.url}
-				target="_blank"
-				aria-label={item.label}
-				rel="noopener noreferrer"
-				class="social-media-icon text-gray-600 hover:text-gray-800 transition"
-			>
-				<DynamicIcon name={item.icon} class="size-8" />
-			</a>
-		))
-	}
+	{Object.values(socialMedia).map((item: { url: string; label: string; icon: string }) => (
+		<a
+			href={item.url}
+			target="_blank"
+			aria-label={item.label}
+			rel="noopener noreferrer"
+			class="social-media-icon text-gray-600 hover:text-gray-800 transition"
+		>
+			<DynamicIcon name={item.icon} class="size-8" />
+		</a>
+	))}
 </Fragment>

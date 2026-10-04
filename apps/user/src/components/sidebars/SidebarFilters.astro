@@ -57,7 +57,9 @@ const { data } = Astro.props;
 				<div class="grid grid-cols-1">
 					<select name="make" id="make" class="appearance-none col-start-1 row-start-1">
 						<option value="all">{filterLabels.all}</option>
-						{allMakesModels.map((car) => <option value={car.make}>{car.make}</option>)}
+						{allMakesModels.map((car) => (
+							<option value={car.make}>{car.make}</option>
+						))}
 					</select>
 					<IconChevronDown class="icon-chevron-down" />
 				</div>
@@ -88,30 +90,28 @@ const { data } = Astro.props;
 				<div class="grid grid-cols-1">
 					<select name="price" id="price" class="appearance-none col-start-1 row-start-1">
 						<option value="all">{filterLabels.all}</option>
-						{
-							data.priceSteps.map((step, index) => {
-								const nextStep = data.priceSteps[index + 1];
-								if (index === 0) {
-									return (
-										<option value={`0-${step}`}>
-											{filterLabels.lowerThan} {getPrice(step)}
-										</option>
-									);
-								} else if (nextStep) {
-									return (
-										<option value={`${step}-${nextStep}`}>
-											{getPrice(step)} - {getPrice(nextStep)}
-										</option>
-									);
-								} else {
-									return (
-										<option value={`${step}-`}>
-											{filterLabels.higherThan} {getPrice(step)}
-										</option>
-									);
-								}
-							})
-						}
+						{data.priceSteps.map((step, index) => {
+							const nextStep = data.priceSteps[index + 1];
+							if (index === 0) {
+								return (
+									<option value={`0-${step}`}>
+										{filterLabels.lowerThan} {getPrice(step)}
+									</option>
+								);
+							} else if (nextStep) {
+								return (
+									<option value={`${step}-${nextStep}`}>
+										{getPrice(step)} - {getPrice(nextStep)}
+									</option>
+								);
+							} else {
+								return (
+									<option value={`${step}-`}>
+										{filterLabels.higherThan} {getPrice(step)}
+									</option>
+								);
+							}
+						})}
 					</select>
 					<IconChevronDown class="icon-chevron-down" />
 				</div>
@@ -127,7 +127,9 @@ const { data } = Astro.props;
 				<div class="grid grid-cols-1">
 					<select name="color" id="color" class="appearance-none col-start-1 row-start-1">
 						<option value="all">{filterLabels.all}</option>
-						{data.colors.map((color) => <option value={color}>{color}</option>)}
+						{data.colors.map((color) => (
+							<option value={color}>{color}</option>
+						))}
 					</select>
 					<IconChevronDown class="icon-chevron-down" />
 				</div>
@@ -143,7 +145,9 @@ const { data } = Astro.props;
 				<div class="grid grid-cols-1">
 					<select name="bodyType" id="bodyType" class="appearance-none col-start-1 row-start-1">
 						<option value="all">{filterLabels.all}</option>
-						{bodyTypes.map((bodyType) => <option value={bodyType}>{bodyType}</option>)}
+						{bodyTypes.map((bodyType) => (
+							<option value={bodyType}>{bodyType}</option>
+						))}
 					</select>
 					<IconChevronDown class="icon-chevron-down" />
 				</div>
@@ -159,11 +163,9 @@ const { data } = Astro.props;
 				<div class="grid grid-cols-1">
 					<select name="fuelType" id="fuelType" class="appearance-none col-start-1 row-start-1">
 						<option value="all">{filterLabels.all}</option>
-						{
-							fuelTypes.map((fuelType) => (
-								<option value={fuelType}>{fuelTypeMap[fuelType] || fuelType}</option>
-							))
-						}
+						{fuelTypes.map((fuelType) => (
+							<option value={fuelType}>{fuelTypeMap[fuelType] || fuelType}</option>
+						))}
 					</select>
 					<IconChevronDown class="icon-chevron-down" />
 				</div>
@@ -183,7 +185,9 @@ const { data } = Astro.props;
 						class="appearance-none col-start-1 row-start-1"
 					>
 						<option value="all">{filterLabels.all}</option>
-						{transmission.map((t) => <option value={t}>{transmissionMap[t] || t}</option>)}
+						{transmission.map((t) => (
+							<option value={t}>{transmissionMap[t] || t}</option>
+						))}
 					</select>
 					<IconChevronDown class="icon-chevron-down" />
 				</div>
@@ -203,11 +207,9 @@ const { data } = Astro.props;
 						class="appearance-none col-start-1 row-start-1"
 					>
 						<option value="all">{filterLabels.all}</option>
-						{
-							ownershipStatuses.map((status) => (
-								<option value={status}>{ownershipStatusMap[status] || status}</option>
-							))
-						}
+						{ownershipStatuses.map((status) => (
+							<option value={status}>{ownershipStatusMap[status] || status}</option>
+						))}
 					</select>
 					<IconChevronDown class="icon-chevron-down" />
 				</div>
@@ -216,8 +218,10 @@ const { data } = Astro.props;
 			<div class="sticky bottom-0">
 				<button type="submit" class="button button-primary w-full">
 					{filterLabels.search}
-					<span id="filter-result-found" class="ml-1">({data.count})</span></button
-				>
+					<span id="filter-result-found" class="ml-1">
+						({data.count})
+					</span>
+				</button>
 			</div>
 		</form>
 	</div>

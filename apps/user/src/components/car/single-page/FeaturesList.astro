@@ -87,19 +87,17 @@ const sections = [
 ].filter((s) => s.items.length > 0);
 ---
 
-{
-	sections.map((section) => (
-		<div class="grid grid-cols-1 lg:grid-cols-3 pb-12 first:mt-12 feature-list-item">
-			<h2 class={`h6 feature-icon feature-icon-${section.icon}`}>{section.title}</h2>
+{sections.map((section) => (
+	<div class="grid grid-cols-1 lg:grid-cols-3 pb-12 first:mt-12 feature-list-item">
+		<h2 class={`h6 feature-icon feature-icon-${section.icon}`}>{section.title}</h2>
 
-			<dl class="lg:col-span-2 grid grid-cols-2 gap-x-2 md:gap-x-8 max-w-lg gap-y-2 text-base max-lg:mt-8">
-				{section.items.map((item) => (
-					<>
-						<dt>{item.label}</dt>
-						<dd class="font-bold md:whitespace-nowrap">{item.value}</dd>
-					</>
-				))}
-			</dl>
-		</div>
-	))
-}
+		<dl class="lg:col-span-2 grid grid-cols-2 gap-x-2 md:gap-x-8 max-w-lg gap-y-2 text-base max-lg:mt-8">
+			{section.items.map((item) => (
+				<>
+					<dt>{item.label}</dt>
+					<dd class="font-bold md:whitespace-nowrap">{item.value}</dd>
+				</>
+			))}
+		</dl>
+	</div>
+))}

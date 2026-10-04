@@ -1,9 +1,4 @@
-export const ownershipStatuses = [
-	"first_hand",
-	"second_hand",
-	"company_car",
-	"leasing",
-] as const;
+export const ownershipStatuses = ["first_hand", "second_hand", "company_car", "leasing"] as const;
 
 export type OwnershipStatus = (typeof ownershipStatuses)[number];
 
@@ -14,13 +9,7 @@ export const ownershipStatusMap: Record<OwnershipStatus, string> = {
 	leasing: "Atas Nama Leasing (Kredit)",
 };
 
-export const bodyTypes = [
-	"SUV",
-	"Sedan",
-	"Hatchback",
-	"Pickup",
-	"MPV",
-] as const;
+export const bodyTypes = ["SUV", "Sedan", "Hatchback", "Pickup", "MPV"] as const;
 
 export type BodyType = (typeof bodyTypes)[number];
 

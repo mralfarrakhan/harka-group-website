@@ -3,6 +3,7 @@
 ## 📁 Project Structure
 
 This project is a Bun workspaces monorepo containing:
+
 - `apps/user`: The user-facing website.
 - `apps/admin`: The admin dashboard for managing inventory.
 - `packages/db`: Shared database schema and logic.

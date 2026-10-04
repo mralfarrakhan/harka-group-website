@@ -1,26 +1,10 @@
 import { Schema } from "effect";
 
-export const BodyTypeSchema = Schema.Literal(
-	"SUV",
-	"Sedan",
-	"Hatchback",
-	"Pickup",
-	"MPV",
-);
+export const BodyTypeSchema = Schema.Literal("SUV", "Sedan", "Hatchback", "Pickup", "MPV");
 
-export const FuelTypeSchema = Schema.Literal(
-	"Petrol",
-	"Diesel",
-	"Hybrid",
-	"Electric",
-);
+export const FuelTypeSchema = Schema.Literal("Petrol", "Diesel", "Hybrid", "Electric");
 
-export const TransmissionSchema = Schema.Literal(
-	"Automatic",
-	"Manual",
-	"CVT",
-	"Dual-Clutch",
-);
+export const TransmissionSchema = Schema.Literal("Automatic", "Manual", "CVT", "Dual-Clutch");
 
 export const OwnershipStatusSchema = Schema.Literal(
 	"first_hand",
@@ -36,9 +20,7 @@ export const CarGalleryItemSchema = Schema.Struct({
 
 export const CoerceNumber = Schema.Union(Schema.Number, Schema.NumberFromString);
 
-export class CarFilterParamsSchema extends Schema.Class<CarFilterParamsSchema>(
-	"CarFilterParams",
-)({
+export class CarFilterParamsSchema extends Schema.Class<CarFilterParamsSchema>("CarFilterParams")({
 	make: Schema.optional(Schema.String),
 	model: Schema.optional(Schema.String),
 	yearFrom: Schema.optional(Schema.String),
@@ -67,9 +49,7 @@ export class CarFilterParamsSchema extends Schema.Class<CarFilterParamsSchema>(
 	limit: Schema.optional(CoerceNumber),
 }) {}
 
-export class CreateCarInputSchema extends Schema.Class<CreateCarInputSchema>(
-	"CreateCarInput",
-)({
+export class CreateCarInputSchema extends Schema.Class<CreateCarInputSchema>("CreateCarInput")({
 	title: Schema.optional(Schema.String),
 	excerpt: Schema.optional(Schema.NullOr(Schema.String)),
 	relatedUrl: Schema.optional(Schema.NullOr(Schema.String)),
@@ -95,16 +75,12 @@ export class CreateCarInputSchema extends Schema.Class<CreateCarInputSchema>(
 	taxExpirationDate: Schema.optional(Schema.NullOr(Schema.String)),
 	seatingCapacity: Schema.optional(Schema.NullOr(CoerceNumber)),
 	plateNumber: Schema.optional(Schema.NullOr(Schema.String)),
-	gallery: Schema.optional(
-		Schema.NullOr(Schema.Array(CarGalleryItemSchema)),
-	),
+	gallery: Schema.optional(Schema.NullOr(Schema.Array(CarGalleryItemSchema))),
 	hidden: Schema.optionalWith(Schema.Boolean, { default: () => false }),
 	fromTradeIn: Schema.optional(Schema.NullOr(Schema.String)),
 }) {}
 
-export class UpdateCarInputSchema extends Schema.Class<UpdateCarInputSchema>(
-	"UpdateCarInput",
-)({
+export class UpdateCarInputSchema extends Schema.Class<UpdateCarInputSchema>("UpdateCarInput")({
 	title: Schema.optional(Schema.String),
 	excerpt: Schema.optional(Schema.NullOr(Schema.String)),
 	relatedUrl: Schema.optional(Schema.NullOr(Schema.String)),
@@ -130,8 +106,6 @@ export class UpdateCarInputSchema extends Schema.Class<UpdateCarInputSchema>(
 	taxExpirationDate: Schema.optional(Schema.NullOr(Schema.String)),
 	seatingCapacity: Schema.optional(Schema.NullOr(CoerceNumber)),
 	plateNumber: Schema.optional(Schema.NullOr(Schema.String)),
-	gallery: Schema.optional(
-		Schema.NullOr(Schema.Array(CarGalleryItemSchema)),
-	),
+	gallery: Schema.optional(Schema.NullOr(Schema.Array(CarGalleryItemSchema))),
 	hidden: Schema.optionalWith(Schema.Boolean, { default: () => false }),
 }) {}

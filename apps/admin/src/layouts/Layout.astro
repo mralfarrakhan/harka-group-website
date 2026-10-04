@@ -58,26 +58,24 @@ const pathname = Astro.url.pathname;
 	</head>
 	<body class="bg-gray-50 flex flex-col h-screen overflow-hidden">
 		<!-- Top Header -->
-		<header
-			class="h-16 bg-red-700 text-white flex items-center justify-between px-6 flex-shrink-0 z-20 shadow"
-		>
+		<header class="h-16 bg-red-700 text-white flex items-center justify-between px-6 flex-shrink-0 z-20 shadow">
 			<a href="/" class="flex items-center gap-x-2">
 				<Image src={icon} class="h-10 w-auto inline-block" alt="Logo" />
-				<span class="font-bold text-xl lg:text-2xl"
-					>Harka <span class="font-normal">Admin</span></span
-				>
+				<span class="font-bold text-xl lg:text-2xl">
+					Harka <span class="font-normal">Admin</span>
+				</span>
 			</a>
 			<div class="flex items-center gap-4">
 				<a
 					href={liveSiteUrl}
 					target="_blank"
 					class="text-sm font-medium hover:text-red-200 transition hidden sm:inline-block"
-					>Lihat Situs Live</a
 				>
-				<span
-					class="text-sm bg-red-800 px-3 py-1 rounded-full border border-red-600 shadow-sm hidden md:inline-block"
-					>Dasbor Admin</span
-				>
+					Lihat Situs Live
+				</a>
+				<span class="text-sm bg-red-800 px-3 py-1 rounded-full border border-red-600 shadow-sm hidden md:inline-block">
+					Dasbor Admin
+				</span>
 				{user && <UserProfile user={user} role={userRole} client:load />}
 				<button
 					id="mobile-menu-btn"
@@ -95,7 +93,8 @@ const pathname = Astro.url.pathname;
 							stroke-linecap="round"
 							stroke-linejoin="round"
 							stroke-width="2"
-							d="M4 6h16M4 12h16M4 18h16"></path>
+							d="M4 6h16M4 12h16M4 18h16"
+						></path>
 					</svg>
 				</button>
 			</div>
@@ -115,7 +114,8 @@ const pathname = Astro.url.pathname;
 								stroke-linecap="round"
 								stroke-linejoin="round"
 								stroke-width="2"
-								d="M6 18L18 6M6 6l12 12"></path>
+								d="M6 18L18 6M6 6l12 12"
+							></path>
 						</svg>
 					</button>
 				</div>
@@ -127,11 +127,80 @@ const pathname = Astro.url.pathname;
 						Beranda Dasbor
 					</a>
 					<div class="my-2 border-t border-gray-100"></div>
-					{
-						adminMenus.map((menu) => (
+					{adminMenus.map((menu) => (
+						<a
+							href={menu.disabled ? "#" : menu.url}
+							class={`flex items-center gap-3 px-3 py-3 text-sm font-medium rounded-md transition ${menu.disabled ? "text-gray-400 cursor-not-allowed" : pathname.startsWith(menu.url) && menu.url !== "/" ? "bg-red-50 text-red-700" : "text-gray-700 hover:bg-gray-100"}`}
+						>
+							<Icon
+								name={menu.icon}
+								class={`h-5 w-5 ${menu.disabled ? "opacity-50" : "opacity-75"}`}
+							/>
+							{menu.label} {menu.badge && `(${menu.badge})`}
+						</a>
+					))}
+				</nav>
+				{user && (
+					<div class="border-t border-gray-200 p-4 bg-gray-50 flex-shrink-0">
+						<div class="flex items-center gap-3 mb-4">
+							<img
+								src={
+									user.image ||
+									`https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random`
+								}
+								alt={user.name}
+								class="h-10 w-10 rounded-full border border-gray-300 object-cover"
+								referrerpolicy="no-referrer"
+							/>
+							<div class="flex flex-col">
+								<div class="flex items-center gap-2">
+									<span class="text-sm font-medium text-gray-900 leading-tight">{user.name}</span>
+									{userRole && (
+										<span
+											class={`text-[10px] font-semibold px-1.5 py-0.5 rounded uppercase tracking-wider ${
+												userRole === "superadmin"
+													? "bg-purple-100 text-purple-800 border border-purple-200"
+													: "bg-gray-100 text-gray-700 border border-gray-200"
+											}`}
+										>
+											{userRole}
+										</span>
+									)}
+								</div>
+								<span class="text-xs text-gray-500 truncate max-w-[180px]">{user.email}</span>
+							</div>
+						</div>
+						<button
+							id="mobile-logout-btn"
+							class="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 rounded-md transition-colors"
+						>
+							<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+								/>
+							</svg>
+							Sign out
+						</button>
+					</div>
+				)}
+			</div>
+		</div>
+
+		<div class="flex flex-1 overflow-hidden">
+			<!-- Sidebar Navigation -->
+			{!hideSidebar && (
+				<aside class="w-64 bg-white border-r border-gray-200 flex-shrink-0 flex flex-col shadow-sm hidden md:flex z-10">
+					<nav class="flex-1 px-4 py-6 space-y-2">
+						<div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 px-2">
+							Manajemen
+						</div>
+						{adminMenus.map((menu) => (
 							<a
 								href={menu.disabled ? "#" : menu.url}
-								class={`flex items-center gap-3 px-3 py-3 text-sm font-medium rounded-md transition ${menu.disabled ? "text-gray-400 cursor-not-allowed" : pathname.startsWith(menu.url) && menu.url !== "/" ? "bg-red-50 text-red-700" : "text-gray-700 hover:bg-gray-100"}`}
+								class={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition ${menu.disabled ? "text-gray-400 cursor-not-allowed" : pathname.startsWith(menu.url) && menu.url !== "/" ? "bg-red-50 text-red-700" : "text-gray-700 hover:bg-gray-100"}`}
 							>
 								<Icon
 									name={menu.icon}
@@ -139,85 +208,10 @@ const pathname = Astro.url.pathname;
 								/>
 								{menu.label} {menu.badge && `(${menu.badge})`}
 							</a>
-						))
-					}
-				</nav>
-				{
-					user && (
-						<div class="border-t border-gray-200 p-4 bg-gray-50 flex-shrink-0">
-							<div class="flex items-center gap-3 mb-4">
-								<img
-									src={
-										user.image ||
-										`https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random`
-									}
-									alt={user.name}
-									class="h-10 w-10 rounded-full border border-gray-300 object-cover"
-									referrerpolicy="no-referrer"
-								/>
-								<div class="flex flex-col">
-									<div class="flex items-center gap-2">
-										<span class="text-sm font-medium text-gray-900 leading-tight">{user.name}</span>
-										{userRole && (
-											<span
-												class={`text-[10px] font-semibold px-1.5 py-0.5 rounded uppercase tracking-wider ${
-													userRole === "superadmin"
-														? "bg-purple-100 text-purple-800 border border-purple-200"
-														: "bg-gray-100 text-gray-700 border border-gray-200"
-												}`}
-											>
-												{userRole}
-											</span>
-										)}
-									</div>
-									<span class="text-xs text-gray-500 truncate max-w-[180px]">{user.email}</span>
-								</div>
-							</div>
-							<button
-								id="mobile-logout-btn"
-								class="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 rounded-md transition-colors"
-							>
-								<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="2"
-										d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-									/>
-								</svg>
-								Sign out
-							</button>
-						</div>
-					)
-				}
-			</div>
-		</div>
-
-		<div class="flex flex-1 overflow-hidden">
-			<!-- Sidebar Navigation -->
-			{
-				!hideSidebar && (
-					<aside class="w-64 bg-white border-r border-gray-200 flex-shrink-0 flex flex-col shadow-sm hidden md:flex z-10">
-						<nav class="flex-1 px-4 py-6 space-y-2">
-							<div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 px-2">
-								Manajemen
-							</div>
-							{adminMenus.map((menu) => (
-								<a
-									href={menu.disabled ? "#" : menu.url}
-									class={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition ${menu.disabled ? "text-gray-400 cursor-not-allowed" : pathname.startsWith(menu.url) && menu.url !== "/" ? "bg-red-50 text-red-700" : "text-gray-700 hover:bg-gray-100"}`}
-								>
-									<Icon
-										name={menu.icon}
-										class={`h-5 w-5 ${menu.disabled ? "opacity-50" : "opacity-75"}`}
-									/>
-									{menu.label} {menu.badge && `(${menu.badge})`}
-								</a>
-							))}
-						</nav>
-					</aside>
-				)
-			}
+						))}
+					</nav>
+				</aside>
+			)}
 
 			<!-- Main Content -->
 			<main class="flex-1 overflow-y-auto bg-gray-50 pb-12 w-full">

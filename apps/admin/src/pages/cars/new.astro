@@ -85,45 +85,44 @@ if (fromTradeIn) {
 						<path
 							fill-rule="evenodd"
 							d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-							clip-rule="evenodd"></path>
+							clip-rule="evenodd"
+						></path>
 					</svg>
 					Kembali ke Kelola Stok
 				</a>
 			</div>
 
-			{
-				fromTradeIn && tradeInFound && (
-					<div class="max-w-4xl mx-auto mb-6 p-4 rounded-xl bg-blue-50 border border-blue-200 text-blue-900 text-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
-						<div class="flex items-start sm:items-center gap-2.5">
-							<svg
-								class="size-5 text-blue-600 shrink-0 mt-0.5 sm:mt-0"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-								/>
-							</svg>
-							<span>
-								Data terisi otomatis dari pengajuan tukar tambah{" "}
-								<strong class="font-mono">{fromTradeIn}</strong>. Status disetel sebagai{" "}
-								<strong>Sembunyi (Draf)</strong> agar Anda dapat memeriksa kelengkapan sebelum
-								dipublikasikan.
-							</span>
-						</div>
-						<a
-							href={`/trade-in/${fromTradeIn}`}
-							class="text-blue-700 underline font-semibold text-xs whitespace-nowrap hover:text-blue-900 self-end sm:self-auto"
+			{fromTradeIn && tradeInFound && (
+				<div class="max-w-4xl mx-auto mb-6 p-4 rounded-xl bg-blue-50 border border-blue-200 text-blue-900 text-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+					<div class="flex items-start sm:items-center gap-2.5">
+						<svg
+							class="size-5 text-blue-600 shrink-0 mt-0.5 sm:mt-0"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
 						>
-							Lihat Pengajuan &rarr;
-						</a>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+							/>
+						</svg>
+						<span>
+							Data terisi otomatis dari pengajuan tukar tambah{" "}
+							<strong class="font-mono">{fromTradeIn}</strong>. Status disetel sebagai{" "}
+							<strong>Sembunyi (Draf)</strong> agar Anda dapat memeriksa kelengkapan sebelum
+							dipublikasikan.
+						</span>
 					</div>
-				)
-			}
+					<a
+						href={`/trade-in/${fromTradeIn}`}
+						class="text-blue-700 underline font-semibold text-xs whitespace-nowrap hover:text-blue-900 self-end sm:self-auto"
+					>
+						Lihat Pengajuan &rarr;
+					</a>
+				</div>
+			)}
 
 			<CarForm client:load car={initialCar} fromTradeIn={fromTradeIn} />
 		</Container>

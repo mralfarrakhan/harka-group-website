@@ -37,7 +37,9 @@ export function parsePlateNumber(input: string | null | undefined): ParsedPlate 
 	// Masking: Keep prefix visible, mask each number and suffix letter with bullet (•)
 	const maskedDigits = "•".repeat(match[2].length);
 	const maskedSuffix = suffix ? "•".repeat(suffix.length) : "";
-	const masked = maskedSuffix ? `${prefix} ${maskedDigits} ${maskedSuffix}` : `${prefix} ${maskedDigits}`;
+	const masked = maskedSuffix
+		? `${prefix} ${maskedDigits} ${maskedSuffix}`
+		: `${prefix} ${maskedDigits}`;
 
 	return {
 		isValid: true,

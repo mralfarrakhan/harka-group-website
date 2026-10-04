@@ -29,5 +29,5 @@ export default defineConfig(
 			"@typescript-eslint/triple-slash-reference": "warn",
 			"@typescript-eslint/no-empty-object-type": "warn",
 		},
-	}
+	},
 );

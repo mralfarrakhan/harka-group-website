@@ -14,25 +14,12 @@ import {
 import { eq, and, isNull } from "drizzle-orm";
 import { DatabaseClient } from "../clients/database";
 import { R2Client } from "../clients/r2";
-import {
-	CarNotFoundError,
-	DatabaseError,
-	ValidationError,
-} from "../errors";
-import {
-	CarFilterParamsSchema,
-	CreateCarInputSchema,
-	UpdateCarInputSchema,
-} from "../schemas/car";
+import { CarNotFoundError, DatabaseError, ValidationError } from "../errors";
+import { CarFilterParamsSchema, CreateCarInputSchema, UpdateCarInputSchema } from "../schemas/car";
 
-export const getFilteredCars = (
-	rawParams: unknown,
-	options: QueryOptions = {},
-) =>
+export const getFilteredCars = (rawParams: unknown, options: QueryOptions = {}) =>
 	Effect.gen(function* () {
-		const decoded = yield* Schema.decodeUnknown(CarFilterParamsSchema)(
-			rawParams,
-		).pipe(
+		const decoded = yield* Schema.decodeUnknown(CarFilterParamsSchema)(rawParams).pipe(
 			Effect.mapError(
 				(err) =>
 					new ValidationError({
@@ -58,19 +45,12 @@ export const getFilteredCars = (
 export const getCarById = (id: string, options: { adminView?: boolean } = {}) =>
 	Effect.gen(function* () {
 		if (!id) {
-			return yield* Effect.fail(
-				new ValidationError({ message: "Car ID is required" }),
-			);
+			return yield* Effect.fail(new ValidationError({ message: "Car ID is required" }));
 		}
 
 		const db = yield* DatabaseClient;
 		const row = yield* Effect.tryPromise({
-			try: () =>
-				db
-					.select()
-					.from(carsTable)
-					.where(eq(carsTable.id, id))
-					.get(),
+			try: () => db.select().from(carsTable).where(eq(carsTable.id, id)).get(),
 			catch: (cause) => new DatabaseError({ cause }),
 		});
 
@@ -90,9 +70,7 @@ export const getCarById = (id: string, options: { adminView?: boolean } = {}) =>
 export const getDistinctModelsByMake = (make: string, adminView = false) =>
 	Effect.gen(function* () {
 		if (!make) {
-			return yield* Effect.fail(
-				new ValidationError({ message: "Make is required" }),
-			);
+			return yield* Effect.fail(new ValidationError({ message: "Make is required" }));
 		}
 
 		const db = yield* DatabaseClient;
@@ -116,9 +94,7 @@ export const getDistinctModelsByMake = (make: string, adminView = false) =>
 
 export const createCar = (rawInput: unknown) =>
 	Effect.gen(function* () {
-		const input = yield* Schema.decodeUnknown(CreateCarInputSchema)(
-			rawInput,
-		).pipe(
+		const input = yield* Schema.decodeUnknown(CreateCarInputSchema)(rawInput).pipe(
 			Effect.mapError(
 				(err) =>
 					new ValidationError({
@@ -143,16 +119,12 @@ export const createCar = (rawInput: unknown) =>
 		const id = generateCarId();
 		const now = new Date();
 
-		const title =
-			input.title?.trim() || `${input.year} ${input.make} ${input.model}`;
+		const title = input.title?.trim() || `${input.year} ${input.make} ${input.model}`;
 		const isFloodFree =
-			input.isFloodFree ??
-			(input.hasFloodDamage !== undefined ? !input.hasFloodDamage : false);
+			input.isFloodFree ?? (input.hasFloodDamage !== undefined ? !input.hasFloodDamage : false);
 		const isAccidentFree =
 			input.isAccidentFree ??
-			(input.hasAccidentDamage !== undefined
-				? !input.hasAccidentDamage
-				: false);
+			(input.hasAccidentDamage !== undefined ? !input.hasAccidentDamage : false);
 
 		const newCar: InsertCar = {
 			id,
@@ -173,14 +145,10 @@ export const createCar = (rawInput: unknown) =>
 			ownershipStatus: input.ownershipStatus || null,
 			isFloodFree,
 			isAccidentFree,
-			taxExpirationDate: input.taxExpirationDate
-				? new Date(input.taxExpirationDate)
-				: null,
+			taxExpirationDate: input.taxExpirationDate ? new Date(input.taxExpirationDate) : null,
 			seatingCapacity: input.seatingCapacity || null,
 			plateNumber: formattedPlate,
-			gallery: input.gallery
-				? input.gallery.map((g) => ({ image: g.image, alt: g.alt }))
-				: null,
+			gallery: input.gallery ? input.gallery.map((g) => ({ image: g.image, alt: g.alt })) : null,
 			hidden: input.hidden,
 			publishDate: now,
 			createdAt: now,
@@ -201,8 +169,7 @@ export const createCar = (rawInput: unknown) =>
 						.update(tradeInTable)
 						.set({ convertedCarId: id, updatedAt: now })
 						.where(eq(tradeInTable.id, input.fromTradeIn!)),
-				catch: (cause) =>
-					console.error("Failed to link convertedCarId:", cause),
+				catch: (cause) => console.error("Failed to link convertedCarId:", cause),
 			}).pipe(Effect.ignoreLogged);
 		}
 
@@ -212,14 +179,10 @@ export const createCar = (rawInput: unknown) =>
 export const updateCar = (id: string, rawInput: unknown) =>
 	Effect.gen(function* () {
 		if (!id) {
-			return yield* Effect.fail(
-				new ValidationError({ message: "Car ID is required" }),
-			);
+			return yield* Effect.fail(new ValidationError({ message: "Car ID is required" }));
 		}
 
-		const input = yield* Schema.decodeUnknown(UpdateCarInputSchema)(
-			rawInput,
-		).pipe(
+		const input = yield* Schema.decodeUnknown(UpdateCarInputSchema)(rawInput).pipe(
 			Effect.mapError(
 				(err) =>
 					new ValidationError({
@@ -231,12 +194,7 @@ export const updateCar = (id: string, rawInput: unknown) =>
 
 		const db = yield* DatabaseClient;
 		const existing = yield* Effect.tryPromise({
-			try: () =>
-				db
-					.select()
-					.from(carsTable)
-					.where(eq(carsTable.id, id))
-					.get(),
+			try: () => db.select().from(carsTable).where(eq(carsTable.id, id)).get(),
 			catch: (cause) => new DatabaseError({ cause }),
 		});
 
@@ -270,16 +228,12 @@ export const updateCar = (id: string, rawInput: unknown) =>
 			formattedPlate = formatPlateNumber(input.plateNumber);
 		}
 
-		const title =
-			input.title?.trim() || `${input.year} ${input.make} ${input.model}`;
+		const title = input.title?.trim() || `${input.year} ${input.make} ${input.model}`;
 		const isFloodFree =
-			input.isFloodFree ??
-			(input.hasFloodDamage !== undefined ? !input.hasFloodDamage : true);
+			input.isFloodFree ?? (input.hasFloodDamage !== undefined ? !input.hasFloodDamage : true);
 		const isAccidentFree =
 			input.isAccidentFree ??
-			(input.hasAccidentDamage !== undefined
-				? !input.hasAccidentDamage
-				: true);
+			(input.hasAccidentDamage !== undefined ? !input.hasAccidentDamage : true);
 
 		const now = new Date();
 
@@ -305,9 +259,7 @@ export const updateCar = (id: string, rawInput: unknown) =>
 						ownershipStatus: input.ownershipStatus || null,
 						isFloodFree,
 						isAccidentFree,
-						taxExpirationDate: input.taxExpirationDate
-							? new Date(input.taxExpirationDate)
-							: null,
+						taxExpirationDate: input.taxExpirationDate ? new Date(input.taxExpirationDate) : null,
 						seatingCapacity: input.seatingCapacity || null,
 						plateNumber: formattedPlate,
 						gallery: input.gallery
@@ -323,15 +275,10 @@ export const updateCar = (id: string, rawInput: unknown) =>
 		return { success: true, id, title };
 	});
 
-export const softDeleteCar = (
-	id: string,
-	archiveReason: "sold" | "removed" = "removed",
-) =>
+export const softDeleteCar = (id: string, archiveReason: "sold" | "removed" = "removed") =>
 	Effect.gen(function* () {
 		if (!id) {
-			return yield* Effect.fail(
-				new ValidationError({ message: "Car ID is required" }),
-			);
+			return yield* Effect.fail(new ValidationError({ message: "Car ID is required" }));
 		}
 
 		const db = yield* DatabaseClient;
@@ -356,9 +303,7 @@ export const softDeleteCar = (
 export const restoreCar = (id: string) =>
 	Effect.gen(function* () {
 		if (!id) {
-			return yield* Effect.fail(
-				new ValidationError({ message: "Car ID is required" }),
-			);
+			return yield* Effect.fail(new ValidationError({ message: "Car ID is required" }));
 		}
 
 		const db = yield* DatabaseClient;
@@ -383,21 +328,14 @@ export const restoreCar = (id: string) =>
 export const hardDeleteCar = (id: string) =>
 	Effect.gen(function* () {
 		if (!id) {
-			return yield* Effect.fail(
-				new ValidationError({ message: "Car ID is required" }),
-			);
+			return yield* Effect.fail(new ValidationError({ message: "Car ID is required" }));
 		}
 
 		const db = yield* DatabaseClient;
 		const r2 = yield* R2Client;
 
 		const car = yield* Effect.tryPromise({
-			try: () =>
-				db
-					.select()
-					.from(carsTable)
-					.where(eq(carsTable.id, id))
-					.get(),
+			try: () => db.select().from(carsTable).where(eq(carsTable.id, id)).get(),
 			catch: (cause) => new DatabaseError({ cause }),
 		});
 
@@ -417,4 +355,3 @@ export const hardDeleteCar = (id: string) =>
 
 		return { success: true, id };
 	});
-

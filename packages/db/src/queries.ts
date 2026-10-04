@@ -241,9 +241,7 @@ export async function getTradeInSubmissions(
 	const limit = Math.max(1, Number(params?.limit) || 15);
 	const offset = (page - 1) * limit;
 
-	const [{ count }] = await db
-		.select({ count: sql<number>`count(*)` })
-		.from(tradeInSubmissions);
+	const [{ count }] = await db.select({ count: sql<number>`count(*)` }).from(tradeInSubmissions);
 
 	const items = await db
 		.select()
@@ -278,4 +276,3 @@ export async function getTradeInSubmissionById(
 		.limit(1);
 	return results[0];
 }
-

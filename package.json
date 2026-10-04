@@ -1,36 +1,40 @@
 {
-  "name": "harka-group-monorepo",
-  "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "scripts": {
-    "dev:user": "bun --filter=user run dev",
-    "dev:admin": "bun --filter=admin run dev",
-    "dev:all": "bun --filter='*' run dev",
-    "build:user": "bun --filter=user run build",
-    "build:admin": "bun --filter=admin run build",
-    "gen:user": "bun --filter=user run gen",
-    "gen:admin": "bun --filter=admin run gen",
-    "preview:build:user": "bun --filter=user run build && bunx wrangler dev -c ./apps/user/dist/server/wrangler.json --persist-to ./.wrangler/state",
-    "preview:build:admin": "bun --filter=admin run build && bunx wrangler dev -c ./apps/admin/dist/server/wrangler.json --persist-to ./.wrangler/state",
-    "db:push": "bun --filter=@harka/db run db:push",
-    "db:generate": "bun --filter=@harka/db run db:generate",
-    "db:migrate:prod": "bun --filter=@harka/db run db:migrate:prod",
-    "db:migrate:dev": "bun --filter=@harka/db run db:migrate:dev",
-    "db:migrate:list:prod": "bun --filter=@harka/db run db:migrate:list:prod",
-    "db:migrate:list:dev": "bun --filter=@harka/db run db:migrate:list:dev",
-    "db:studio": "bun --filter=@harka/db run db:studio",
-    "format": "bun --filter='*' run format",
-    "lint": "bun --filter='*' run lint",
-    "check": "bun --filter='*' run check"
-  },
-  "devDependencies": {
-    "prettier-plugin-svelte": "^4.1.1"
-  },
-  "dependencies": {
-    "@iconify-json/bi": "^1.2.7",
-    "better-auth": "^1.7.3"
-  }
+	"name": "harka-group-monorepo",
+	"private": true,
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
+	"scripts": {
+		"dev:user": "bun --filter=user run dev",
+		"dev:admin": "bun --filter=admin run dev",
+		"dev:all": "bun --filter='*' run dev",
+		"build:user": "bun --filter=user run build",
+		"build:admin": "bun --filter=admin run build",
+		"gen:user": "bun --filter=user run gen",
+		"gen:admin": "bun --filter=admin run gen",
+		"preview:build:user": "bun --filter=user run build && bunx wrangler dev -c ./apps/user/dist/server/wrangler.json --persist-to ./.wrangler/state",
+		"preview:build:admin": "bun --filter=admin run build && bunx wrangler dev -c ./apps/admin/dist/server/wrangler.json --persist-to ./.wrangler/state",
+		"db:push": "bun --filter=@harka/db run db:push",
+		"db:generate": "bun --filter=@harka/db run db:generate",
+		"db:migrate:prod": "bun --filter=@harka/db run db:migrate:prod",
+		"db:migrate:dev": "bun --filter=@harka/db run db:migrate:dev",
+		"db:migrate:list:prod": "bun --filter=@harka/db run db:migrate:list:prod",
+		"db:migrate:list:dev": "bun --filter=@harka/db run db:migrate:list:dev",
+		"db:studio": "bun --filter=@harka/db run db:studio",
+		"format": "prettier --write .",
+		"format:check": "prettier --check .",
+		"lint": "bun --filter='*' run lint",
+		"check": "prettier --check . && bun --filter='*' run check"
+	},
+	"devDependencies": {
+		"prettier": "^3.9.9",
+		"prettier-plugin-astro": "^1.1.0",
+		"prettier-plugin-svelte": "^4.1.1",
+		"prettier-plugin-tailwindcss": "^0.8.1"
+	},
+	"dependencies": {
+		"@iconify-json/bi": "^1.2.7",
+		"better-auth": "^1.7.3"
+	}
 }

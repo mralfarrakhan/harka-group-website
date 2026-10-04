@@ -60,28 +60,26 @@ const breadcrumbSchema = generateBreadcrumbSchema([
 
 	<Section class:list={"bg-gray-50"}>
 		<Container class:list={"max-w-3xl"}>
-			{
-				Object.keys(groupedMakes).length > 0 ? (
-					<ul class="grid grid-cols-1 p-4 lg:p-8 rounded-lg shadow-md border border-gray-100 gap-4 lg:grid-cols-3 bg-white">
-						{Object.keys(groupedMakes)
-							.sort()
-							.map((letter) => (
-								<li>
-									<h2 class="text-xl font-bold mt-4">{letter}</h2>
-									<ul>
-										{groupedMakes[letter].map((make) => (
-											<li>
-												<a href={`/cars/?make=${encodeURIComponent(make)}`}>{make}</a>
-											</li>
-										))}
-									</ul>
-								</li>
-							))}
-					</ul>
-				) : (
-					<p>No makes available at the moment. Please check back later.</p>
-				)
-			}
+			{Object.keys(groupedMakes).length > 0 ? (
+				<ul class="grid grid-cols-1 p-4 lg:p-8 rounded-lg shadow-md border border-gray-100 gap-4 lg:grid-cols-3 bg-white">
+					{Object.keys(groupedMakes)
+						.sort()
+						.map((letter) => (
+							<li>
+								<h2 class="text-xl font-bold mt-4">{letter}</h2>
+								<ul>
+									{groupedMakes[letter].map((make) => (
+										<li>
+											<a href={`/cars/?make=${encodeURIComponent(make)}`}>{make}</a>
+										</li>
+									))}
+								</ul>
+							</li>
+						))}
+				</ul>
+			) : (
+				<p>No makes available at the moment. Please check back later.</p>
+			)}
 		</Container>
 	</Section>
 </Layout>

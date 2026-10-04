@@ -1,17 +1,23 @@
 # build output
 dist/
 
-# generated types
+# generated types & tools
 .astro/
 .wrangler/
 .netlify/
+.playwright-mcp/
+.agents/
+scratch/
+worker-configuration.d.ts
 
-# dependencies
+# database migrations
+drizzle/
+packages/db/drizzle/
+
+# dependencies & lockfiles
 node_modules/
 bun.lockb
 bun.lock
 
 # public assets
 public/
-
-worker-configuration.d.ts

@@ -15,4 +15,3 @@ export function generateCarId(size = 12): string {
 }
 
 export const generateId = generateCarId;
-

@@ -95,11 +95,9 @@ const schemasToRender = schema ? (Array.isArray(schema) ? schema : [schema]) : [
 		<meta name="twitter:image:alt" content={imageAlt} />
 
 		<!-- Schema.org JSON-LD -->
-		{
-			schemasToRender.map((schemaItem) => (
-				<script is:inline type="application/ld+json" set:html={JSON.stringify(schemaItem)} />
-			))
-		}
+		{schemasToRender.map((schemaItem) => (
+			<script is:inline type="application/ld+json" set:html={JSON.stringify(schemaItem)} />
+		))}
 
 		<title>{displayPageTitle}</title>
 		<ClientRouter />

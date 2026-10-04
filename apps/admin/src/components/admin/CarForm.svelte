@@ -272,16 +272,16 @@
 	};
 </script>
 
-<div class="max-w-4xl mx-auto mb-16 space-y-8">
+<div class="mx-auto mb-16 max-w-4xl space-y-8">
 	<!-- Top Header Card -->
 	<div
-		class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4"
+		class="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-8"
 	>
 		<div>
 			<h2 class="text-2xl font-bold text-gray-900">
 				{car?.id ? "Ubah Data Mobil" : "Tambah Mobil Baru"}
 			</h2>
-			<p class="text-sm text-gray-500 mt-1">
+			<p class="mt-1 text-sm text-gray-500">
 				{#if car?.id}
 					ID Referensi: <span class="font-mono font-bold text-gray-700">{car.id}</span>
 				{:else}
@@ -292,13 +292,13 @@
 		<div class="flex items-center gap-2">
 			{#if hidden}
 				<div
-					class="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-50 text-amber-800 border border-amber-200"
+					class="rounded-full border border-amber-200 bg-amber-50 px-3.5 py-1 text-xs font-bold tracking-wider text-amber-800 uppercase"
 				>
 					Sembunyi (Draf)
 				</div>
 			{:else}
 				<div
-					class="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-50 text-emerald-800 border border-emerald-200"
+					class="rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1 text-xs font-bold tracking-wider text-emerald-800 uppercase"
 				>
 					Publik (Live)
 				</div>
@@ -308,7 +308,7 @@
 
 	{#if errorMessage}
 		<div
-			class="p-4 bg-red-50 border border-red-200 text-red-800 rounded-xl flex items-center gap-3"
+			class="flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-red-800"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -322,19 +322,19 @@
 					clip-rule="evenodd"
 				/>
 			</svg>
-			<span class="font-medium text-sm">{errorMessage}</span>
+			<span class="text-sm font-medium">{errorMessage}</span>
 		</div>
 	{/if}
 
 	<form onsubmit={submitForm} class="space-y-8">
 		<!-- 1. Informasi Umum & Identitas -->
-		<div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8">
+		<div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
 			<h3
-				class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2.5 pb-3 border-b border-gray-100"
+				class="mb-6 flex items-center gap-2.5 border-b border-gray-100 pb-3 text-lg font-bold text-gray-900"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
-					class="w-5 h-5 text-red-700"
+					class="h-5 w-5 text-red-700"
 					viewBox="0 0 20 20"
 					fill="currentColor"
 				>
@@ -347,50 +347,50 @@
 				Informasi Umum & Identitas Unit
 			</h3>
 
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+			<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 				<div class="col-span-1 md:col-span-2">
-					<label class="block text-sm font-semibold text-gray-700 mb-1.5">Nama</label>
+					<label class="mb-1.5 block text-sm font-semibold text-gray-700">Nama</label>
 					<input
 						type="text"
 						bind:value={title}
-						class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition"
+						class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 						placeholder="mis. Porsche 911 Carrera S"
 					/>
 				</div>
 				<div class="col-span-1 md:col-span-2">
-					<label class="block text-sm font-semibold text-gray-700 mb-1.5">Deskripsi Singkat</label>
+					<label class="mb-1.5 block text-sm font-semibold text-gray-700">Deskripsi Singkat</label>
 					<textarea
 						rows="3"
 						bind:value={excerpt}
-						class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition"
+						class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 						placeholder="Ringkasan spesifikasi, kondisi istimewa, atau catatan unit..."></textarea>
 				</div>
 				<div>
-					<label class="block text-sm font-semibold text-gray-700 mb-1.5"
+					<label class="mb-1.5 block text-sm font-semibold text-gray-700"
 						>Merek <span class="text-red-600">*</span></label
 					>
 					<input
 						type="text"
 						bind:value={make}
 						required
-						class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition"
+						class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 						placeholder="mis. Porsche"
 					/>
 				</div>
 				<div>
-					<label class="block text-sm font-semibold text-gray-700 mb-1.5"
+					<label class="mb-1.5 block text-sm font-semibold text-gray-700"
 						>Model <span class="text-red-600">*</span></label
 					>
 					<input
 						type="text"
 						bind:value={model}
 						required
-						class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition"
+						class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 						placeholder="mis. 911 Carrera"
 					/>
 				</div>
 				<div>
-					<label class="block text-sm font-semibold text-gray-700 mb-1.5"
+					<label class="mb-1.5 block text-sm font-semibold text-gray-700"
 						>Harga (Rp) <span class="text-red-600">*</span></label
 					>
 					<input
@@ -398,14 +398,14 @@
 						bind:value={price}
 						required
 						min="1"
-						class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition"
+						class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 					/>
 				</div>
 				<div>
-					<label class="block text-sm font-semibold text-gray-700 mb-1.5">Tipe Body</label>
+					<label class="mb-1.5 block text-sm font-semibold text-gray-700">Tipe Body</label>
 					<select
 						bind:value={bodyType}
-						class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition"
+						class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 					>
 						<option value="SUV">SUV</option>
 						<option value="Sedan">Sedan</option>
@@ -417,20 +417,20 @@
 					</select>
 				</div>
 
-				<div class="col-span-1 md:col-span-2 pt-4 border-t border-gray-100">
+				<div class="col-span-1 border-t border-gray-100 pt-4 md:col-span-2">
 					<label
-						class="flex items-center gap-3.5 p-4 rounded-xl border transition cursor-pointer {hidden
-							? 'border-amber-500 bg-amber-50/60 text-amber-950 font-semibold ring-1 ring-amber-500 shadow-sm'
-							: 'border-gray-200 bg-white hover:bg-gray-50 text-gray-700'}"
+						class="flex cursor-pointer items-center gap-3.5 rounded-xl border p-4 transition {hidden
+							? 'border-amber-500 bg-amber-50/60 font-semibold text-amber-950 shadow-sm ring-1 ring-amber-500'
+							: 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'}"
 					>
 						<input
 							type="checkbox"
 							bind:checked={hidden}
-							class="size-4 rounded accent-amber-600 text-amber-600 shrink-0"
+							class="size-4 shrink-0 rounded text-amber-600 accent-amber-600"
 						/>
 						<div>
-							<span class="text-sm font-bold block text-gray-900">Sembunyikan dari Publik</span>
-							<span class="text-xs text-gray-500 block mt-0.5"
+							<span class="block text-sm font-bold text-gray-900">Sembunyikan dari Publik</span>
+							<span class="mt-0.5 block text-xs text-gray-500"
 								>Status draf internal, tidak tampil di katalog publik</span
 							>
 						</div>
@@ -440,13 +440,13 @@
 		</div>
 
 		<!-- 2. Performa & Spesifikasi Mesin -->
-		<div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8">
+		<div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
 			<h3
-				class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2.5 pb-3 border-b border-gray-100"
+				class="mb-6 flex items-center gap-2.5 border-b border-gray-100 pb-3 text-lg font-bold text-gray-900"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
-					class="w-5 h-5 text-red-700"
+					class="h-5 w-5 text-red-700"
 					viewBox="0 0 20 20"
 					fill="currentColor"
 				>
@@ -459,54 +459,54 @@
 				Performa & Spesifikasi Mesin
 			</h3>
 
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+			<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 				<div>
-					<label class="block text-sm font-semibold text-gray-700 mb-1.5"
+					<label class="mb-1.5 block text-sm font-semibold text-gray-700"
 						>Tahun Model <span class="text-red-600">*</span></label
 					>
 					<input
 						type="number"
 						bind:value={year}
 						required
-						class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition"
+						class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 					/>
 				</div>
 				<div>
-					<label class="block text-sm font-semibold text-gray-700 mb-1.5"
+					<label class="mb-1.5 block text-sm font-semibold text-gray-700"
 						>Jarak Tempuh (km) <span class="text-red-600">*</span></label
 					>
 					<input
 						type="number"
 						bind:value={mileage}
 						required
-						class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition"
+						class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 					/>
 				</div>
 				<div>
-					<label class="block text-sm font-semibold text-gray-700 mb-1.5">Tenaga (PS)</label>
+					<label class="mb-1.5 block text-sm font-semibold text-gray-700">Tenaga (PS)</label>
 					<input
 						type="number"
 						bind:value={horsePower}
-						class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition"
+						class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 						placeholder="mis. 385"
 					/>
 				</div>
 				<div>
-					<label class="block text-sm font-semibold text-gray-700 mb-1.5"
+					<label class="mb-1.5 block text-sm font-semibold text-gray-700"
 						>Kapasitas Mesin (cc)</label
 					>
 					<input
 						type="number"
 						bind:value={engineSizeCC}
-						class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition"
+						class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 						placeholder="mis. 2981"
 					/>
 				</div>
 				<div>
-					<label class="block text-sm font-semibold text-gray-700 mb-1.5">Transmisi</label>
+					<label class="mb-1.5 block text-sm font-semibold text-gray-700">Transmisi</label>
 					<select
 						bind:value={transmission}
-						class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition"
+						class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 					>
 						<option value="Automatic">Matic</option>
 						<option value="Manual">Manual</option>
@@ -515,10 +515,10 @@
 					</select>
 				</div>
 				<div>
-					<label class="block text-sm font-semibold text-gray-700 mb-1.5">Bahan Bakar</label>
+					<label class="mb-1.5 block text-sm font-semibold text-gray-700">Bahan Bakar</label>
 					<select
 						bind:value={fuelType}
-						class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition"
+						class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 					>
 						<option value="Petrol">Bensin</option>
 						<option value="Diesel">Solar</option>
@@ -527,21 +527,21 @@
 					</select>
 				</div>
 				<div>
-					<label class="block text-sm font-semibold text-gray-700 mb-1.5">Warna Eksterior</label>
+					<label class="mb-1.5 block text-sm font-semibold text-gray-700">Warna Eksterior</label>
 					<input
 						type="text"
 						bind:value={color}
-						class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition"
+						class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 						placeholder="mis. Hitam Metalik"
 					/>
 				</div>
 				<div>
-					<label class="block text-sm font-semibold text-gray-700 mb-1.5">Kapasitas Penumpang</label
+					<label class="mb-1.5 block text-sm font-semibold text-gray-700">Kapasitas Penumpang</label
 					>
 					<input
 						type="number"
 						bind:value={seatingCapacity}
-						class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition"
+						class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 						placeholder="mis. 5 atau 7"
 					/>
 				</div>
@@ -549,13 +549,13 @@
 		</div>
 
 		<!-- 3. Status Kepemilikan & Legalitas -->
-		<div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8">
+		<div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
 			<h3
-				class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2.5 pb-3 border-b border-gray-100"
+				class="mb-6 flex items-center gap-2.5 border-b border-gray-100 pb-3 text-lg font-bold text-gray-900"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
-					class="w-5 h-5 text-red-700"
+					class="h-5 w-5 text-red-700"
 					viewBox="0 0 20 20"
 					fill="currentColor"
 				>
@@ -568,26 +568,26 @@
 				Status Kepemilikan, Legalitas & Kondisi Fisik
 			</h3>
 
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+			<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 				<div class="col-span-1 md:col-span-2">
-					<span class="block text-sm font-semibold text-gray-700 mb-2">
+					<span class="mb-2 block text-sm font-semibold text-gray-700">
 						Status Kepemilikan / BPKB <span class="text-red-600">*</span>
 					</span>
-					<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+					<div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
 						{#each ownershipStatuses as status (status)}
 							<label
-								class="flex items-center gap-3 p-3.5 rounded-xl border h-full transition cursor-pointer {ownershipStatus ===
+								class="flex h-full cursor-pointer items-center gap-3 rounded-xl border p-3.5 transition {ownershipStatus ===
 								status
-									? 'border-red-600 bg-red-50/50 text-red-950 font-semibold ring-1 ring-red-600 shadow-sm'
-									: 'border-gray-200 bg-white hover:bg-gray-50 text-gray-700'}"
+									? 'border-red-600 bg-red-50/50 font-semibold text-red-950 shadow-sm ring-1 ring-red-600'
+									: 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'}"
 							>
 								<input
 									type="radio"
 									bind:group={ownershipStatus}
 									value={status}
-									class="size-4 text-red-700 accent-red-700 shrink-0"
+									class="size-4 shrink-0 text-red-700 accent-red-700"
 								/>
-								<span class="text-xs sm:text-sm leading-snug"
+								<span class="text-xs leading-snug sm:text-sm"
 									>{ownershipStatusMap[status] || status}</span
 								>
 							</label>
@@ -596,7 +596,7 @@
 				</div>
 
 				<div>
-					<label class="block text-sm font-semibold text-gray-700 mb-1.5" for="plateNumber">
+					<label class="mb-1.5 block text-sm font-semibold text-gray-700" for="plateNumber">
 						Nomor Polisi
 					</label>
 					<input
@@ -605,13 +605,13 @@
 						bind:value={plateNumber}
 						onblur={handlePlateBlur}
 						oninput={handlePlateInput}
-						class="w-full px-4 py-2.5 border {plateError
+						class="w-full border px-4 py-2.5 {plateError
 							? 'border-red-500 ring-1 ring-red-500'
-							: 'border-gray-300'} rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition uppercase"
+							: 'border-gray-300'} rounded-xl bg-white text-sm uppercase transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 						placeholder="mis. B 1234 ABC"
 					/>
 					{#if plateError}
-						<p class="mt-1.5 text-xs text-red-600 font-medium">{plateError}</p>
+						<p class="mt-1.5 text-xs font-medium text-red-600">{plateError}</p>
 					{:else}
 						<p class="mt-1 text-xs text-gray-400">
 							Nomor polisi internal / STNK (mis. B 1234 ABC).
@@ -620,13 +620,13 @@
 				</div>
 
 				<div>
-					<label class="block text-sm font-semibold text-gray-700 mb-1.5">
+					<label class="mb-1.5 block text-sm font-semibold text-gray-700">
 						Masa Berlaku Pajak (Status Pajak STNK)
 					</label>
 					<div class="grid grid-cols-2 gap-3">
 						<select
 							bind:value={taxMonth}
-							class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition"
+							class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 						>
 							<option value="">- Bulan (-) -</option>
 							{#each months as m (m.value)}
@@ -635,7 +635,7 @@
 						</select>
 						<select
 							bind:value={taxYear}
-							class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition"
+							class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 						>
 							<option value="">- Tahun (-) -</option>
 							{#each years as y (y)}
@@ -648,25 +648,25 @@
 					</p>
 				</div>
 
-				<div class="col-span-1 md:col-span-2 pt-4 border-t border-gray-100">
-					<span class="block text-sm font-semibold text-gray-700 mb-3">
+				<div class="col-span-1 border-t border-gray-100 pt-4 md:col-span-2">
+					<span class="mb-3 block text-sm font-semibold text-gray-700">
 						Sertifikasi & Kondisi Khusus Kendaraan
 					</span>
-					<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 						<!-- 1. Kondisi Banjir (First) -->
 						<label
-							class="flex items-start gap-3.5 p-4 rounded-xl border transition cursor-pointer {isFloodFree
-								? 'border-emerald-600 bg-emerald-50/50 text-emerald-950 font-semibold ring-1 ring-emerald-600 shadow-sm'
-								: 'border-gray-200 bg-white hover:bg-gray-50 text-gray-700'}"
+							class="flex cursor-pointer items-start gap-3.5 rounded-xl border p-4 transition {isFloodFree
+								? 'border-emerald-600 bg-emerald-50/50 font-semibold text-emerald-950 shadow-sm ring-1 ring-emerald-600'
+								: 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'}"
 						>
 							<input
 								type="checkbox"
 								bind:checked={isFloodFree}
-								class="size-4 mt-0.5 rounded text-emerald-700 accent-emerald-700 shrink-0"
+								class="mt-0.5 size-4 shrink-0 rounded text-emerald-700 accent-emerald-700"
 							/>
 							<div>
-								<span class="text-sm font-bold block text-gray-900">Bukan Bekas Banjir</span>
-								<span class="text-xs text-gray-500 block mt-0.5 leading-relaxed">
+								<span class="block text-sm font-bold text-gray-900">Bukan Bekas Banjir</span>
+								<span class="mt-0.5 block text-xs leading-relaxed text-gray-500">
 									{isFloodFree
 										? "Unit terverifikasi aman dan tidak memiliki riwayat terendam banjir"
 										: "Centang jika unit terverifikasi aman dan bebas dari riwayat terendam banjir"}
@@ -676,18 +676,18 @@
 
 						<!-- 2. Kondisi Lakalantas (Second) -->
 						<label
-							class="flex items-start gap-3.5 p-4 rounded-xl border transition cursor-pointer {isAccidentFree
-								? 'border-emerald-600 bg-emerald-50/50 text-emerald-950 font-semibold ring-1 ring-emerald-600 shadow-sm'
-								: 'border-gray-200 bg-white hover:bg-gray-50 text-gray-700'}"
+							class="flex cursor-pointer items-start gap-3.5 rounded-xl border p-4 transition {isAccidentFree
+								? 'border-emerald-600 bg-emerald-50/50 font-semibold text-emerald-950 shadow-sm ring-1 ring-emerald-600'
+								: 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'}"
 						>
 							<input
 								type="checkbox"
 								bind:checked={isAccidentFree}
-								class="size-4 mt-0.5 rounded text-emerald-700 accent-emerald-700 shrink-0"
+								class="mt-0.5 size-4 shrink-0 rounded text-emerald-700 accent-emerald-700"
 							/>
 							<div>
-								<span class="text-sm font-bold block text-gray-900">Bebas Lakalantas</span>
-								<span class="text-xs text-gray-500 block mt-0.5 leading-relaxed">
+								<span class="block text-sm font-bold text-gray-900">Bebas Lakalantas</span>
+								<span class="mt-0.5 block text-xs leading-relaxed text-gray-500">
 									{isAccidentFree
 										? "Struktur rangka dan bodi unit utuh, bebas dari insiden tabrakan besar"
 										: "Centang jika rangka dan bodi unit bebas dari riwayat tabrakan atau insiden besar"}
@@ -700,13 +700,13 @@
 		</div>
 
 		<!-- 4. Galeri Foto & Media -->
-		<div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8">
+		<div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
 			<h3
-				class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2.5 pb-3 border-b border-gray-100"
+				class="mb-6 flex items-center gap-2.5 border-b border-gray-100 pb-3 text-lg font-bold text-gray-900"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
-					class="w-5 h-5 text-red-700"
+					class="h-5 w-5 text-red-700"
 					viewBox="0 0 20 20"
 					fill="currentColor"
 				>
@@ -720,32 +720,32 @@
 			</h3>
 
 			<div class="space-y-6">
-				<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+				<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 					{#each galleryItems as item, idx (item.id)}
 						<div
-							class="bg-gray-50 border border-gray-200 rounded-xl overflow-hidden flex flex-col group relative shadow-xs transition hover:shadow-sm"
+							class="group relative flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-gray-50 shadow-xs transition hover:shadow-sm"
 						>
 							{#if idx === 0}
 								<div
-									class="absolute top-2 left-2 bg-red-700 text-white text-[10px] uppercase font-bold px-2 py-0.5 rounded-md z-10 shadow-xs"
+									class="absolute top-2 left-2 z-10 rounded-md bg-red-700 px-2 py-0.5 text-[10px] font-bold text-white uppercase shadow-xs"
 								>
 									Cover
 								</div>
 							{/if}
-							<div class="relative h-36 bg-gray-100 flex-shrink-0">
-								<img src={item.preview} alt="" class="w-full h-full object-cover" />
+							<div class="relative h-36 flex-shrink-0 bg-gray-100">
+								<img src={item.preview} alt="" class="h-full w-full object-cover" />
 
 								<div
-									class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 p-2 backdrop-blur-xs"
+									class="absolute inset-0 flex items-center justify-center gap-2 bg-black/50 p-2 opacity-0 backdrop-blur-xs transition-opacity group-hover:opacity-100"
 								>
 									<button
 										type="button"
-										class="bg-white/95 p-2 rounded-lg hover:bg-white text-gray-800 disabled:opacity-40 transition shadow-sm"
+										class="rounded-lg bg-white/95 p-2 text-gray-800 shadow-sm transition hover:bg-white disabled:opacity-40"
 										onclick={() => moveItem(idx, -1)}
 										disabled={idx === 0}
 										title="Pindah ke kiri"
 									>
-										<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 											<path
 												stroke-linecap="round"
 												stroke-linejoin="round"
@@ -756,11 +756,11 @@
 									</button>
 									<button
 										type="button"
-										class="bg-red-600/95 p-2 rounded-lg hover:bg-red-700 text-white transition shadow-sm"
+										class="rounded-lg bg-red-600/95 p-2 text-white shadow-sm transition hover:bg-red-700"
 										onclick={() => removeGalleryItem(idx)}
 										title="Hapus foto"
 									>
-										<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 											<path
 												stroke-linecap="round"
 												stroke-linejoin="round"
@@ -771,12 +771,12 @@
 									</button>
 									<button
 										type="button"
-										class="bg-white/95 p-2 rounded-lg hover:bg-white text-gray-800 disabled:opacity-40 transition shadow-sm"
+										class="rounded-lg bg-white/95 p-2 text-gray-800 shadow-sm transition hover:bg-white disabled:opacity-40"
 										onclick={() => moveItem(idx, 1)}
 										disabled={idx === galleryItems.length - 1}
 										title="Pindah ke kanan"
 									>
-										<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 											<path
 												stroke-linecap="round"
 												stroke-linejoin="round"
@@ -787,12 +787,12 @@
 									</button>
 								</div>
 							</div>
-							<div class="p-2.5 border-t border-gray-200 bg-white">
+							<div class="border-t border-gray-200 bg-white p-2.5">
 								<input
 									type="text"
 									bind:value={item.alt}
 									placeholder="Alt text (opsional)"
-									class="w-full text-xs px-2 py-1.5 border border-transparent hover:border-gray-300 focus:border-red-600 outline-none rounded-lg bg-transparent focus:bg-white transition"
+									class="w-full rounded-lg border border-transparent bg-transparent px-2 py-1.5 text-xs transition outline-none hover:border-gray-300 focus:border-red-600 focus:bg-white"
 								/>
 							</div>
 						</div>
@@ -800,18 +800,18 @@
 
 					<!-- Upload Button -->
 					<div
-						class="border-2 border-dashed border-gray-300 hover:border-red-600 hover:bg-red-50/20 rounded-xl h-full min-h-[170px] flex flex-col items-center justify-center text-center transition cursor-pointer relative group bg-gray-50/70 p-4"
+						class="group relative flex h-full min-h-[170px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50/70 p-4 text-center transition hover:border-red-600 hover:bg-red-50/20"
 					>
 						<input
 							type="file"
 							accept="image/*"
 							multiple
 							onchange={handleFileSelect}
-							class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+							class="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
 						/>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							class="h-8 w-8 mx-auto mb-2 text-gray-400 group-hover:text-red-700 transition"
+							class="mx-auto mb-2 h-8 w-8 text-gray-400 transition group-hover:text-red-700"
 							fill="none"
 							viewBox="0 0 24 24"
 							stroke="currentColor"
@@ -823,24 +823,24 @@
 								d="M12 4v16m8-8H4"
 							/>
 						</svg>
-						<span class="text-sm font-bold text-gray-700 group-hover:text-red-700 transition">
+						<span class="text-sm font-bold text-gray-700 transition group-hover:text-red-700">
 							Tambah Foto
 						</span>
-						<span class="text-[11px] text-gray-400 mt-0.5">JPG, PNG, atau WebP</span>
+						<span class="mt-0.5 text-[11px] text-gray-400">JPG, PNG, atau WebP</span>
 					</div>
 				</div>
 
-				<div class="pt-4 border-t border-gray-100">
-					<label class="block text-sm font-semibold text-gray-700 mb-1.5"
+				<div class="border-t border-gray-100 pt-4">
+					<label class="mb-1.5 block text-sm font-semibold text-gray-700"
 						>Tautan Terkait (Instagram / Media Sosial)</label
 					>
 					<input
 						type="url"
 						bind:value={relatedUrl}
-						class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-600 focus:border-red-600 bg-white text-sm transition"
+						class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 						placeholder="https://www.instagram.com/p/... atau tautan lainnya"
 					/>
-					<p class="text-xs text-gray-500 mt-1.5">
+					<p class="mt-1.5 text-xs text-gray-500">
 						Tautan postingan, video reel, atau ulasan unit ini di media sosial
 					</p>
 				</div>
@@ -849,13 +849,13 @@
 
 		<!-- 5. Actions Footer Bar -->
 		<div
-			class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 flex flex-col sm:flex-row items-center justify-between gap-4"
+			class="flex flex-col items-center justify-between gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:flex-row"
 		>
-			<div class="text-xs sm:text-sm text-gray-500">
+			<div class="text-xs text-gray-500 sm:text-sm">
 				{#if isLoading && statusMessage}
-					<span class="text-red-700 font-semibold flex items-center gap-1.5 animate-pulse">
+					<span class="flex animate-pulse items-center gap-1.5 font-semibold text-red-700">
 						<svg
-							class="animate-spin w-4 h-4 text-red-700"
+							class="h-4 w-4 animate-spin text-red-700"
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
 							viewBox="0 0 24 24"
@@ -877,10 +877,10 @@
 						{statusMessage}
 					</span>
 				{:else if !isFormValid}
-					<span class="text-amber-700 font-medium flex items-center gap-1.5">
+					<span class="flex items-center gap-1.5 font-medium text-amber-700">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							class="w-4 h-4"
+							class="h-4 w-4"
 							viewBox="0 0 20 20"
 							fill="currentColor"
 						>
@@ -893,10 +893,10 @@
 						Mohon lengkapi merek, model, tahun, harga, dan jarak tempuh.
 					</span>
 				{:else if galleryItems.length === 0}
-					<span class="text-amber-700 font-medium flex items-center gap-1.5">
+					<span class="flex items-center gap-1.5 font-medium text-amber-700">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							class="w-4 h-4"
+							class="h-4 w-4"
 							viewBox="0 0 20 20"
 							fill="currentColor"
 						>
@@ -909,10 +909,10 @@
 						Harap unggah minimal 1 foto kendaraan sebagai foto cover.
 					</span>
 				{:else}
-					<span class="text-green-700 font-medium flex items-center gap-1.5">
+					<span class="flex items-center gap-1.5 font-medium text-green-700">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							class="w-4 h-4"
+							class="h-4 w-4"
 							viewBox="0 0 20 20"
 							fill="currentColor"
 						>
@@ -927,21 +927,21 @@
 				{/if}
 			</div>
 
-			<div class="flex items-center gap-3 w-full sm:w-auto">
+			<div class="flex w-full items-center gap-3 sm:w-auto">
 				<a
 					href="/cars"
-					class="px-5 py-2.5 rounded-xl border border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition text-sm text-center flex-1 sm:flex-initial"
+					class="flex-1 rounded-xl border border-gray-300 px-5 py-2.5 text-center text-sm font-semibold text-gray-700 transition hover:bg-gray-50 sm:flex-initial"
 				>
 					Batal
 				</a>
 				<button
 					type="submit"
 					disabled={isLoading || !isFormValid || galleryItems.length === 0}
-					class="bg-red-700 hover:bg-red-800 text-white px-7 py-2.5 rounded-xl font-bold text-sm transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 flex-1 sm:flex-initial"
+					class="flex flex-1 items-center justify-center gap-2 rounded-xl bg-red-700 px-7 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-red-800 disabled:cursor-not-allowed disabled:opacity-50 sm:flex-initial"
 				>
 					{#if isLoading}
 						<svg
-							class="animate-spin h-4 w-4 text-white"
+							class="h-4 w-4 animate-spin text-white"
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
 							viewBox="0 0 24 24"
@@ -972,15 +972,15 @@
 
 {#if popup.show}
 	<div
-		class="fixed top-20 right-4 md:right-8 z-50 animate-fade-in max-w-sm w-full shadow-xl rounded-lg border-l-4 p-4 {popup.type ===
+		class="animate-fade-in fixed top-20 right-4 z-50 w-full max-w-sm rounded-lg border-l-4 p-4 shadow-xl md:right-8 {popup.type ===
 		'success'
-			? 'bg-white border-green-500'
-			: 'bg-white border-red-500'}"
+			? 'border-green-500 bg-white'
+			: 'border-red-500 bg-white'}"
 	>
 		<div class="flex items-start gap-3">
 			<div class="flex-1">
 				<h4 class="font-bold text-gray-900">{popup.title}</h4>
-				<p class="text-sm text-gray-600 mt-1">{popup.message}</p>
+				<p class="mt-1 text-sm text-gray-600">{popup.message}</p>
 			</div>
 			<button class="ml-auto text-gray-400 hover:text-gray-600" onclick={() => (popup.show = false)}
 				>✕</button

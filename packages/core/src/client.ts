@@ -15,13 +15,8 @@ export interface CoreClient {
 	cars: {
 		getFiltered: (params: unknown, options?: QueryOptions) => Promise<Car[]>;
 		getById: (id: string, options?: { adminView?: boolean }) => Promise<Car>;
-		getDistinctModels: (
-			make: string,
-			options?: { adminView?: boolean },
-		) => Promise<string[]>;
-		create: (
-			input: unknown,
-		) => Promise<{ success: boolean; id: string; title: string }>;
+		getDistinctModels: (make: string, options?: { adminView?: boolean }) => Promise<string[]>;
+		create: (input: unknown) => Promise<{ success: boolean; id: string; title: string }>;
 		update: (
 			id: string,
 			input: unknown,
@@ -38,13 +33,8 @@ export interface CoreClient {
 		uploadGalleryImages: (files: File[]) => Promise<string[]>;
 	};
 	tradeIn: {
-		submit: (
-			formData: FormData,
-			webhookUrl?: string,
-		) => Promise<{ success: boolean; id: string }>;
-		getSubmissions: (
-			params?: TradeInQueryParams,
-		) => Promise<PaginatedTradeInSubmissions>;
+		submit: (formData: FormData, webhookUrl?: string) => Promise<{ success: boolean; id: string }>;
+		getSubmissions: (params?: TradeInQueryParams) => Promise<PaginatedTradeInSubmissions>;
 		getById: (id: string) => Promise<TradeInSubmission>;
 		updateStatus: (
 			id: string,
@@ -67,25 +57,17 @@ export function createCore(env: unknown): CoreClient {
 	const layer = makeCoreLayer(env as any);
 
 	const run = <A, E, R>(effect: Effect.Effect<A, E, R>): Promise<A> =>
-		Effect.runPromise(
-			effect.pipe(Effect.provide(layer)) as unknown as Effect.Effect<
-				A,
-				E,
-				never
-			>,
-		);
+		Effect.runPromise(effect.pipe(Effect.provide(layer)) as unknown as Effect.Effect<A, E, never>);
 
 	return {
 		cars: {
-			getFiltered: (params, options) =>
-				run(CarService.getFilteredCars(params, options)),
+			getFiltered: (params, options) => run(CarService.getFilteredCars(params, options)),
 			getById: (id, options) => run(CarService.getCarById(id, options)),
 			getDistinctModels: (make, options) =>
 				run(CarService.getDistinctModelsByMake(make, options?.adminView)),
 			create: (input) => run(CarService.createCar(input)),
 			update: (id, input) => run(CarService.updateCar(id, input)),
-			softDelete: (id, reason) =>
-				run(CarService.softDeleteCar(id, reason)),
+			softDelete: (id, reason) => run(CarService.softDeleteCar(id, reason)),
 			restore: (id) => run(CarService.restoreCar(id)),
 			hardDelete: (id) => run(CarService.hardDeleteCar(id)),
 		},
@@ -106,14 +88,11 @@ export function createCore(env: unknown): CoreClient {
 					return new Response("Storage Error", { status: 502 });
 				}
 			},
-			uploadGalleryImages: (files) =>
-				run(StorageService.uploadGalleryImages(files)),
+			uploadGalleryImages: (files) => run(StorageService.uploadGalleryImages(files)),
 		},
 		tradeIn: {
-			submit: (formData, webhookUrl) =>
-				run(TradeInService.submitTradeIn(formData, webhookUrl)),
-			getSubmissions: (params) =>
-				run(TradeInService.getTradeInSubmissions(params)),
+			submit: (formData, webhookUrl) => run(TradeInService.submitTradeIn(formData, webhookUrl)),
+			getSubmissions: (params) => run(TradeInService.getTradeInSubmissions(params)),
 			getById: (id) => run(TradeInService.getTradeInById(id)),
 			updateStatus: (id, input, reviewer = "Admin") =>
 				run(TradeInService.updateTradeInStatus(id, input, reviewer)),
@@ -137,10 +116,7 @@ export function createCore(env: unknown): CoreClient {
 						cause: err?.cause,
 					}),
 				);
-				return Response.json(
-					{ error: "Internal Server Error" },
-					{ status: 500 },
-				);
+				return Response.json({ error: "Internal Server Error" }, { status: 500 });
 			}
 		},
 	};

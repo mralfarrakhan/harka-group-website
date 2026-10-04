@@ -10,29 +10,27 @@ const gallery = Astro.props.gallery || [];
 <div class="embla bg-gray-900 max-w-full m-auto relative">
 	<div class="embla__viewport overflow-hidden">
 		<div class="embla__container flex touch-pinch-zoom">
-			{
-				gallery.map((image) => (
-					<a
-						href={image.image}
-						target="_blank"
-						aria-label={image.alt}
-						class="embla__slide relative select-none min-w-0 basis-full shrink-0 grow-0 [transform:_translate3d(0,_0,_0)] glightbox"
-					>
-						<div class="absolute inset-0 w-full h-full overflow-hidden">
-							<img
-								src={image.image}
-								alt=""
-								class="w-full h-full object-cover blur-3xl scale-110 opacity-60"
-							/>
-						</div>
+			{gallery.map((image) => (
+				<a
+					href={image.image}
+					target="_blank"
+					aria-label={image.alt}
+					class="embla__slide relative select-none min-w-0 basis-full shrink-0 grow-0 [transform:_translate3d(0,_0,_0)] glightbox"
+				>
+					<div class="absolute inset-0 w-full h-full overflow-hidden">
 						<img
 							src={image.image}
-							alt={image.alt}
-							class="relative w-full h-full object-contain aspect-[4/3] z-10"
+							alt=""
+							class="w-full h-full object-cover blur-3xl scale-110 opacity-60"
 						/>
-					</a>
-				))
-			}
+					</div>
+					<img
+						src={image.image}
+						alt={image.alt}
+						class="relative w-full h-full object-contain aspect-[4/3] z-10"
+					/>
+				</a>
+			))}
 		</div>
 
 		<button
@@ -54,25 +52,23 @@ const gallery = Astro.props.gallery || [];
 </div>
 
 <!-- Thumbnail Nav -->
-{
-	gallery.length > 0 && (
-		<div class="embla-thumbs bg-gray-900">
-			<div class="embla-thumbs__viewport overflow-hidden">
-				<div class="embla-thumbs__container flex">
-					{gallery.map((image) => (
-						<div class="embla-thumbs__slide relative overflow-hidden select-none min-w-0 border-t-4 border-transparent basis-[30%] md:basis-[15%] shrink-0 grow-0 transition mr-1">
-							<img
-								src={image.image}
-								alt={image.alt}
-								class="w-full h-full object-cover aspect-[4/3]"
-							/>
-						</div>
-					))}
-				</div>
+{gallery.length > 0 && (
+	<div class="embla-thumbs bg-gray-900">
+		<div class="embla-thumbs__viewport overflow-hidden">
+			<div class="embla-thumbs__container flex">
+				{gallery.map((image) => (
+					<div class="embla-thumbs__slide relative overflow-hidden select-none min-w-0 border-t-4 border-transparent basis-[30%] md:basis-[15%] shrink-0 grow-0 transition mr-1">
+						<img
+							src={image.image}
+							alt={image.alt}
+							class="w-full h-full object-cover aspect-[4/3]"
+						/>
+					</div>
+				))}
 			</div>
 		</div>
-	)
-}
+	</div>
+)}
 
 <script>
 	import EmblaCarousel from "embla-carousel";

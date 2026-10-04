@@ -36,10 +36,10 @@
 
 <svelte:window onclick={closeDropdown} />
 
-<div class="relative user-profile-dropdown hidden md:block">
+<div class="user-profile-dropdown relative hidden md:block">
 	<button
 		onclick={toggleDropdown}
-		class="flex items-center gap-2 focus:outline-none hover:bg-red-800 p-1.5 rounded-lg transition-colors"
+		class="flex items-center gap-2 rounded-lg p-1.5 transition-colors hover:bg-red-800 focus:outline-none"
 		aria-haspopup="true"
 		aria-expanded={isOpen}
 	>
@@ -49,14 +49,14 @@
 			class="h-8 w-8 rounded-full border border-red-600 object-cover"
 			referrerpolicy="no-referrer"
 		/>
-		<div class="flex items-center gap-2 hidden lg:flex">
-			<span class="text-sm font-medium text-white leading-tight">{user.name}</span>
+		<div class="flex hidden items-center gap-2 lg:flex">
+			<span class="text-sm leading-tight font-medium text-white">{user.name}</span>
 			{#if role}
 				<span
-					class={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full uppercase tracking-wider ${
+					class={`rounded-full px-1.5 py-0.5 text-[10px] font-semibold tracking-wider uppercase ${
 						role === "superadmin"
-							? "bg-purple-900/90 text-purple-200 border border-purple-400/40"
-							: "bg-red-900/90 text-red-100 border border-red-500/40"
+							? "border border-purple-400/40 bg-purple-900/90 text-purple-200"
+							: "border border-red-500/40 bg-red-900/90 text-red-100"
 					}`}
 				>
 					{role}
@@ -76,28 +76,28 @@
 	{#if isOpen}
 		<div
 			transition:slide={{ duration: 200 }}
-			class="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none z-50"
+			class="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none"
 		>
-			<div class="px-4 py-2 border-b border-gray-100 mb-1">
+			<div class="mb-1 border-b border-gray-100 px-4 py-2">
 				<div class="flex items-center justify-between gap-2">
-					<p class="text-sm text-gray-900 font-medium truncate">{user.name}</p>
+					<p class="truncate text-sm font-medium text-gray-900">{user.name}</p>
 					{#if role}
 						<span
-							class={`text-[10px] font-semibold px-1.5 py-0.5 rounded uppercase tracking-wider ${
+							class={`rounded px-1.5 py-0.5 text-[10px] font-semibold tracking-wider uppercase ${
 								role === "superadmin"
-									? "bg-purple-100 text-purple-800 border border-purple-200"
-									: "bg-gray-100 text-gray-700 border border-gray-200"
+									? "border border-purple-200 bg-purple-100 text-purple-800"
+									: "border border-gray-200 bg-gray-100 text-gray-700"
 							}`}
 						>
 							{role}
 						</span>
 					{/if}
 				</div>
-				<p class="text-xs text-gray-500 truncate">{user.email}</p>
+				<p class="truncate text-xs text-gray-500">{user.email}</p>
 			</div>
 			<button
 				onclick={handleLogout}
-				class="block w-full px-4 py-2 text-left text-sm text-red-700 hover:bg-red-50 transition-colors"
+				class="block w-full px-4 py-2 text-left text-sm text-red-700 transition-colors hover:bg-red-50"
 			>
 				Sign out
 			</button>

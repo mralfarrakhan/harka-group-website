@@ -38,9 +38,7 @@ const allCars = await db.query.cars.findMany({
 					</p>
 				</div>
 				<div class="flex items-center gap-3">
-					<span
-						class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200"
-					>
+					<span class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200">
 						Total: {allCars.length} Unit
 					</span>
 					<a
@@ -58,7 +56,8 @@ const allCars = await db.query.cars.findMany({
 								stroke-linecap="round"
 								stroke-linejoin="round"
 								stroke-width="2"
-								d="M12 4v16m8-8H4"></path>
+								d="M12 4v16m8-8H4"
+							></path>
 						</svg>
 						<span>Tambah Mobil Baru</span>
 					</a>
@@ -101,268 +100,266 @@ const allCars = await db.query.cars.findMany({
 				</nav>
 			</div>
 
-			{
-				allCars.length === 0 ? (
-					<div class="bg-white rounded-2xl border border-gray-200 p-12 text-center max-w-lg mx-auto shadow-sm">
-						<div class="w-16 h-16 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mx-auto mb-4">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								class="w-8 h-8"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="1.5"
-									d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-								/>
-							</svg>
-						</div>
-						<h3 class="text-lg font-bold text-gray-900 mb-1">
-							{tab === "sold"
-								? "Belum Ada Unit Terjual"
-								: tab === "archived"
-									? "Belum Ada Unit Diarsipkan"
-									: "Belum Ada Mobil Aktif"}
-						</h3>
-						<p class="text-sm text-gray-500 mb-6">
-							{tab === "active"
-								? "Mulai tambahkan mobil baru ke inventaris showroom Anda."
-								: "Data mobil dalam kategori ini akan muncul di sini."}
-						</p>
-						{tab === "active" && (
-							<a
-								href="/cars/new"
-								class="inline-flex items-center gap-2 bg-red-700 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-red-800 transition shadow-sm text-sm"
-							>
-								+ Tambah Mobil Sekarang
-							</a>
-						)}
+			{allCars.length === 0 ? (
+				<div class="bg-white rounded-2xl border border-gray-200 p-12 text-center max-w-lg mx-auto shadow-sm">
+					<div class="w-16 h-16 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mx-auto mb-4">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="w-8 h-8"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="1.5"
+								d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+							/>
+						</svg>
 					</div>
-				) : (
-					<div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-						<div class="overflow-x-auto">
-							<table class="w-full text-left border-collapse text-sm">
-								<thead>
-									<tr class="bg-gray-50 border-b border-gray-200 text-xs font-bold text-gray-500 uppercase tracking-wider">
-										<th class="py-3.5 px-4 sm:px-6">Mobil</th>
-										<th class="py-3.5 px-4 sm:px-6">Harga Showroom</th>
-										<th class="py-3.5 px-4 sm:px-6">
-											{tab === "active"
-												? "Status Publikasi"
-												: tab === "sold"
-													? "Tanggal Terjual"
-													: "Tanggal Diarsipkan"}
-										</th>
-										<th class="py-3.5 px-4 sm:px-6 text-right">Aksi</th>
-									</tr>
-								</thead>
-								<tbody class="divide-y divide-gray-200">
-									{allCars.map((car) => (
-										<tr class="hover:bg-gray-50/70 transition">
-											<td class="py-4 px-4 sm:px-6">
-												<div class="flex items-center">
-													<div class="shrink-0 h-12 w-12 bg-gray-100 rounded-xl overflow-hidden border border-gray-200">
-														{car.gallery?.[0]?.image ? (
-															<img
-																src={car.gallery[0].image}
-																alt={car.gallery[0].alt || car.title}
-																class="h-12 w-12 object-cover"
-															/>
-														) : (
-															<div class="h-12 w-12 bg-gray-200 flex items-center justify-center text-gray-400 text-xs">
-																No Img
-															</div>
-														)}
-													</div>
-													<div class="ml-4">
-														<a
-															href={`/cars/view/${car.id}`}
-															class="text-sm font-bold text-gray-900 hover:text-red-700 transition"
-														>
-															{car.title}
-														</a>
-														<div class="text-xs text-gray-500 flex items-center gap-2 mt-0.5">
-															<span>
-																{car.make} {car.model} ({car.year})
-															</span>
-															{car.plateNumber && (
-																<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-gray-100 text-gray-700 border border-gray-200">
-																	{car.plateNumber}
-																</span>
-															)}
-														</div>
-													</div>
-												</div>
-											</td>
-											<td class="py-4 px-4 sm:px-6 whitespace-nowrap">
-												<span class="font-bold text-red-700 text-sm">{getPrice(car.price)}</span>
-											</td>
-
-											{tab === "active" ? (
-												<td class="py-4 px-4 sm:px-6 whitespace-nowrap">
-													<div class="flex gap-2 items-center">
-														{car.hidden ? (
-															<span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-amber-50 text-amber-800 border border-amber-200">
-																Hidden (Draf)
-															</span>
-														) : (
-															<span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
-																Publik (Live)
-															</span>
-														)}
-													</div>
-												</td>
-											) : (
-												<td class="py-4 px-4 sm:px-6 whitespace-nowrap">
-													<div class="text-xs text-gray-700 font-medium">
-														{car.deletedAt
-															? new Date(car.deletedAt).toLocaleDateString("id-ID", {
-																	year: "numeric",
-																	month: "long",
-																	day: "numeric",
-																})
-															: "Tidak diketahui"}
-													</div>
-												</td>
-											)}
-
-											<td class="py-4 px-4 sm:px-6 whitespace-nowrap text-right text-sm font-medium">
-												<div class="flex justify-end gap-2 items-center">
-													{car.deletedAt ? (
-														<div class="flex items-center gap-2">
-															<button
-																type="button"
-																class="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold text-xs transition restore-btn"
-																data-id={car.id}
-															>
-																{tab === "sold" ? "Batal Terjual" : "Pulihkan"}
-															</button>
-
-															<div class="relative quick-actions-wrapper">
-																<button class="border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-700 px-2.5 py-1.5 rounded-lg flex items-center font-semibold text-xs quick-actions-btn transition-colors">
-																	<span>Aksi Cepat</span>
-																	<svg
-																		xmlns="http://www.w3.org/2000/svg"
-																		class="h-3.5 w-3.5 ml-1"
-																		fill="none"
-																		viewBox="0 0 24 24"
-																		stroke="currentColor"
-																	>
-																		<path
-																			stroke-linecap="round"
-																			stroke-linejoin="round"
-																			stroke-width="2"
-																			d="M19 9l-7 7-7-7"
-																		/>
-																	</svg>
-																</button>
-																{/* Dropdown Menu */}
-																<div class="fixed w-44 bg-white rounded-xl shadow-lg border border-gray-200 z-50 hidden quick-actions-menu overflow-hidden">
-																	<div class="py-1 divide-y divide-gray-100">
-																		<div class="py-1">
-																			<a
-																				href={`/cars/view/${car.id}`}
-																				class="block w-full text-left px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50"
-																			>
-																				Lihat Detail
-																			</a>
-																		</div>
-																		<div class="py-1">
-																			<button
-																				type="button"
-																				class="block w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-red-50 quick-archive-btn font-semibold"
-																				data-id={car.id}
-																				data-reason="delete"
-																			>
-																				Hapus Permanen
-																			</button>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
+					<h3 class="text-lg font-bold text-gray-900 mb-1">
+						{tab === "sold"
+							? "Belum Ada Unit Terjual"
+							: tab === "archived"
+								? "Belum Ada Unit Diarsipkan"
+								: "Belum Ada Mobil Aktif"}
+					</h3>
+					<p class="text-sm text-gray-500 mb-6">
+						{tab === "active"
+							? "Mulai tambahkan mobil baru ke inventaris showroom Anda."
+							: "Data mobil dalam kategori ini akan muncul di sini."}
+					</p>
+					{tab === "active" && (
+						<a
+							href="/cars/new"
+							class="inline-flex items-center gap-2 bg-red-700 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-red-800 transition shadow-sm text-sm"
+						>
+							+ Tambah Mobil Sekarang
+						</a>
+					)}
+				</div>
+			) : (
+				<div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+					<div class="overflow-x-auto">
+						<table class="w-full text-left border-collapse text-sm">
+							<thead>
+								<tr class="bg-gray-50 border-b border-gray-200 text-xs font-bold text-gray-500 uppercase tracking-wider">
+									<th class="py-3.5 px-4 sm:px-6">Mobil</th>
+									<th class="py-3.5 px-4 sm:px-6">Harga Showroom</th>
+									<th class="py-3.5 px-4 sm:px-6">
+										{tab === "active"
+											? "Status Publikasi"
+											: tab === "sold"
+												? "Tanggal Terjual"
+												: "Tanggal Diarsipkan"}
+									</th>
+									<th class="py-3.5 px-4 sm:px-6 text-right">Aksi</th>
+								</tr>
+							</thead>
+							<tbody class="divide-y divide-gray-200">
+								{allCars.map((car) => (
+									<tr class="hover:bg-gray-50/70 transition">
+										<td class="py-4 px-4 sm:px-6">
+											<div class="flex items-center">
+												<div class="shrink-0 h-12 w-12 bg-gray-100 rounded-xl overflow-hidden border border-gray-200">
+													{car.gallery?.[0]?.image ? (
+														<img
+															src={car.gallery[0].image}
+															alt={car.gallery[0].alt || car.title}
+															class="h-12 w-12 object-cover"
+														/>
 													) : (
-														<div class="flex items-center gap-2">
-															<a
-																href={`/cars/view/${car.id}`}
-																class="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold text-xs transition"
-															>
-																Lihat
-															</a>
-															<a
-																href={`/cars/edit/${car.id}`}
-																class="px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-700 font-semibold text-xs transition"
-															>
-																Ubah
-															</a>
-
-															<div class="relative quick-actions-wrapper">
-																<button class="border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-700 px-2.5 py-1.5 rounded-lg flex items-center font-semibold text-xs quick-actions-btn transition-colors">
-																	<span>Aksi Cepat</span>
-																	<svg
-																		xmlns="http://www.w3.org/2000/svg"
-																		class="h-3.5 w-3.5 ml-1"
-																		fill="none"
-																		viewBox="0 0 24 24"
-																		stroke="currentColor"
-																	>
-																		<path
-																			stroke-linecap="round"
-																			stroke-linejoin="round"
-																			stroke-width="2"
-																			d="M19 9l-7 7-7-7"
-																		/>
-																	</svg>
-																</button>
-																{/* Dropdown Menu */}
-																<div class="fixed w-44 bg-white rounded-xl shadow-lg border border-gray-200 z-50 hidden quick-actions-menu overflow-hidden">
-																	<div class="py-1 divide-y divide-gray-100">
-																		<div class="py-1">
-																			<button
-																				type="button"
-																				class="block w-full text-left px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 quick-archive-btn"
-																				data-id={car.id}
-																				data-reason="sold"
-																			>
-																				Tandai Terjual
-																			</button>
-																			<button
-																				type="button"
-																				class="block w-full text-left px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 quick-archive-btn"
-																				data-id={car.id}
-																				data-reason="removed"
-																			>
-																				Arsipkan
-																			</button>
-																		</div>
-																		<div class="py-1">
-																			<button
-																				type="button"
-																				class="block w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-red-50 quick-archive-btn font-semibold"
-																				data-id={car.id}
-																				data-reason="delete"
-																			>
-																				Hapus Permanen
-																			</button>
-																		</div>
-																	</div>
-																</div>
-															</div>
+														<div class="h-12 w-12 bg-gray-200 flex items-center justify-center text-gray-400 text-xs">
+															No Img
 														</div>
 													)}
 												</div>
+												<div class="ml-4">
+													<a
+														href={`/cars/view/${car.id}`}
+														class="text-sm font-bold text-gray-900 hover:text-red-700 transition"
+													>
+														{car.title}
+													</a>
+													<div class="text-xs text-gray-500 flex items-center gap-2 mt-0.5">
+														<span>
+															{car.make} {car.model} ({car.year})
+														</span>
+														{car.plateNumber && (
+															<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-gray-100 text-gray-700 border border-gray-200">
+																{car.plateNumber}
+															</span>
+														)}
+													</div>
+												</div>
+											</div>
+										</td>
+										<td class="py-4 px-4 sm:px-6 whitespace-nowrap">
+											<span class="font-bold text-red-700 text-sm">{getPrice(car.price)}</span>
+										</td>
+
+										{tab === "active" ? (
+											<td class="py-4 px-4 sm:px-6 whitespace-nowrap">
+												<div class="flex gap-2 items-center">
+													{car.hidden ? (
+														<span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+															Hidden (Draf)
+														</span>
+													) : (
+														<span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+															Publik (Live)
+														</span>
+													)}
+												</div>
 											</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-						</div>
+										) : (
+											<td class="py-4 px-4 sm:px-6 whitespace-nowrap">
+												<div class="text-xs text-gray-700 font-medium">
+													{car.deletedAt
+														? new Date(car.deletedAt).toLocaleDateString("id-ID", {
+																year: "numeric",
+																month: "long",
+																day: "numeric",
+															})
+														: "Tidak diketahui"}
+												</div>
+											</td>
+										)}
+
+										<td class="py-4 px-4 sm:px-6 whitespace-nowrap text-right text-sm font-medium">
+											<div class="flex justify-end gap-2 items-center">
+												{car.deletedAt ? (
+													<div class="flex items-center gap-2">
+														<button
+															type="button"
+															class="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold text-xs transition restore-btn"
+															data-id={car.id}
+														>
+															{tab === "sold" ? "Batal Terjual" : "Pulihkan"}
+														</button>
+
+														<div class="relative quick-actions-wrapper">
+															<button class="border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-700 px-2.5 py-1.5 rounded-lg flex items-center font-semibold text-xs quick-actions-btn transition-colors">
+																<span>Aksi Cepat</span>
+																<svg
+																	xmlns="http://www.w3.org/2000/svg"
+																	class="h-3.5 w-3.5 ml-1"
+																	fill="none"
+																	viewBox="0 0 24 24"
+																	stroke="currentColor"
+																>
+																	<path
+																		stroke-linecap="round"
+																		stroke-linejoin="round"
+																		stroke-width="2"
+																		d="M19 9l-7 7-7-7"
+																	/>
+																</svg>
+															</button>
+															{/* Dropdown Menu */}
+															<div class="fixed w-44 bg-white rounded-xl shadow-lg border border-gray-200 z-50 hidden quick-actions-menu overflow-hidden">
+																<div class="py-1 divide-y divide-gray-100">
+																	<div class="py-1">
+																		<a
+																			href={`/cars/view/${car.id}`}
+																			class="block w-full text-left px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+																		>
+																			Lihat Detail
+																		</a>
+																	</div>
+																	<div class="py-1">
+																		<button
+																			type="button"
+																			class="block w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-red-50 quick-archive-btn font-semibold"
+																			data-id={car.id}
+																			data-reason="delete"
+																		>
+																			Hapus Permanen
+																		</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												) : (
+													<div class="flex items-center gap-2">
+														<a
+															href={`/cars/view/${car.id}`}
+															class="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold text-xs transition"
+														>
+															Lihat
+														</a>
+														<a
+															href={`/cars/edit/${car.id}`}
+															class="px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-700 font-semibold text-xs transition"
+														>
+															Ubah
+														</a>
+
+														<div class="relative quick-actions-wrapper">
+															<button class="border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-700 px-2.5 py-1.5 rounded-lg flex items-center font-semibold text-xs quick-actions-btn transition-colors">
+																<span>Aksi Cepat</span>
+																<svg
+																	xmlns="http://www.w3.org/2000/svg"
+																	class="h-3.5 w-3.5 ml-1"
+																	fill="none"
+																	viewBox="0 0 24 24"
+																	stroke="currentColor"
+																>
+																	<path
+																		stroke-linecap="round"
+																		stroke-linejoin="round"
+																		stroke-width="2"
+																		d="M19 9l-7 7-7-7"
+																	/>
+																</svg>
+															</button>
+															{/* Dropdown Menu */}
+															<div class="fixed w-44 bg-white rounded-xl shadow-lg border border-gray-200 z-50 hidden quick-actions-menu overflow-hidden">
+																<div class="py-1 divide-y divide-gray-100">
+																	<div class="py-1">
+																		<button
+																			type="button"
+																			class="block w-full text-left px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 quick-archive-btn"
+																			data-id={car.id}
+																			data-reason="sold"
+																		>
+																			Tandai Terjual
+																		</button>
+																		<button
+																			type="button"
+																			class="block w-full text-left px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 quick-archive-btn"
+																			data-id={car.id}
+																			data-reason="removed"
+																		>
+																			Arsipkan
+																		</button>
+																	</div>
+																	<div class="py-1">
+																		<button
+																			type="button"
+																			class="block w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-red-50 quick-archive-btn font-semibold"
+																			data-id={car.id}
+																			data-reason="delete"
+																		>
+																			Hapus Permanen
+																		</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												)}
+											</div>
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
 					</div>
-				)
-			}
+				</div>
+			)}
 		</Container>
 	</Section>
 
@@ -372,7 +369,9 @@ const allCars = await db.query.cars.findMany({
 		class="p-0 m-auto rounded-2xl shadow-2xl backdrop:bg-gray-900/60 open:animate-in open:fade-in-0 duration-200 border-0"
 	>
 		<div class="bg-white p-6 max-w-sm w-full rounded-2xl">
-			<h3 id="action-modal-title" class="text-lg font-bold mb-2 text-gray-900">Konfirmasi Aksi</h3>
+			<h3 id="action-modal-title" class="text-lg font-bold mb-2 text-gray-900">
+				Konfirmasi Aksi
+			</h3>
 			<p id="action-modal-desc" class="text-sm text-gray-600 mb-6">
 				Apakah Anda yakin ingin melanjutkan?
 			</p>
@@ -380,13 +379,17 @@ const allCars = await db.query.cars.findMany({
 				<button
 					type="button"
 					class="px-4 py-2 text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 font-semibold text-sm transition"
-					id="btn-cancel-action">Batal</button
+					id="btn-cancel-action"
 				>
+					Batal
+				</button>
 				<button
 					type="button"
 					class="px-4 py-2 text-white rounded-xl font-semibold text-sm transition shadow-sm"
-					id="btn-confirm-action">Konfirmasi</button
+					id="btn-confirm-action"
 				>
+					Konfirmasi
+				</button>
 			</div>
 		</div>
 	</dialog>
@@ -403,12 +406,20 @@ const allCars = await db.query.cars.findMany({
 				viewBox="0 0 24 24"
 				stroke="currentColor"
 			>
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M5 13l4 4L19 7"
 				></path>
 			</svg>
 			<div class="flex-1">
-				<h4 id="toast-title" class="font-bold text-gray-900 text-sm">Berhasil!</h4>
-				<p id="toast-message" class="text-xs text-gray-600 mt-0.5">Aksi berhasil diselesaikan.</p>
+				<h4 id="toast-title" class="font-bold text-gray-900 text-sm">
+					Berhasil!
+				</h4>
+				<p id="toast-message" class="text-xs text-gray-600 mt-0.5">
+					Aksi berhasil diselesaikan.
+				</p>
 			</div>
 			<button
 				id="toast-close"
@@ -613,7 +624,11 @@ const allCars = await db.query.cars.findMany({
 			viewBox="0 0 24 24"
 			stroke="currentColor"
 		>
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"
+			<path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				stroke-width="2"
+				d="M12 4v16m8-8H4"
 			></path>
 		</svg>
 	</a>

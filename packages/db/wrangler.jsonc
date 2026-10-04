@@ -6,7 +6,7 @@
 			"binding": "DB",
 			"database_name": "harka-db",
 			"database_id": "cb6d4718-57ff-406c-b4d0-d6124fb40d7a",
-			"migrations_dir": "drizzle"
-		}
-	]
+			"migrations_dir": "drizzle",
+		},
+	],
 }

@@ -1,11 +1,7 @@
 import { Schema } from "effect";
 import { OwnershipStatusSchema } from "./car";
 
-export const TradeInStatusSchema = Schema.Literal(
-	"pending",
-	"approved",
-	"rejected",
-);
+export const TradeInStatusSchema = Schema.Literal("pending", "approved", "rejected");
 
 export const STNKStatusSchema = Schema.Literal("active", "expired");
 
@@ -23,9 +19,9 @@ export const TradeInDocumentSchema = Schema.Struct({
 	size: Schema.optional(Schema.Number),
 });
 
-export class UpdateTradeInStatusSchema extends Schema.Class<
-	UpdateTradeInStatusSchema
->("UpdateTradeInStatus")({
+export class UpdateTradeInStatusSchema extends Schema.Class<UpdateTradeInStatusSchema>(
+	"UpdateTradeInStatus",
+)({
 	status: TradeInStatusSchema,
 }) {}
 

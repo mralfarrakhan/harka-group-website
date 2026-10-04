@@ -570,16 +570,16 @@
 	}
 </script>
 
-<div class="max-w-4xl mx-auto">
+<div class="mx-auto max-w-4xl">
 	{#if isSubmitted}
 		<!-- Success Confirmation Screen -->
-		<div class="bg-white rounded-2xl shadow-md border border-gray-100 p-8 sm:p-12 text-center">
+		<div class="rounded-2xl border border-gray-100 bg-white p-8 text-center shadow-md sm:p-12">
 			<div
-				class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner"
+				class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100 text-green-600 shadow-inner"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
-					class="w-10 h-10"
+					class="h-10 w-10"
 					fill="none"
 					viewBox="0 0 24 24"
 					stroke="currentColor"
@@ -589,25 +589,25 @@
 				</svg>
 			</div>
 
-			<h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
+			<h2 class="mb-3 text-2xl font-bold text-gray-900 sm:text-3xl">
 				{tradeInCaptions.form.successTitle}
 			</h2>
-			<p class="text-gray-600 max-w-xl mx-auto mb-6 text-base sm:text-lg leading-relaxed">
+			<p class="mx-auto mb-6 max-w-xl text-base leading-relaxed text-gray-600 sm:text-lg">
 				{tradeInCaptions.form.successDesc}
 			</p>
 
 			<div
-				class="bg-gray-50 rounded-xl p-5 max-w-md mx-auto mb-8 border border-gray-200/80 text-left text-sm"
+				class="mx-auto mb-8 max-w-md rounded-xl border border-gray-200/80 bg-gray-50 p-5 text-left text-sm"
 			>
-				<div class="flex justify-between py-1.5 border-b border-gray-200">
+				<div class="flex justify-between border-b border-gray-200 py-1.5">
 					<span class="text-gray-500">Nomor Referensi:</span>
 					<span class="font-mono font-bold text-gray-900">{submissionId}</span>
 				</div>
-				<div class="flex justify-between py-1.5 border-b border-gray-200">
+				<div class="flex justify-between border-b border-gray-200 py-1.5">
 					<span class="text-gray-500">Mobil:</span>
 					<span class="font-semibold text-gray-900">{year} {make} {model}</span>
 				</div>
-				<div class="flex justify-between py-1.5 border-b border-gray-200">
+				<div class="flex justify-between border-b border-gray-200 py-1.5">
 					<span class="text-gray-500">Ekspektasi Harga:</span>
 					<span class="font-bold text-red-700">{formatRupiah(sellingPrice)}</span>
 				</div>
@@ -617,17 +617,17 @@
 				</div>
 			</div>
 
-			<div class="flex flex-col sm:flex-row gap-4 justify-center">
+			<div class="flex flex-col justify-center gap-4 sm:flex-row">
 				<button
 					type="button"
 					onclick={resetForm}
-					class="px-6 py-3 rounded-lg border border-gray-300 font-semibold text-gray-700 hover:bg-gray-100 transition"
+					class="rounded-lg border border-gray-300 px-6 py-3 font-semibold text-gray-700 transition hover:bg-gray-100"
 				>
 					{tradeInCaptions.form.submitAnother}
 				</button>
 				<a
 					href="/cars"
-					class="px-6 py-3 rounded-lg bg-red-700 text-white font-semibold hover:bg-red-800 transition shadow-sm"
+					class="rounded-lg bg-red-700 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-red-800"
 				>
 					Lihat Stok Tersedia
 				</a>
@@ -637,11 +637,11 @@
 		<!-- Draft Restoration Banner -->
 		{#if hasDraft && !isSubmitted && currentStep === 1}
 			<div
-				class="mb-6 bg-gradient-to-r from-red-50 to-amber-50 border border-red-200/80 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-in fade-in duration-200"
+				class="animate-in fade-in mb-6 flex flex-col items-start justify-between gap-4 rounded-2xl border border-red-200/80 bg-gradient-to-r from-red-50 to-amber-50 p-4 shadow-sm duration-200 sm:flex-row sm:items-center sm:p-5"
 			>
 				<div class="flex items-start gap-3">
 					<div
-						class="size-9 rounded-xl bg-red-100 flex items-center justify-center text-red-700 shrink-0 mt-0.5"
+						class="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-700"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -659,10 +659,10 @@
 						</svg>
 					</div>
 					<div>
-						<h4 class="font-bold text-gray-900 text-sm sm:text-base">
+						<h4 class="text-sm font-bold text-gray-900 sm:text-base">
 							{tradeInCaptions.form.draftFoundTitle}
 						</h4>
-						<p class="text-xs text-gray-600 mt-0.5 max-w-xl">
+						<p class="mt-0.5 max-w-xl text-xs text-gray-600">
 							{tradeInCaptions.form.draftFoundDesc}
 							{#if draftData?.make || draftData?.model}
 								<span class="font-semibold text-gray-800">
@@ -675,18 +675,18 @@
 					</div>
 				</div>
 
-				<div class="flex items-center gap-2.5 w-full sm:w-auto shrink-0">
+				<div class="flex w-full shrink-0 items-center gap-2.5 sm:w-auto">
 					<button
 						type="button"
 						onclick={discardDraft}
-						class="flex-1 sm:flex-none px-4 py-2 rounded-xl border border-gray-300 text-gray-700 font-semibold text-xs hover:bg-white transition"
+						class="flex-1 rounded-xl border border-gray-300 px-4 py-2 text-xs font-semibold text-gray-700 transition hover:bg-white sm:flex-none"
 					>
 						{tradeInCaptions.form.discardDraft}
 					</button>
 					<button
 						type="button"
 						onclick={applyDraft}
-						class="flex-1 sm:flex-none px-5 py-2 rounded-xl bg-red-700 text-white font-bold text-xs hover:bg-red-800 transition shadow-sm"
+						class="flex-1 rounded-xl bg-red-700 px-5 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-red-800 sm:flex-none"
 					>
 						{tradeInCaptions.form.useDraft}
 					</button>
@@ -695,10 +695,10 @@
 		{/if}
 
 		<!-- Wizard Container -->
-		<div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
+		<div class="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-md">
 			<!-- Stepper Progress Bar -->
-			<div class="bg-gray-50 border-b border-gray-200 px-2 py-3 sm:px-6 sm:py-4">
-				<div class="grid grid-cols-4 gap-1.5 sm:gap-3 text-center text-xs sm:text-sm font-semibold">
+			<div class="border-b border-gray-200 bg-gray-50 px-2 py-3 sm:px-6 sm:py-4">
+				<div class="grid grid-cols-4 gap-1.5 text-center text-xs font-semibold sm:gap-3 sm:text-sm">
 					{#each stepItems as step (step.num)}
 						{@const isActive = currentStep === step.num}
 						{@const isCompleted = currentStep > step.num}
@@ -707,22 +707,22 @@
 							type="button"
 							onclick={() => goToStep(step.num)}
 							disabled={isUpcoming}
-							class="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-2 px-1 sm:px-3 rounded-xl transition-all duration-200 {isActive
-								? 'bg-red-700 text-white font-bold shadow-sm'
+							class="flex flex-col items-center justify-center gap-1 rounded-xl px-1 py-2 transition-all duration-200 sm:flex-row sm:gap-2 sm:px-3 {isActive
+								? 'bg-red-700 font-bold text-white shadow-sm'
 								: isCompleted
-									? 'text-gray-700 hover:bg-gray-200/70 hover:text-gray-900 cursor-pointer'
-									: 'text-gray-400 opacity-60 cursor-not-allowed'}"
+									? 'cursor-pointer text-gray-700 hover:bg-gray-200/70 hover:text-gray-900'
+									: 'cursor-not-allowed text-gray-400 opacity-60'}"
 						>
 							<span
-								class="w-6 h-6 rounded-full flex items-center justify-center text-xs shrink-0 transition-colors {isActive
-									? 'bg-white text-red-700 font-black shadow-xs'
+								class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs transition-colors {isActive
+									? 'bg-white font-black text-red-700 shadow-xs'
 									: isCompleted
-										? 'bg-green-100 text-green-700 font-bold'
+										? 'bg-green-100 font-bold text-green-700'
 										: 'bg-gray-200 text-gray-500'}"
 							>
 								{#if isCompleted}✓{:else}{step.num}{/if}
 							</span>
-							<span class="text-[11px] sm:text-xs md:text-sm truncate leading-tight">
+							<span class="truncate text-[11px] leading-tight sm:text-xs md:text-sm">
 								<span class="sm:hidden">{step.shortLabel}</span>
 								<span class="hidden sm:inline">{step.label}</span>
 							</span>
@@ -735,11 +735,11 @@
 			<div class="p-6 sm:p-10">
 				{#if submitError}
 					<div
-						class="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-800 text-sm flex items-start gap-3"
+						class="mb-6 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							class="w-5 h-5 text-red-600 shrink-0 mt-0.5"
+							class="mt-0.5 h-5 w-5 shrink-0 text-red-600"
 							viewBox="0 0 20 20"
 							fill="currentColor"
 						>
@@ -756,14 +756,14 @@
 				<!-- STEP 1: Vehicle Specs & Price -->
 				{#if currentStep === 1}
 					<div>
-						<h3 class="text-xl font-bold text-gray-900 mb-2">{tradeInCaptions.steps.step1}</h3>
-						<p class="text-gray-500 text-sm mb-6">
+						<h3 class="mb-2 text-xl font-bold text-gray-900">{tradeInCaptions.steps.step1}</h3>
+						<p class="mb-6 text-sm text-gray-500">
 							Masukkan informasi spesifikasi teknis dan estimasi harga jual yang Anda harapkan.
 						</p>
 
-						<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+						<div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
 							<div>
-								<label for="make" class="block text-sm font-semibold text-gray-700 mb-1">
+								<label for="make" class="mb-1 block text-sm font-semibold text-gray-700">
 									{tradeInCaptions.form.make} <span class="text-red-600">*</span>
 								</label>
 								<input
@@ -771,13 +771,13 @@
 									id="make"
 									bind:value={make}
 									placeholder={tradeInCaptions.form.makePlaceholder}
-									class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 transition"
+									class="w-full rounded-lg border border-gray-300 px-4 py-2.5 transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 									required
 								/>
 							</div>
 
 							<div>
-								<label for="model" class="block text-sm font-semibold text-gray-700 mb-1">
+								<label for="model" class="mb-1 block text-sm font-semibold text-gray-700">
 									{tradeInCaptions.form.model} <span class="text-red-600">*</span>
 								</label>
 								<input
@@ -785,13 +785,13 @@
 									id="model"
 									bind:value={model}
 									placeholder={tradeInCaptions.form.modelPlaceholder}
-									class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 transition"
+									class="w-full rounded-lg border border-gray-300 px-4 py-2.5 transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 									required
 								/>
 							</div>
 
 							<div>
-								<label for="year" class="block text-sm font-semibold text-gray-700 mb-1">
+								<label for="year" class="mb-1 block text-sm font-semibold text-gray-700">
 									{tradeInCaptions.form.year} <span class="text-red-600">*</span>
 								</label>
 								<input
@@ -801,13 +801,13 @@
 									min="1950"
 									max={new Date().getFullYear() + 1}
 									placeholder={tradeInCaptions.form.yearPlaceholder}
-									class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 transition"
+									class="w-full rounded-lg border border-gray-300 px-4 py-2.5 transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 									required
 								/>
 							</div>
 
 							<div>
-								<label for="mileage" class="block text-sm font-semibold text-gray-700 mb-1">
+								<label for="mileage" class="mb-1 block text-sm font-semibold text-gray-700">
 									{tradeInCaptions.form.mileage} <span class="text-red-600">*</span>
 								</label>
 								<input
@@ -816,19 +816,19 @@
 									bind:value={mileage}
 									min="0"
 									placeholder={tradeInCaptions.form.mileagePlaceholder}
-									class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 transition"
+									class="w-full rounded-lg border border-gray-300 px-4 py-2.5 transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 									required
 								/>
 							</div>
 
 							<div>
-								<label for="transmission" class="block text-sm font-semibold text-gray-700 mb-1">
+								<label for="transmission" class="mb-1 block text-sm font-semibold text-gray-700">
 									{tradeInCaptions.form.transmission} <span class="text-red-600">*</span>
 								</label>
 								<select
 									id="transmission"
 									bind:value={transmission}
-									class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 transition"
+									class="w-full rounded-lg border border-gray-300 px-4 py-2.5 transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 								>
 									<option value="Automatic">Automatic (Matic)</option>
 									<option value="Manual">Manual</option>
@@ -838,13 +838,13 @@
 							</div>
 
 							<div>
-								<label for="fuelType" class="block text-sm font-semibold text-gray-700 mb-1">
+								<label for="fuelType" class="mb-1 block text-sm font-semibold text-gray-700">
 									{tradeInCaptions.form.fuelType}
 								</label>
 								<select
 									id="fuelType"
 									bind:value={fuelType}
-									class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 transition"
+									class="w-full rounded-lg border border-gray-300 px-4 py-2.5 transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 								>
 									<option value="Petrol">Bensin (Petrol)</option>
 									<option value="Diesel">Solar (Diesel)</option>
@@ -853,8 +853,8 @@
 								</select>
 							</div>
 
-							<div class="sm:col-span-2 bg-red-50/60 p-5 rounded-xl border border-red-100">
-								<label for="sellingPrice" class="block text-sm font-bold text-gray-900 mb-1">
+							<div class="rounded-xl border border-red-100 bg-red-50/60 p-5 sm:col-span-2">
+								<label for="sellingPrice" class="mb-1 block text-sm font-bold text-gray-900">
 									{tradeInCaptions.form.sellingPrice} <span class="text-red-600">*</span>
 								</label>
 								<input
@@ -864,7 +864,7 @@
 									min="1000000"
 									step="1000000"
 									placeholder={tradeInCaptions.form.sellingPricePlaceholder}
-									class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 transition bg-white"
+									class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 									required
 								/>
 								{#if sellingPrice && sellingPrice > 0}
@@ -880,12 +880,12 @@
 								type="button"
 								onclick={() => goToStep(2)}
 								disabled={!isStep1Valid}
-								class="px-8 py-3 rounded-lg bg-red-700 text-white font-semibold hover:bg-red-800 disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center gap-2"
+								class="flex items-center gap-2 rounded-lg bg-red-700 px-8 py-3 font-semibold text-white transition hover:bg-red-800 disabled:cursor-not-allowed disabled:opacity-50"
 							>
 								<span>{tradeInCaptions.form.next}</span>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
-									class="w-4 h-4"
+									class="h-4 w-4"
 									viewBox="0 0 20 20"
 									fill="currentColor"
 								>
@@ -902,19 +902,19 @@
 					<!-- STEP 2: Documents & Condition -->
 				{:else if currentStep === 2}
 					<div>
-						<h3 class="text-xl font-bold text-gray-900 mb-2">{tradeInCaptions.steps.step2}</h3>
-						<p class="text-gray-500 text-sm mb-6">
+						<h3 class="mb-2 text-xl font-bold text-gray-900">{tradeInCaptions.steps.step2}</h3>
+						<p class="mb-6 text-sm text-gray-500">
 							Berikan informasi riwayat dan status kelengkapan surat-surat mobil Anda secara jujur
 							dan transparan.
 						</p>
 
 						<div class="space-y-6">
 							<!-- Legalitas Dokumen -->
-							<div class="p-5 sm:p-6 bg-gray-50 rounded-xl border border-gray-200">
-								<h4 class="font-bold text-gray-900 mb-4 flex items-center gap-2">
+							<div class="rounded-xl border border-gray-200 bg-gray-50 p-5 sm:p-6">
+								<h4 class="mb-4 flex items-center gap-2 font-bold text-gray-900">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
-										class="w-5 h-5 text-red-700"
+										class="h-5 w-5 text-red-700"
 										viewBox="0 0 20 20"
 										fill="currentColor"
 									>
@@ -927,11 +927,11 @@
 									Status Legalitas & Surat Kendaraan
 								</h4>
 
-								<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+								<div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
 									<div class="sm:col-span-2">
 										<label
 											for="tradeInPlateNumber"
-											class="block text-sm font-semibold text-gray-700 mb-1"
+											class="mb-1 block text-sm font-semibold text-gray-700"
 										>
 											Nomor Polisi / Plat Nomor <span class="text-red-600">*</span>
 										</label>
@@ -942,12 +942,12 @@
 											onblur={handlePlateBlur}
 											oninput={handlePlateInput}
 											placeholder="mis. B 1234 ABC"
-											class="w-full px-4 py-2.5 rounded-xl border {plateError
+											class="w-full rounded-xl border px-4 py-2.5 {plateError
 												? 'border-red-500 ring-1 ring-red-500'
-												: 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-red-600 bg-white text-sm transition uppercase font-medium"
+												: 'border-gray-300'} bg-white text-sm font-medium uppercase transition focus:ring-2 focus:ring-red-600 focus:outline-none"
 										/>
 										{#if plateError}
-											<p class="mt-1.5 text-xs text-red-600 font-medium">{plateError}</p>
+											<p class="mt-1.5 text-xs font-medium text-red-600">{plateError}</p>
 										{:else}
 											<p class="mt-1 text-xs text-gray-400">
 												Format plat nomor kendaraan Indonesia (mis. B 1234 ABC).
@@ -956,24 +956,24 @@
 									</div>
 
 									<div class="sm:col-span-2">
-										<span class="block text-sm font-semibold text-gray-700 mb-2">
+										<span class="mb-2 block text-sm font-semibold text-gray-700">
 											{tradeInCaptions.form.ownershipStatus || tradeInCaptions.form.bpkbStatus}
 										</span>
-										<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+										<div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
 											{#each ownershipStatuses as status (status)}
 												<label
-													class="flex items-center gap-3 p-3.5 rounded-xl border h-full transition cursor-pointer {ownershipStatus ===
+													class="flex h-full cursor-pointer items-center gap-3 rounded-xl border p-3.5 transition {ownershipStatus ===
 													status
-														? 'border-red-600 bg-red-50/50 text-red-950 font-semibold ring-1 ring-red-600 shadow-sm'
-														: 'border-gray-200 bg-white hover:bg-gray-50 text-gray-700'}"
+														? 'border-red-600 bg-red-50/50 font-semibold text-red-950 shadow-sm ring-1 ring-red-600'
+														: 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'}"
 												>
 													<input
 														type="radio"
 														bind:group={ownershipStatus}
 														value={status}
-														class="size-4 text-red-700 accent-red-700 shrink-0"
+														class="size-4 shrink-0 text-red-700 accent-red-700"
 													/>
-													<span class="text-xs sm:text-sm leading-snug"
+													<span class="text-xs leading-snug sm:text-sm"
 														>{ownershipStatusMap[status] || status}</span
 													>
 												</label>
@@ -984,34 +984,34 @@
 									{#if ownershipStatus === "company_car"}
 										<div class="sm:col-span-2">
 											<div
-												class="p-4 sm:p-5 rounded-xl border transition {sphError
+												class="rounded-xl border p-4 transition sm:p-5 {sphError
 													? 'border-red-300 bg-red-50/40'
 													: sphFile
 														? 'border-emerald-300 bg-emerald-50/30'
 														: 'border-amber-200 bg-amber-50/40'}"
 											>
 												<div
-													class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3"
+													class="mb-3 flex flex-col justify-between gap-2 sm:flex-row sm:items-center"
 												>
 													<div>
 														<div class="flex items-center gap-2">
-															<span class="font-bold text-gray-900 text-sm">
+															<span class="text-sm font-bold text-gray-900">
 																Surat Pelepasan Hak (SPH)
 															</span>
 															<span
-																class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-700"
+																class="rounded-full bg-red-100 px-2 py-0.5 text-[11px] font-semibold text-red-700"
 															>
 																Wajib untuk Mobil PT/Instansi
 															</span>
 														</div>
-														<p class="text-xs text-gray-500 mt-1">
+														<p class="mt-1 text-xs text-gray-500">
 															Harap lampirkan dokumen resmi SPH dari instansi/perusahaan pemilik
 															kendaraan.
 														</p>
 													</div>
 													{#if sphFile}
 														<span
-															class="text-emerald-700 text-xs font-bold flex items-center gap-1 shrink-0"
+															class="flex shrink-0 items-center gap-1 text-xs font-bold text-emerald-700"
 														>
 															<svg
 																xmlns="http://www.w3.org/2000/svg"
@@ -1032,17 +1032,17 @@
 
 												{#if sphFile}
 													<div
-														class="flex items-center justify-between p-3 bg-white border border-emerald-200 rounded-lg shadow-sm"
+														class="flex items-center justify-between rounded-lg border border-emerald-200 bg-white p-3 shadow-sm"
 													>
-														<div class="flex items-center gap-3 min-w-0">
+														<div class="flex min-w-0 items-center gap-3">
 															<div
-																class="size-9 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 font-bold text-xs uppercase"
+																class="flex size-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-xs font-bold text-emerald-700 uppercase"
 															>
 																{sphFile.name.split(".").pop() || "DOC"}
 															</div>
 															<div class="min-w-0">
 																<p
-																	class="text-sm font-medium text-gray-900 truncate max-w-xs sm:max-w-md"
+																	class="max-w-xs truncate text-sm font-medium text-gray-900 sm:max-w-md"
 																>
 																	{sphFile.name}
 																</p>
@@ -1054,7 +1054,7 @@
 														<button
 															type="button"
 															onclick={removeSphFile}
-															class="text-xs font-semibold text-red-600 hover:text-red-700 px-2.5 py-1.5 rounded-md hover:bg-red-50 transition shrink-0 ml-2"
+															class="ml-2 shrink-0 rounded-md px-2.5 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-50 hover:text-red-700"
 														>
 															Ganti Dokumen
 														</button>
@@ -1063,11 +1063,11 @@
 													<label
 														class="flex flex-col items-center justify-center border-2 border-dashed {sphError
 															? 'border-red-400 bg-red-50/40'
-															: 'border-gray-300 hover:border-red-400 bg-white'} rounded-xl p-5 cursor-pointer transition text-center group"
+															: 'border-gray-300 bg-white hover:border-red-400'} group cursor-pointer rounded-xl p-5 text-center transition"
 													>
 														<svg
 															xmlns="http://www.w3.org/2000/svg"
-															class="size-8 text-gray-400 group-hover:text-red-600 transition mb-2"
+															class="mb-2 size-8 text-gray-400 transition group-hover:text-red-600"
 															fill="none"
 															viewBox="0 0 24 24"
 															stroke="currentColor"
@@ -1080,11 +1080,11 @@
 															/>
 														</svg>
 														<span
-															class="text-xs sm:text-sm font-semibold text-gray-700 group-hover:text-red-700"
+															class="text-xs font-semibold text-gray-700 group-hover:text-red-700 sm:text-sm"
 														>
 															Pilih berkas SPH atau seret ke sini
 														</span>
-														<span class="text-xs text-gray-400 mt-1">
+														<span class="mt-1 text-xs text-gray-400">
 															Format: PDF, DOC, atau DOCX (Maksimal 4 MB)
 														</span>
 														<input
@@ -1098,7 +1098,7 @@
 
 												{#if sphError}
 													<p
-														class="mt-2 text-xs text-red-600 font-medium flex items-center gap-1.5"
+														class="mt-2 flex items-center gap-1.5 text-xs font-medium text-red-600"
 													>
 														<svg
 															xmlns="http://www.w3.org/2000/svg"
@@ -1120,35 +1120,35 @@
 									{/if}
 
 									<div>
-										<span class="block text-sm font-semibold text-gray-700 mb-2">
+										<span class="mb-2 block text-sm font-semibold text-gray-700">
 											{tradeInCaptions.form.stnkStatus}
 										</span>
-										<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+										<div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
 											<label
-												class="flex items-center gap-3 p-3 rounded-xl border h-full transition cursor-pointer {stnkStatus ===
+												class="flex h-full cursor-pointer items-center gap-3 rounded-xl border p-3 transition {stnkStatus ===
 												'active'
-													? 'border-red-600 bg-red-50/50 text-red-950 font-semibold ring-1 ring-red-600 shadow-sm'
-													: 'border-gray-200 bg-white hover:bg-gray-50 text-gray-700'}"
+													? 'border-red-600 bg-red-50/50 font-semibold text-red-950 shadow-sm ring-1 ring-red-600'
+													: 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'}"
 											>
 												<input
 													type="radio"
 													bind:group={stnkStatus}
 													value="active"
-													class="size-4 text-red-700 accent-red-700 shrink-0"
+													class="size-4 shrink-0 text-red-700 accent-red-700"
 												/>
 												<span class="text-xs sm:text-sm">{tradeInCaptions.form.stnkActive}</span>
 											</label>
 											<label
-												class="flex items-center gap-3 p-3 rounded-xl border h-full transition cursor-pointer {stnkStatus ===
+												class="flex h-full cursor-pointer items-center gap-3 rounded-xl border p-3 transition {stnkStatus ===
 												'expired'
-													? 'border-red-600 bg-red-50/50 text-red-950 font-semibold ring-1 ring-red-600 shadow-sm'
-													: 'border-gray-200 bg-white hover:bg-gray-50 text-gray-700'}"
+													? 'border-red-600 bg-red-50/50 font-semibold text-red-950 shadow-sm ring-1 ring-red-600'
+													: 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'}"
 											>
 												<input
 													type="radio"
 													bind:group={stnkStatus}
 													value="expired"
-													class="size-4 text-red-700 accent-red-700 shrink-0"
+													class="size-4 shrink-0 text-red-700 accent-red-700"
 												/>
 												<span class="text-xs sm:text-sm">{tradeInCaptions.form.stnkExpired}</span>
 											</label>
@@ -1158,7 +1158,7 @@
 									<div>
 										<label
 											for="stnkTaxExpiry"
-											class="block text-sm font-semibold text-gray-700 mb-2"
+											class="mb-2 block text-sm font-semibold text-gray-700"
 										>
 											{tradeInCaptions.form.stnkTaxExpiry}
 										</label>
@@ -1167,49 +1167,49 @@
 											id="stnkTaxExpiry"
 											bind:value={stnkTaxExpiry}
 											placeholder={tradeInCaptions.form.stnkTaxExpiryPlaceholder}
-											class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-red-600 transition bg-white text-sm"
+											class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600 focus:outline-none"
 										/>
 									</div>
 								</div>
 
-								<div class="mt-6 pt-5 border-t border-gray-200">
-									<span class="block text-sm font-semibold text-gray-700 mb-3">
+								<div class="mt-6 border-t border-gray-200 pt-5">
+									<span class="mb-3 block text-sm font-semibold text-gray-700">
 										{tradeInCaptions.form.equipmentChecklist}
 									</span>
-									<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+									<div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
 										<label
-											class="flex items-center gap-3 p-3 rounded-xl border transition cursor-pointer {hasFaktur
-												? 'border-red-600 bg-red-50/50 text-red-950 font-semibold ring-1 ring-red-600 shadow-sm'
-												: 'border-gray-200 bg-white hover:bg-gray-50 text-gray-700'}"
+											class="flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition {hasFaktur
+												? 'border-red-600 bg-red-50/50 font-semibold text-red-950 shadow-sm ring-1 ring-red-600'
+												: 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'}"
 										>
 											<input
 												type="checkbox"
 												bind:checked={hasFaktur}
-												class="size-4 rounded text-red-700 accent-red-700 shrink-0"
+												class="size-4 shrink-0 rounded text-red-700 accent-red-700"
 											/>
 											<span class="text-xs sm:text-sm">{tradeInCaptions.form.hasFaktur}</span>
 										</label>
 										<label
-											class="flex items-center gap-3 p-3 rounded-xl border transition cursor-pointer {hasServiceBook
-												? 'border-red-600 bg-red-50/50 text-red-950 font-semibold ring-1 ring-red-600 shadow-sm'
-												: 'border-gray-200 bg-white hover:bg-gray-50 text-gray-700'}"
+											class="flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition {hasServiceBook
+												? 'border-red-600 bg-red-50/50 font-semibold text-red-950 shadow-sm ring-1 ring-red-600'
+												: 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'}"
 										>
 											<input
 												type="checkbox"
 												bind:checked={hasServiceBook}
-												class="size-4 rounded text-red-700 accent-red-700 shrink-0"
+												class="size-4 shrink-0 rounded text-red-700 accent-red-700"
 											/>
 											<span class="text-xs sm:text-sm">{tradeInCaptions.form.hasServiceBook}</span>
 										</label>
 										<label
-											class="flex items-center gap-3 p-3 rounded-xl border transition cursor-pointer {hasSpareKey
-												? 'border-red-600 bg-red-50/50 text-red-950 font-semibold ring-1 ring-red-600 shadow-sm'
-												: 'border-gray-200 bg-white hover:bg-gray-50 text-gray-700'}"
+											class="flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition {hasSpareKey
+												? 'border-red-600 bg-red-50/50 font-semibold text-red-950 shadow-sm ring-1 ring-red-600'
+												: 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'}"
 										>
 											<input
 												type="checkbox"
 												bind:checked={hasSpareKey}
-												class="size-4 rounded text-red-700 accent-red-700 shrink-0"
+												class="size-4 shrink-0 rounded text-red-700 accent-red-700"
 											/>
 											<span class="text-xs sm:text-sm">{tradeInCaptions.form.hasSpareKey}</span>
 										</label>
@@ -1217,7 +1217,7 @@
 								</div>
 
 								<div class="mt-5">
-									<label for="adminNotes" class="block text-sm font-semibold text-gray-700 mb-1">
+									<label for="adminNotes" class="mb-1 block text-sm font-semibold text-gray-700">
 										{tradeInCaptions.form.adminNotes}
 									</label>
 									<input
@@ -1225,17 +1225,17 @@
 										id="adminNotes"
 										bind:value={adminNotes}
 										placeholder={tradeInCaptions.form.adminNotesPlaceholder}
-										class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 transition bg-white text-sm"
+										class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 									/>
 								</div>
 							</div>
 
 							<!-- Kondisi Fisik & Riwayat -->
-							<div class="p-5 sm:p-6 bg-gray-50 rounded-xl border border-gray-200">
-								<h4 class="font-bold text-gray-900 mb-4 flex items-center gap-2">
+							<div class="rounded-xl border border-gray-200 bg-gray-50 p-5 sm:p-6">
+								<h4 class="mb-4 flex items-center gap-2 font-bold text-gray-900">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
-										class="w-5 h-5 text-red-700"
+										class="h-5 w-5 text-red-700"
 										viewBox="0 0 20 20"
 										fill="currentColor"
 									>
@@ -1249,42 +1249,42 @@
 								</h4>
 
 								<!-- Simple Checkboxes for Bebas Banjir & Bebas Lakalantas -->
-								<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+								<div class="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
 									<label
-										class="flex items-start gap-3 p-4 rounded-xl border transition cursor-pointer {isFloodFree
-											? 'border-emerald-600 bg-emerald-50/40 text-emerald-950 font-semibold ring-1 ring-emerald-600 shadow-sm'
-											: 'border-gray-200 bg-white hover:bg-gray-50 text-gray-700'}"
+										class="flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition {isFloodFree
+											? 'border-emerald-600 bg-emerald-50/40 font-semibold text-emerald-950 shadow-sm ring-1 ring-emerald-600'
+											: 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'}"
 									>
 										<input
 											type="checkbox"
 											bind:checked={isFloodFree}
-											class="size-4 mt-0.5 rounded text-emerald-700 accent-emerald-700 shrink-0"
+											class="mt-0.5 size-4 shrink-0 rounded text-emerald-700 accent-emerald-700"
 										/>
 										<div>
-											<span class="text-sm font-bold block text-gray-900"
+											<span class="block text-sm font-bold text-gray-900"
 												>{tradeInCaptions.form.floodFree}</span
 											>
-											<span class="text-xs text-gray-500 block mt-0.5 leading-relaxed"
+											<span class="mt-0.5 block text-xs leading-relaxed text-gray-500"
 												>{tradeInCaptions.form.floodFreeDesc}</span
 											>
 										</div>
 									</label>
 
 									<label
-										class="flex items-start gap-3 p-4 rounded-xl border transition cursor-pointer {isAccidentFree
-											? 'border-emerald-600 bg-emerald-50/40 text-emerald-950 font-semibold ring-1 ring-emerald-600 shadow-sm'
-											: 'border-gray-200 bg-white hover:bg-gray-50 text-gray-700'}"
+										class="flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition {isAccidentFree
+											? 'border-emerald-600 bg-emerald-50/40 font-semibold text-emerald-950 shadow-sm ring-1 ring-emerald-600'
+											: 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'}"
 									>
 										<input
 											type="checkbox"
 											bind:checked={isAccidentFree}
-											class="size-4 mt-0.5 rounded text-emerald-700 accent-emerald-700 shrink-0"
+											class="mt-0.5 size-4 shrink-0 rounded text-emerald-700 accent-emerald-700"
 										/>
 										<div>
-											<span class="text-sm font-bold block text-gray-900"
+											<span class="block text-sm font-bold text-gray-900"
 												>{tradeInCaptions.form.accidentFree}</span
 											>
-											<span class="text-xs text-gray-500 block mt-0.5 leading-relaxed"
+											<span class="mt-0.5 block text-xs leading-relaxed text-gray-500"
 												>{tradeInCaptions.form.accidentFreeDesc}</span
 											>
 										</div>
@@ -1294,7 +1294,7 @@
 								<div>
 									<label
 										for="conditionNotes"
-										class="block text-sm font-semibold text-gray-700 mb-1"
+										class="mb-1 block text-sm font-semibold text-gray-700"
 									>
 										{tradeInCaptions.form.conditionNotes}
 									</label>
@@ -1303,7 +1303,7 @@
 										bind:value={conditionNotes}
 										rows="3"
 										placeholder={tradeInCaptions.form.conditionNotesPlaceholder}
-										class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 transition bg-white text-sm"
+										class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 									></textarea>
 								</div>
 							</div>
@@ -1313,7 +1313,7 @@
 							<button
 								type="button"
 								onclick={() => goToStep(1)}
-								class="px-6 py-3 rounded-lg border border-gray-300 font-semibold text-gray-700 hover:bg-gray-100 transition"
+								class="rounded-lg border border-gray-300 px-6 py-3 font-semibold text-gray-700 transition hover:bg-gray-100"
 							>
 								{tradeInCaptions.form.back}
 							</button>
@@ -1321,12 +1321,12 @@
 							<button
 								type="button"
 								onclick={() => goToStep(3)}
-								class="px-8 py-3 rounded-lg bg-red-700 text-white font-semibold hover:bg-red-800 transition flex items-center gap-2"
+								class="flex items-center gap-2 rounded-lg bg-red-700 px-8 py-3 font-semibold text-white transition hover:bg-red-800"
 							>
 								<span>{tradeInCaptions.form.next}</span>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
-									class="w-4 h-4"
+									class="h-4 w-4"
 									viewBox="0 0 20 20"
 									fill="currentColor"
 								>
@@ -1343,12 +1343,12 @@
 					<!-- STEP 3: 10 Guided Photo Slots -->
 				{:else if currentStep === 3}
 					<div>
-						<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+						<div class="mb-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 							<h3 class="text-xl font-bold text-gray-900">
 								{tradeInCaptions.form.photoSectionTitle}
 							</h3>
 							<div
-								class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold {completedSlotsCount >=
+								class="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold {completedSlotsCount >=
 								10
 									? 'bg-green-100 text-green-800'
 									: 'bg-amber-100 text-amber-800'}"
@@ -1356,56 +1356,56 @@
 								{completedSlotsCount} / {slots.length} Foto Wajib Terisi
 							</div>
 						</div>
-						<p class="text-gray-500 text-sm mb-6">
+						<p class="mb-6 text-sm text-gray-500">
 							{tradeInCaptions.form.photoSectionDesc}
 						</p>
 
 						<!-- 10 Guided Photo Slots Grid -->
-						<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+						<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2">
 							{#each slots as slot, idx (slot.id)}
 								<div
-									class="p-4 rounded-xl border {photoMap[slot.id]
+									class="rounded-xl border p-4 {photoMap[slot.id]
 										? 'border-green-300 bg-green-50/20'
 										: 'border-gray-200 bg-gray-50'} flex flex-col justify-between"
 								>
-									<div class="flex items-start justify-between gap-2 mb-3">
+									<div class="mb-3 flex items-start justify-between gap-2">
 										<div>
 											<span
-												class="inline-block text-xs font-bold px-2 py-0.5 rounded bg-gray-200 text-gray-800 mr-1.5"
+												class="mr-1.5 inline-block rounded bg-gray-200 px-2 py-0.5 text-xs font-bold text-gray-800"
 											>
 												Slot {idx + 1}
 											</span>
-											<span class="font-bold text-gray-900 text-sm">{slot.label}</span>
-											<p class="text-xs text-gray-500 mt-0.5">{slot.desc}</p>
+											<span class="text-sm font-bold text-gray-900">{slot.label}</span>
+											<p class="mt-0.5 text-xs text-gray-500">{slot.desc}</p>
 										</div>
 										{#if photoMap[slot.id]}
-											<span class="text-green-600 text-xs font-bold flex items-center gap-1">
+											<span class="flex items-center gap-1 text-xs font-bold text-green-600">
 												✓ Terisi
 											</span>
 										{:else}
-											<span class="text-red-600 text-xs font-semibold">Wajib</span>
+											<span class="text-xs font-semibold text-red-600">Wajib</span>
 										{/if}
 									</div>
 
 									{#if photoMap[slot.id]}
 										<!-- Photo Preview Thumbnail -->
 										<div
-											class="relative rounded-lg overflow-hidden border border-gray-200 bg-black/5 aspect-video mb-3 flex items-center justify-center"
+											class="relative mb-3 flex aspect-video items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-black/5"
 										>
 											<img
 												src={photoMap[slot.id].previewUrl}
 												alt={slot.label}
-												class="w-full h-full object-cover"
+												class="h-full w-full object-cover"
 											/>
 											<button
 												type="button"
 												onclick={() => removeSlotFile(slot.id)}
-												class="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5 shadow hover:bg-red-700 transition"
+												class="absolute top-2 right-2 rounded-full bg-red-600 p-1.5 text-white shadow transition hover:bg-red-700"
 												title="Hapus foto"
 											>
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
-													class="w-4 h-4"
+													class="h-4 w-4"
 													viewBox="0 0 20 20"
 													fill="currentColor"
 												>
@@ -1420,7 +1420,7 @@
 									{:else}
 										<!-- Mobile (< 640px): Dual Action Buttons (Camera & Gallery) -->
 										<div
-											class="sm:hidden border-2 border-dashed border-gray-300 hover:border-red-300 rounded-xl p-3 bg-white transition text-center flex flex-col items-center justify-center gap-2"
+											class="flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-gray-300 bg-white p-3 text-center transition hover:border-red-300 sm:hidden"
 										>
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
@@ -1436,15 +1436,15 @@
 													d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
 												/>
 											</svg>
-											<div class="flex items-center gap-1.5 w-full justify-center">
+											<div class="flex w-full items-center justify-center gap-1.5">
 												<!-- Camera Trigger -->
 												<label
-													class="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg border border-red-200 bg-red-50/70 hover:bg-red-100 text-red-700 font-semibold text-xs transition cursor-pointer shadow-sm group"
+													class="group flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-red-200 bg-red-50/70 px-2 py-2 text-xs font-semibold text-red-700 shadow-sm transition hover:bg-red-100"
 													title="Buka kamera perangkat untuk mengambil foto langsung"
 												>
 													<svg
 														xmlns="http://www.w3.org/2000/svg"
-														class="size-4 shrink-0 text-red-600 group-hover:scale-110 transition-transform"
+														class="size-4 shrink-0 text-red-600 transition-transform group-hover:scale-110"
 														fill="none"
 														viewBox="0 0 24 24"
 														stroke="currentColor"
@@ -1473,7 +1473,7 @@
 												</label>
 												<!-- Gallery Trigger -->
 												<label
-													class="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-700 font-semibold text-xs transition cursor-pointer shadow-sm group"
+													class="group flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-gray-50 px-2 py-2 text-xs font-semibold text-gray-700 shadow-sm transition hover:bg-gray-100"
 													title="Pilih foto dari galeri perangkat"
 												>
 													<svg
@@ -1504,11 +1504,11 @@
 
 										<!-- Laptop/Desktop (>= 640px): Classic Unified Full Dropzone -->
 										<label
-											class="hidden sm:flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-red-400 rounded-xl p-4 cursor-pointer bg-white hover:bg-red-50/20 transition text-center group"
+											class="group hidden cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-white p-4 text-center transition hover:border-red-400 hover:bg-red-50/20 sm:flex"
 										>
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
-												class="size-8 text-gray-400 group-hover:text-red-600 transition mb-1.5"
+												class="mb-1.5 size-8 text-gray-400 transition group-hover:text-red-600"
 												fill="none"
 												viewBox="0 0 24 24"
 												stroke="currentColor"
@@ -1523,7 +1523,7 @@
 											<span class="text-xs font-semibold text-gray-700 group-hover:text-red-700"
 												>Pilih Foto atau seret ke sini</span
 											>
-											<span class="text-[11px] text-gray-400 mt-0.5"
+											<span class="mt-0.5 text-[11px] text-gray-400"
 												>JPG, PNG, WEBP (Maksimal 15 MB)</span
 											>
 											<input
@@ -1539,30 +1539,30 @@
 						</div>
 
 						<!-- Optional Extra Photos -->
-						<div class="mt-8 pt-6 border-t border-gray-200">
-							<h4 class="font-bold text-gray-900 text-sm mb-1">Foto Tambahan (Opsional)</h4>
-							<p class="text-xs text-gray-500 mb-4">
+						<div class="mt-8 border-t border-gray-200 pt-6">
+							<h4 class="mb-1 text-sm font-bold text-gray-900">Foto Tambahan (Opsional)</h4>
+							<p class="mb-4 text-xs text-gray-500">
 								Unggah foto tambahan seperti ban, velg, atau bagian bodi tertentu jika diperlukan.
 							</p>
 
-							<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+							<div class="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
 								{#each extraPhotos as extra (extra.id)}
 									<div
-										class="relative rounded-lg overflow-hidden border border-gray-200 aspect-square"
+										class="relative aspect-square overflow-hidden rounded-lg border border-gray-200"
 									>
 										<img
 											src={extra.previewUrl}
 											alt="Foto Tambahan"
-											class="w-full h-full object-cover"
+											class="h-full w-full object-cover"
 										/>
 										<button
 											type="button"
 											onclick={() => removeExtraPhoto(extra.id)}
-											class="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 shadow hover:bg-red-700 transition"
+											class="absolute top-1 right-1 rounded-full bg-red-600 p-1 text-white shadow transition hover:bg-red-700"
 										>
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
-												class="w-3.5 h-3.5"
+												class="h-3.5 w-3.5"
 												viewBox="0 0 20 20"
 												fill="currentColor"
 											>
@@ -1577,9 +1577,9 @@
 								{/each}
 
 								<!-- Mobile (< 640px): Dual Action Buttons -->
-								<div class="col-span-2 sm:hidden flex items-center gap-2">
+								<div class="col-span-2 flex items-center gap-2 sm:hidden">
 									<label
-										class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg bg-red-50 hover:bg-red-100 text-red-700 font-semibold text-xs transition cursor-pointer border border-red-200/80 shadow-sm"
+										class="flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-red-200/80 bg-red-50 px-3 py-2.5 text-xs font-semibold text-red-700 shadow-sm transition hover:bg-red-100"
 										title="Ambil foto tambahan langsung dengan kamera"
 									>
 										<svg
@@ -1613,7 +1613,7 @@
 									</label>
 
 									<label
-										class="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-700 font-semibold text-xs transition cursor-pointer shadow-sm"
+										class="flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-xs font-semibold text-gray-700 shadow-sm transition hover:bg-gray-100"
 										title="Pilih foto tambahan dari galeri"
 									>
 										<svg
@@ -1643,11 +1643,11 @@
 
 								<!-- Laptop/Desktop (>= 640px): Classic Square Dropzone Tile -->
 								<label
-									class="hidden sm:flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-red-400 rounded-lg p-4 cursor-pointer bg-white hover:bg-red-50/20 transition text-center aspect-square group"
+									class="group hidden aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 text-center transition hover:border-red-400 hover:bg-red-50/20 sm:flex"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
-										class="w-6 h-6 text-gray-400 group-hover:text-red-600 mb-1 transition"
+										class="mb-1 h-6 w-6 text-gray-400 transition group-hover:text-red-600"
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke="currentColor"
@@ -1677,7 +1677,7 @@
 							<button
 								type="button"
 								onclick={() => goToStep(2)}
-								class="px-6 py-3 rounded-lg border border-gray-300 font-semibold text-gray-700 hover:bg-gray-100 transition"
+								class="rounded-lg border border-gray-300 px-6 py-3 font-semibold text-gray-700 transition hover:bg-gray-100"
 							>
 								{tradeInCaptions.form.back}
 							</button>
@@ -1686,12 +1686,12 @@
 								type="button"
 								onclick={() => goToStep(4)}
 								disabled={!isStep3Valid}
-								class="px-8 py-3 rounded-lg bg-red-700 text-white font-semibold hover:bg-red-800 disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center gap-2"
+								class="flex items-center gap-2 rounded-lg bg-red-700 px-8 py-3 font-semibold text-white transition hover:bg-red-800 disabled:cursor-not-allowed disabled:opacity-50"
 							>
 								<span>{tradeInCaptions.form.next}</span>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
-									class="w-4 h-4"
+									class="h-4 w-4"
 									viewBox="0 0 20 20"
 									fill="currentColor"
 								>
@@ -1708,15 +1708,15 @@
 					<!-- STEP 4: Contact Info & Review -->
 				{:else if currentStep === 4}
 					<div>
-						<h3 class="text-xl font-bold text-gray-900 mb-2">{tradeInCaptions.steps.step4}</h3>
-						<p class="text-gray-500 text-sm mb-6">
+						<h3 class="mb-2 text-xl font-bold text-gray-900">{tradeInCaptions.steps.step4}</h3>
+						<p class="mb-6 text-sm text-gray-500">
 							Isi kontak Anda agar tim appraisal kami dapat menghubungi Anda dengan penawaran harga
 							terbaik.
 						</p>
 
-						<div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8">
+						<div class="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
 							<div>
-								<label for="customerName" class="block text-sm font-semibold text-gray-700 mb-1">
+								<label for="customerName" class="mb-1 block text-sm font-semibold text-gray-700">
 									{tradeInCaptions.form.customerName} <span class="text-red-600">*</span>
 								</label>
 								<input
@@ -1724,13 +1724,13 @@
 									id="customerName"
 									bind:value={customerName}
 									placeholder={tradeInCaptions.form.customerNamePlaceholder}
-									class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 transition"
+									class="w-full rounded-lg border border-gray-300 px-4 py-2.5 transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 									required
 								/>
 							</div>
 
 							<div>
-								<label for="customerPhone" class="block text-sm font-semibold text-gray-700 mb-1">
+								<label for="customerPhone" class="mb-1 block text-sm font-semibold text-gray-700">
 									{tradeInCaptions.form.customerPhone} <span class="text-red-600">*</span>
 								</label>
 								<input
@@ -1738,13 +1738,13 @@
 									id="customerPhone"
 									bind:value={customerPhone}
 									placeholder={tradeInCaptions.form.customerPhonePlaceholder}
-									class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 transition"
+									class="w-full rounded-lg border border-gray-300 px-4 py-2.5 transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 									required
 								/>
 							</div>
 
 							<div>
-								<label for="customerCity" class="block text-sm font-semibold text-gray-700 mb-1">
+								<label for="customerCity" class="mb-1 block text-sm font-semibold text-gray-700">
 									{tradeInCaptions.form.customerCity} <span class="text-red-600">*</span>
 								</label>
 								<input
@@ -1752,13 +1752,13 @@
 									id="customerCity"
 									bind:value={customerCity}
 									placeholder={tradeInCaptions.form.customerCityPlaceholder}
-									class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 transition"
+									class="w-full rounded-lg border border-gray-300 px-4 py-2.5 transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 									required
 								/>
 							</div>
 
 							<div>
-								<label for="customerEmail" class="block text-sm font-semibold text-gray-700 mb-1">
+								<label for="customerEmail" class="mb-1 block text-sm font-semibold text-gray-700">
 									{tradeInCaptions.form.customerEmail}
 								</label>
 								<input
@@ -1766,48 +1766,48 @@
 									id="customerEmail"
 									bind:value={customerEmail}
 									placeholder={tradeInCaptions.form.customerEmailPlaceholder}
-									class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-red-600 transition"
+									class="w-full rounded-lg border border-gray-300 px-4 py-2.5 transition focus:border-red-600 focus:ring-2 focus:ring-red-600"
 								/>
 							</div>
 						</div>
 
 						<!-- Review Summary Box -->
-						<div class="bg-gray-50 rounded-xl p-5 border border-gray-200 mb-8">
-							<h4 class="font-bold text-gray-900 mb-3 text-sm flex items-center justify-between">
+						<div class="mb-8 rounded-xl border border-gray-200 bg-gray-50 p-5">
+							<h4 class="mb-3 flex items-center justify-between text-sm font-bold text-gray-900">
 								<span>Ringkasan Pengajuan Kendaraan</span>
-								<span class="text-xs text-gray-500 font-normal">Pastikan data sudah tepat</span>
+								<span class="text-xs font-normal text-gray-500">Pastikan data sudah tepat</span>
 							</h4>
 
-							<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
-								<div class="bg-white p-3 rounded-lg border border-gray-100">
-									<span class="text-gray-400 block">Unit Mobil</span>
-									<span class="font-bold text-gray-900 text-sm">{year} {make} {model}</span>
+							<div class="grid grid-cols-2 gap-4 text-xs sm:grid-cols-4">
+								<div class="rounded-lg border border-gray-100 bg-white p-3">
+									<span class="block text-gray-400">Unit Mobil</span>
+									<span class="text-sm font-bold text-gray-900">{year} {make} {model}</span>
 								</div>
-								<div class="bg-white p-3 rounded-lg border border-gray-100">
-									<span class="text-gray-400 block">Jarak Tempuh</span>
-									<span class="font-bold text-gray-900 text-sm"
+								<div class="rounded-lg border border-gray-100 bg-white p-3">
+									<span class="block text-gray-400">Jarak Tempuh</span>
+									<span class="text-sm font-bold text-gray-900"
 										>{mileage?.toLocaleString("id-ID")} KM</span
 									>
 								</div>
-								<div class="bg-white p-3 rounded-lg border border-gray-100">
-									<span class="text-gray-400 block">Ekspektasi Harga</span>
-									<span class="font-bold text-red-700 text-sm">{formatRupiah(sellingPrice)}</span>
+								<div class="rounded-lg border border-gray-100 bg-white p-3">
+									<span class="block text-gray-400">Ekspektasi Harga</span>
+									<span class="text-sm font-bold text-red-700">{formatRupiah(sellingPrice)}</span>
 								</div>
-								<div class="bg-white p-3 rounded-lg border border-gray-100">
-									<span class="text-gray-400 block">Jumlah Foto</span>
-									<span class="font-bold text-green-700 text-sm"
+								<div class="rounded-lg border border-gray-100 bg-white p-3">
+									<span class="block text-gray-400">Jumlah Foto</span>
+									<span class="text-sm font-bold text-green-700"
 										>{completedSlotsCount + extraPhotos.length} Foto</span
 									>
 								</div>
 							</div>
 						</div>
 
-						<div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+						<div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
 							<button
 								type="button"
 								onclick={() => goToStep(3)}
 								disabled={isSubmitting}
-								class="w-full sm:w-auto px-6 py-3 rounded-lg border border-gray-300 font-semibold text-gray-700 hover:bg-gray-100 transition"
+								class="w-full rounded-lg border border-gray-300 px-6 py-3 font-semibold text-gray-700 transition hover:bg-gray-100 sm:w-auto"
 							>
 								{tradeInCaptions.form.back}
 							</button>
@@ -1816,11 +1816,11 @@
 								type="button"
 								onclick={handleSubmit}
 								disabled={!isStep4Valid || isSubmitting}
-								class="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-red-700 text-white font-bold hover:bg-red-800 disabled:opacity-50 disabled:cursor-not-allowed transition shadow-md flex items-center justify-center gap-2"
+								class="flex w-full items-center justify-center gap-2 rounded-lg bg-red-700 px-8 py-3.5 font-bold text-white shadow-md transition hover:bg-red-800 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
 							>
 								{#if isSubmitting}
 									<svg
-										class="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
+										class="mr-2 -ml-1 h-5 w-5 animate-spin text-white"
 										xmlns="http://www.w3.org/2000/svg"
 										fill="none"
 										viewBox="0 0 24 24"
@@ -1844,7 +1844,7 @@
 									<span>{tradeInCaptions.form.submit}</span>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
-										class="w-5 h-5"
+										class="h-5 w-5"
 										viewBox="0 0 20 20"
 										fill="currentColor"
 									>
@@ -1871,13 +1871,13 @@
 			aria-modal="true"
 		>
 			<div
-				class="relative w-full max-w-md bg-white rounded-2xl shadow-2xl p-6 sm:p-8 flex flex-col items-center text-center animate-in fade-in duration-200"
+				class="animate-in fade-in relative flex w-full max-w-md flex-col items-center rounded-2xl bg-white p-6 text-center shadow-2xl duration-200 sm:p-8"
 			>
 				<div
-					class="size-16 rounded-2xl bg-red-50 flex items-center justify-center mb-5 text-red-700 shadow-inner"
+					class="mb-5 flex size-16 items-center justify-center rounded-2xl bg-red-50 text-red-700 shadow-inner"
 				>
 					<svg
-						class="animate-spin size-8"
+						class="size-8 animate-spin"
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
 						viewBox="0 0 24 24"
@@ -1892,29 +1892,29 @@
 					</svg>
 				</div>
 
-				<h3 class="text-lg font-bold text-gray-900 mb-1">
+				<h3 class="mb-1 text-lg font-bold text-gray-900">
 					{submitPhaseTitle || tradeInCaptions.form.submitting}
 				</h3>
-				<p class="text-xs text-gray-500 mb-6 max-w-xs leading-relaxed">
+				<p class="mb-6 max-w-xs text-xs leading-relaxed text-gray-500">
 					{submitProgressText}
 				</p>
 
 				<!-- Progress Bar -->
 				<div
-					class="w-full bg-gray-100 rounded-full h-3 overflow-hidden mb-2 p-0.5 border border-gray-200"
+					class="mb-2 h-3 w-full overflow-hidden rounded-full border border-gray-200 bg-gray-100 p-0.5"
 				>
 					<div
-						class="bg-gradient-to-r from-red-600 to-red-700 h-full rounded-full transition-all duration-300 ease-out"
+						class="h-full rounded-full bg-gradient-to-r from-red-600 to-red-700 transition-all duration-300 ease-out"
 						style="width: {submitProgressPercent}%"
 					></div>
 				</div>
-				<div class="w-full flex justify-between text-xs font-semibold text-gray-500 mb-5 px-1">
+				<div class="mb-5 flex w-full justify-between px-1 text-xs font-semibold text-gray-500">
 					<span>Status Proses</span>
-					<span class="text-red-700 font-bold">{submitProgressPercent}%</span>
+					<span class="font-bold text-red-700">{submitProgressPercent}%</span>
 				</div>
 
 				<div
-					class="bg-gray-50 border border-gray-200/80 rounded-xl p-3.5 text-xs text-gray-500 flex items-center gap-2.5 text-left"
+					class="flex items-center gap-2.5 rounded-xl border border-gray-200/80 bg-gray-50 p-3.5 text-left text-xs text-gray-500"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
