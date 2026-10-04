@@ -42,6 +42,7 @@
 	},
 	"dependencies": {
 		"@iconify-json/bi": "^1.2.7",
-		"better-auth": "^1.7.3"
+		"better-auth": "^1.7.3",
+		"effect": "^4.0.0"
 	}
 }
