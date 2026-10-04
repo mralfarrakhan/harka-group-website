@@ -1,6 +1,6 @@
 {
 	"$schema": "./node_modules/wrangler/config-schema.json",
-	"name": "harka-group-sheet",
+	"name": "harka-group-sheets",
 	// Set this to today's date
 	"compatibility_date": "2026-08-01",
 	"main": "./src/index.ts",

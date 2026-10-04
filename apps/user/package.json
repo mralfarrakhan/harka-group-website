@@ -21,6 +21,7 @@
 		"@astrojs/svelte": "^9.0.1",
 		"@harka/core": "workspace:*",
 		"@harka/db": "workspace:*",
+		"@iconify-json/bi": "^1.2.7",
 		"@iconify-svelte/bi": "^1.0.3",
 		"@tailwindcss/vite": "^4.3.3",
 		"astro": "^7.3.3",

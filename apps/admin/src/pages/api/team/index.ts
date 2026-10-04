@@ -5,11 +5,11 @@ import { eq } from "drizzle-orm";
 import { env } from "cloudflare:workers";
 
 const addEmailSchema = z.object({
-	email: z.string().trim().toLowerCase().pipe(z.string().email()),
+	email: z.string().trim().toLowerCase().pipe(z.email()),
 });
 
 const deleteEmailSchema = z.object({
-	email: z.string().trim().toLowerCase().pipe(z.string().email()),
+	email: z.string().trim().toLowerCase().pipe(z.email()),
 });
 
 export const POST: APIRoute = async (context) => {
