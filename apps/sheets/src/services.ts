@@ -18,14 +18,14 @@ export const asSheetsError = (cause: unknown): SheetsError => ({
 	cause,
 });
 
-export class GoogleSheetClient extends Context.Service<
+export class GoogleSheetClient extends Context.Tag("GoogleSheetClient")<
 	GoogleSheetClient,
 	{
 		readonly getSheetbyIndex: (
 			index: number,
 		) => Effect.Effect<NonNullable<GoogleSpreadsheetWorksheet>, SheetsError>;
 	}
->()("GoogleSheetClient") {
+>() {
 	static readonly makeLayer = (config: SheetsConfig) =>
 		Layer.effect(
 			GoogleSheetClient,
