@@ -13,13 +13,15 @@ type SheetsError = {
 	readonly cause: unknown;
 };
 
-export const asSheetsError = (cause: unknown): SheetsError => ({
-	message: "Google Sheets operation failed",
-	cause,
-});
+export const makeSheetsError =
+	(message?: string) =>
+	(cause: unknown): SheetsError => ({
+		message: message ?? "Google Sheets operation failed",
+		cause,
+	});
 
-export class GoogleSheetClient extends Context.Tag("GoogleSheetClient")<
-	GoogleSheetClient,
+export class GoogleSheetsClient extends Context.Tag("GoogleSheetsClient")<
+	GoogleSheetsClient,
 	{
 		readonly getSheetbyIndex: (
 			index: number,
@@ -28,7 +30,7 @@ export class GoogleSheetClient extends Context.Tag("GoogleSheetClient")<
 >() {
 	static readonly makeLayer = (config: SheetsConfig) =>
 		Layer.effect(
-			GoogleSheetClient,
+			GoogleSheetsClient,
 			Effect.tryPromise({
 				try: async () => {
 					const auth = new JWT({
@@ -51,11 +53,11 @@ export class GoogleSheetClient extends Context.Tag("GoogleSheetClient")<
 									}
 									return sheet;
 								},
-								catch: asSheetsError,
+								catch: makeSheetsError(),
 							}),
 					};
 				},
-				catch: asSheetsError,
+				catch: makeSheetsError("Error in client initialization"),
 			}),
 		);
 }
