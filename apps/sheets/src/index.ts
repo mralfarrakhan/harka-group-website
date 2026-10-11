@@ -1,14 +1,24 @@
-import { Effect } from "effect";
-import { GoogleSheetsClient } from "./services";
-import { HttpApp, HttpRouter, HttpServerResponse } from "@effect/platform";
+import { HttpApp, HttpRouter } from "@effect/platform";
+import { transactionsRouter } from "./router";
+import { makeTransactionsService, TransactionsServiceTag } from "./services";
 
-const firstSheet = GoogleSheetsClient.pipe(Effect.flatMap((c) => c.getSheetbyIndex(0)));
-
-const server = HttpRouter.empty.pipe(
-	HttpRouter.get("/", HttpServerResponse.text("ok")),
-	HttpApp.toWebHandler,
-);
+const makeServer = (env: Env) => {};
 
 export default {
-	fetch: (response) => server(response),
+	fetch: async (request, env) => {
+		const config = {
+			email: env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+			privateKey: env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+			spreadsheetId: env.GOOGLE_SHEET_ID,
+		};
+
+		const service = makeTransactionsService(config);
+
+		const app = transactionsRouter.pipe(
+			HttpRouter.provideService(TransactionsServiceTag, service),
+			HttpApp.toWebHandler,
+		);
+
+		return app(request);
+	},
 } satisfies ExportedHandler<Env>;
