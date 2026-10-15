@@ -1,0 +1,24 @@
+{
+	"name": "api",
+	"version": "0.0.0",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite build && vite preview",
+		"gen": "wrangler types"
+	},
+	"devDependencies": {
+		"@cloudflare/vite-plugin": "^1.64.0",
+		"@cloudflare/vitest-plugin": "^1.4.2",
+		"@types/node": "^26.6.5",
+		"typescript": "^5.9.3",
+		"vite": "^8.3.4",
+		"vitest": "~4.1.11",
+		"wrangler": "^4.151.0"
+	},
+	"dependencies": {
+		"effect": "^4.0.5"
+	}
+}
