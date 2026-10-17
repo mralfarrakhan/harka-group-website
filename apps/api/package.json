@@ -7,7 +7,8 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite build && vite preview",
-		"gen": "wrangler types"
+		"gen": "wrangler types",
+		"check": "wrangler types --check"
 	},
 	"devDependencies": {
 		"@cloudflare/vite-plugin": "^1.64.0",
