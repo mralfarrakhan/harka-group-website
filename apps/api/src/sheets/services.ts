@@ -2,7 +2,7 @@ import { env } from 'cloudflare:workers';
 import { Array, Console, Context, Data, Effect, Layer, Number, Option, Order, pipe, Record, Schema } from 'effect';
 import { JWT } from 'google-auth-library';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
-import { Transaction, TransactionRequestType, TransactionType } from './schemas';
+import { TransactionRequestType, TransactionSheet, TransactionSheetType, TransactionType } from './schemas';
 
 export class InitializationError extends Data.TaggedError('InitializationError')<{
 	readonly cause: unknown;
@@ -30,6 +30,7 @@ export class Client extends Context.Service<
 	{
 		readonly transaction: {
 			append: (payload: TransactionRequestType) => Effect.Effect<void, SheetsError>;
+			get: () => Effect.Effect<TransactionType[], SheetsError>;
 		};
 	}
 >()('SheetsClient') {}
@@ -77,32 +78,32 @@ export const ClientLive = Layer.effect(
 
 				return sheet;
 			}),
-			'10 minutes',
+			'30 minutes',
 		);
+
+		const decodeTransactionRow = Schema.decodeUnknownEffect(TransactionSheet);
+		const encodeTransactionRow = Schema.encodeEffect(TransactionSheet);
 
 		const transactionAppend = (request: TransactionRequestType) =>
 			Effect.gen(function* () {
 				const transactionSheet = yield* getTransactionSheet;
 
 				const latestNo = yield* Effect.tryPromise({
-					try: () => transactionSheet.getRows<TransactionType>(),
+					try: () => transactionSheet.getRows<TransactionSheetType>(),
 					catch: (cause: unknown) => new QueryError({ cause }),
 				}).pipe(Effect.map((rows) => rows.reduce((max, row) => Math.max(max, Number.Number(row.get('No')) || 0), 0)));
 
-				const sisa = pipe(
-					request['DP/ Panjar'],
-					Option.map((dp) => request['Harga Jual'] - dp),
+				const remainingBalance = Option.orElse(request.remainingBalance, () =>
+					Option.map(request.downPayment, (dp) => request.sellingPrice - dp),
 				);
 
-				const payload: TransactionType = {
+				const payload = {
 					...request,
-					No: latestNo + 1,
-					sisa: sisa,
+					no: latestNo + 1,
+					remainingBalance,
 				};
 
-				const payloadJson = yield* Schema.encodeEffect(Transaction)(payload).pipe(
-					Effect.mapError(({ cause }) => new QueryError({ cause })),
-				);
+				const payloadJson = yield* encodeTransactionRow(payload).pipe(Effect.mapError(({ cause }) => new QueryError({ cause })));
 
 				yield* Effect.tryPromise({
 					try: () => transactionSheet.addRow(payloadJson as Record<string, any>),
@@ -110,9 +111,26 @@ export const ClientLive = Layer.effect(
 				});
 			});
 
+		const transactionsGet = () =>
+			Effect.gen(function* () {
+				const transactionSheet = yield* getTransactionSheet;
+
+				const rows = yield* Effect.tryPromise({
+					try: () => transactionSheet.getRows<TransactionSheetType>(),
+					catch: (cause: unknown) => new QueryError({ cause }),
+				});
+
+				const decodedRows = yield* Effect.forEach(rows, (row) => decodeTransactionRow(row.toObject())).pipe(
+					Effect.mapError(({ cause }) => new QueryError({ cause })),
+				);
+
+				return decodedRows;
+			});
+
 		return {
 			transaction: {
 				append: transactionAppend,
+				get: transactionsGet,
 			},
 		};
 	}),
