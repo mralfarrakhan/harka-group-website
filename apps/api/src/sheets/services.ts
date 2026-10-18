@@ -223,8 +223,41 @@ export const ClientLive = Layer.effect(
 							onSome: Effect.succeed,
 						}),
 					),
-					Effect.tap(Console.log),
 				);
+
+				const current = yield* decodeTransactionRow(target.toObject()).pipe(
+					Effect.mapError(
+						(cause) =>
+							new QueryError({
+								message: `Failed to decode existing transaction #${request.no}`,
+								cause,
+							}),
+					),
+				);
+
+				const encoded = yield* encodeTransactionRow({
+					...current,
+					...request,
+				}).pipe(
+					Effect.mapError(
+						(cause) =>
+							new QueryError({
+								message: `Failed to encode updated transaction #${request.no}`,
+								cause,
+							}),
+					),
+				);
+
+				target.assign(encoded);
+
+				yield* Effect.tryPromise({
+					try: () => target.save(),
+					catch: (cause: unknown) =>
+						new QueryError({
+							message: `Failed to save updated transaction #${request.no}`,
+							cause,
+						}),
+				});
 			},
 			Effect.tapError((err) => Effect.logError(err.message, err)),
 		);
