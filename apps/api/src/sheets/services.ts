@@ -1,5 +1,5 @@
 import { env } from 'cloudflare:workers';
-import { Array, Context, Effect, Layer, Number, Option, pipe, Record, Schema } from 'effect';
+import { Array, Console, Context, Effect, Layer, Number, Option, pipe, Record, Schema } from 'effect';
 import { JWT } from 'google-auth-library';
 import { GoogleSpreadsheet, GoogleSpreadsheetWorksheet } from 'google-spreadsheet';
 import {
@@ -55,7 +55,9 @@ export class Client extends Context.Service<
 	{
 		readonly transaction: {
 			append: (payload: typeof TransactionCreate.Type) => Effect.Effect<void, InitializationError | QueryError>;
-			get: (payload: typeof TransactionRead.Type) => Effect.Effect<(typeof Transaction.Type)[], InitializationError | QueryError>;
+			get: (
+				payload: typeof TransactionRead.Type,
+			) => Effect.Effect<(typeof Transaction.Type)[], InitializationError | QueryError | TransactionNotFoundError>;
 			update: (payload: typeof TransactionUpdate.Type) => Effect.Effect<void, InitializationError | QueryError | TransactionNotFoundError>;
 			delete: (payload: typeof TransactionDelete.Type) => Effect.Effect<void, InitializationError | QueryError | TransactionNotFoundError>;
 		};
@@ -88,6 +90,39 @@ const loadDocument = Effect.tryPromise({
 	Effect.withLogSpan('SheetsClient.loadDocument'),
 	Effect.tapError((err) => Effect.logError(err.message, err)),
 );
+
+const transactionByNo = Effect.fn('transactionByNo')(function* (sheet: GoogleSpreadsheetWorksheet, no: number) {
+	return yield* Effect.tryPromise({
+		try: () => sheet.getRows<TransactionSheetType>(),
+		catch: (cause: unknown) =>
+			new QueryError({
+				message: `Failed to fetch rows to update transaction #${no}`,
+				cause,
+			}),
+	}).pipe(
+		Effect.map(
+			Array.findFirst((z) =>
+				pipe(
+					z.get('No'),
+					Number.parse,
+					Option.exists((n) => n === no),
+				),
+			),
+		),
+		Effect.flatMap(
+			Option.match({
+				onNone: () =>
+					Effect.fail(
+						new TransactionNotFoundError({
+							no: no,
+							message: `Transaction #${no} not found`,
+						}),
+					),
+				onSome: Effect.succeed,
+			}),
+		),
+	);
+});
 
 export const ClientLive = Layer.effect(
 	Client,
@@ -171,64 +206,53 @@ export const ClientLive = Layer.effect(
 			function* (request: typeof TransactionRead.Type) {
 				const transactionSheet = yield* getTransactionSheet;
 
-				const rows = yield* Effect.tryPromise({
-					try: () => transactionSheet.getRows<TransactionSheetType>(),
-					catch: (cause: unknown) =>
-						new QueryError({
-							message: 'Failed to fetch transaction rows',
-							cause,
-						}),
-				});
+				return yield* pipe(
+					request.no,
+					Option.fromUndefinedOr,
+					Option.match({
+						onNone: () =>
+							Effect.gen(function* () {
+								const rows = yield* Effect.tryPromise({
+									try: () => transactionSheet.getRows<TransactionSheetType>(),
+									catch: (cause: unknown) =>
+										new QueryError({
+											message: 'Failed to fetch transaction rows',
+											cause,
+										}),
+								});
 
-				const decodedRows = yield* Effect.forEach(rows, (row) =>
-					decodeTransactionRow(row.toObject()).pipe(
-						Effect.mapError(
-							(cause) =>
-								new QueryError({
-									message: `Failed to decode transaction row ${row.rowNumber}`,
-									cause,
-								}),
-						),
-					),
+								return yield* Effect.forEach(rows, (row) =>
+									decodeTransactionRow(row.toObject()).pipe(
+										Effect.mapError(
+											(cause) =>
+												new QueryError({
+													message: `Failed to decode transaction row ${row.rowNumber}`,
+													cause,
+												}),
+										),
+									),
+								);
+							}),
+						onSome: (i) =>
+							Effect.gen(function* () {
+								const target = yield* transactionByNo(transactionSheet, i);
+
+								return yield* decodeTransactionRow(target.toObject()).pipe(
+									Effect.map(Array.of),
+									Effect.mapError(
+										(cause) =>
+											new QueryError({
+												message: `Failed to decode transaction #${i}`,
+												cause,
+											}),
+									),
+								);
+							}),
+					}),
 				);
-
-				return decodedRows;
 			},
 			Effect.tapError((err) => Effect.logError(err.message, err)),
 		);
-
-		const transactionByNo = Effect.fn('transactionByNo')(function* (sheet: GoogleSpreadsheetWorksheet, no: number) {
-			return yield* Effect.tryPromise({
-				try: () => sheet.getRows<TransactionSheetType>(),
-				catch: (cause: unknown) =>
-					new QueryError({
-						message: `Failed to fetch rows to update transaction #${no}`,
-						cause,
-					}),
-			}).pipe(
-				Effect.map(
-					Array.findFirst((z) =>
-						pipe(
-							z.get('No'),
-							Number.parse,
-							Option.exists((n) => n === no),
-						),
-					),
-				),
-				Effect.flatMap(
-					Option.match({
-						onNone: () =>
-							Effect.fail(
-								new TransactionNotFoundError({
-									no: no,
-									message: `Transaction #${no} not found`,
-								}),
-							),
-						onSome: Effect.succeed,
-					}),
-				),
-			);
-		});
 
 		const transactionUpdate = Effect.fn('SheetsClient.transaction.update')(
 			function* (request: typeof TransactionUpdate.Type) {

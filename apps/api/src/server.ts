@@ -21,9 +21,9 @@ const Transactions = HttpApiGroup.make('transactions')
 	)
 	.add(
 		HttpApiEndpoint.get('get', '/', {
-			params: TransactionRead,
+			query: TransactionRead,
 			success: Schema.Array(Transaction),
-			error: [InitializationError, QueryError],
+			error: [InitializationError, QueryError, TransactionNotFoundError],
 		}),
 	)
 	.add(
@@ -50,7 +50,7 @@ const TransactionLive = HttpApiBuilder.group(
 
 		return handlers
 			.handle('append', ({ payload }) => client.transaction.append(payload))
-			.handle('get', ({ params }) => client.transaction.get(params))
+			.handle('get', ({ query }) => client.transaction.get(query))
 			.handle('update', ({ payload }) => client.transaction.update(payload))
 			.handle('delete', ({ payload }) => client.transaction.delete(payload));
 	}),
