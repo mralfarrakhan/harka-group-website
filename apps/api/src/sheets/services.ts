@@ -1,8 +1,16 @@
 import { env } from 'cloudflare:workers';
-import { Array, Console, Context, Effect, Layer, Number, Option, pipe, Record, Schema } from 'effect';
+import { Array, Context, Effect, Layer, Number, Option, pipe, Record, Schema } from 'effect';
 import { JWT } from 'google-auth-library';
-import { GoogleSpreadsheet } from 'google-spreadsheet';
-import { TransactionCreate, TransactionRead, TransactionSheet, TransactionSheetType, TransactionUpdate } from './schema';
+import { GoogleSpreadsheet, GoogleSpreadsheetWorksheet } from 'google-spreadsheet';
+import {
+	Transaction,
+	TransactionCreate,
+	TransactionDelete,
+	TransactionRead,
+	TransactionSheet,
+	TransactionSheetType,
+	TransactionUpdate,
+} from './schema';
 
 export class InitializationError extends Schema.TaggedError<InitializationError>()(
 	'InitializationError',
@@ -31,8 +39,6 @@ export class TransactionNotFoundError extends Schema.TaggedError<TransactionNotF
 	{ httpApiStatus: 404 },
 ) {}
 
-export type SheetsError = InitializationError | QueryError;
-
 export enum Sheets {
 	Transaction = 'TRANSAKSI',
 	UnitExpenditure = 'PENGELUARAN PER UNIT',
@@ -48,9 +54,10 @@ export class Client extends Context.Service<
 	Client,
 	{
 		readonly transaction: {
-			append: (payload: typeof TransactionCreate.Type) => Effect.Effect<void, SheetsError>;
-			get: () => Effect.Effect<(typeof TransactionRead.Type)[], SheetsError>;
-			update: (payload: typeof TransactionUpdate.Type) => Effect.Effect<void, SheetsError | TransactionNotFoundError>;
+			append: (payload: typeof TransactionCreate.Type) => Effect.Effect<void, InitializationError | QueryError>;
+			get: (payload: typeof TransactionRead.Type) => Effect.Effect<(typeof Transaction.Type)[], InitializationError | QueryError>;
+			update: (payload: typeof TransactionUpdate.Type) => Effect.Effect<void, InitializationError | QueryError | TransactionNotFoundError>;
+			delete: (payload: typeof TransactionDelete.Type) => Effect.Effect<void, InitializationError | QueryError | TransactionNotFoundError>;
 		};
 	}
 >()('SheetsClient') {}
@@ -161,7 +168,7 @@ export const ClientLive = Layer.effect(
 		);
 
 		const transactionsGet = Effect.fn('SheetsClient.transaction.get')(
-			function* () {
+			function* (request: typeof TransactionRead.Type) {
 				const transactionSheet = yield* getTransactionSheet;
 
 				const rows = yield* Effect.tryPromise({
@@ -190,40 +197,44 @@ export const ClientLive = Layer.effect(
 			Effect.tapError((err) => Effect.logError(err.message, err)),
 		);
 
+		const transactionByNo = Effect.fn('transactionByNo')(function* (sheet: GoogleSpreadsheetWorksheet, no: number) {
+			return yield* Effect.tryPromise({
+				try: () => sheet.getRows<TransactionSheetType>(),
+				catch: (cause: unknown) =>
+					new QueryError({
+						message: `Failed to fetch rows to update transaction #${no}`,
+						cause,
+					}),
+			}).pipe(
+				Effect.map(
+					Array.findFirst((z) =>
+						pipe(
+							z.get('No'),
+							Number.parse,
+							Option.exists((n) => n === no),
+						),
+					),
+				),
+				Effect.flatMap(
+					Option.match({
+						onNone: () =>
+							Effect.fail(
+								new TransactionNotFoundError({
+									no: no,
+									message: `Transaction #${no} not found`,
+								}),
+							),
+						onSome: Effect.succeed,
+					}),
+				),
+			);
+		});
+
 		const transactionUpdate = Effect.fn('SheetsClient.transaction.update')(
 			function* (request: typeof TransactionUpdate.Type) {
 				const transactionSheet = yield* getTransactionSheet;
 
-				const target = yield* Effect.tryPromise({
-					try: () => transactionSheet.getRows<TransactionSheetType>(),
-					catch: (cause: unknown) =>
-						new QueryError({
-							message: `Failed to fetch rows to update transaction #${request.no}`,
-							cause,
-						}),
-				}).pipe(
-					Effect.map(
-						Array.findFirst((z) =>
-							pipe(
-								z.get('No'),
-								Number.parse,
-								Option.exists((no) => no === request.no),
-							),
-						),
-					),
-					Effect.flatMap(
-						Option.match({
-							onNone: () =>
-								Effect.fail(
-									new TransactionNotFoundError({
-										no: request.no,
-										message: `Transaction #${request.no} not found`,
-									}),
-								),
-							onSome: Effect.succeed,
-						}),
-					),
-				);
+				const target = yield* transactionByNo(transactionSheet, request.no);
 
 				const current = yield* decodeTransactionRow(target.toObject()).pipe(
 					Effect.mapError(
@@ -262,11 +273,30 @@ export const ClientLive = Layer.effect(
 			Effect.tapError((err) => Effect.logError(err.message, err)),
 		);
 
+		const transactionDelete = Effect.fn('SheetClient.transaction.delete')(
+			function* (request: typeof TransactionDelete.Type) {
+				const transactionSheet = yield* getTransactionSheet;
+
+				const target = yield* transactionByNo(transactionSheet, request.no);
+
+				yield* Effect.tryPromise({
+					try: () => target.delete(),
+					catch: (cause: unknown) =>
+						new QueryError({
+							message: `Failed to delete transaction #${request.no}`,
+							cause,
+						}),
+				});
+			},
+			Effect.tapError((err) => Effect.logError(err.message, err)),
+		);
+
 		return {
 			transaction: {
 				append: transactionAppend,
 				get: transactionsGet,
 				update: transactionUpdate,
+				delete: transactionDelete,
 			},
 		};
 	}),

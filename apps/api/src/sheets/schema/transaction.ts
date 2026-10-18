@@ -1,10 +1,10 @@
-import { Schema, Struct } from 'effect';
+import { flow, Schema, Struct } from 'effect';
 import { DDMMYY, OptionFromEmptyStringOr, RpFromString } from './utilities';
 
 export const TransactionCategory = Schema.Literals(['JUAL CASH LUNAS', 'TERIMA DP PEMBELI', 'TUKAR TAMBAH']);
 export const TransactionStatus = Schema.Literals(['LUNAS', 'BELUM LUNAS']);
 
-const Transaction = Schema.Struct({
+export const Transaction = Schema.Struct({
 	no: Schema.Finite.check(Schema.isGreaterThan(0)),
 	transactionDate: DDMMYY,
 	carDescription: Schema.String,
@@ -20,7 +20,7 @@ const Transaction = Schema.Struct({
 	notes: Schema.OptionFromOptionalNullOr(Schema.String),
 });
 export const TransactionCreate = Transaction.mapFields(Struct.omit(['no']));
-export const TransactionRead = Transaction;
+export const TransactionRead = Transaction.mapFields(flow(Struct.pick(['no']), Struct.map(Schema.optionalKey)));
 export const TransactionUpdate = Transaction.mapFields(Struct.mapOmit(['no'], Schema.optionalKey));
 export const TransactionDelete = Transaction.mapFields(Struct.pick(['no']));
 

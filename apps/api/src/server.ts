@@ -4,7 +4,9 @@ import {
 	Client,
 	InitializationError,
 	QueryError,
+	Transaction,
 	TransactionCreate,
+	TransactionDelete,
 	TransactionNotFoundError,
 	TransactionRead,
 	TransactionUpdate,
@@ -19,13 +21,20 @@ const Transactions = HttpApiGroup.make('transactions')
 	)
 	.add(
 		HttpApiEndpoint.get('get', '/', {
-			success: Schema.Array(TransactionRead),
+			params: TransactionRead,
+			success: Schema.Array(Transaction),
 			error: [InitializationError, QueryError],
 		}),
 	)
 	.add(
 		HttpApiEndpoint.patch('update', '/update', {
 			payload: TransactionUpdate,
+			error: [InitializationError, QueryError, TransactionNotFoundError],
+		}),
+	)
+	.add(
+		HttpApiEndpoint.delete('delete', '/delete', {
+			payload: TransactionDelete,
 			error: [InitializationError, QueryError, TransactionNotFoundError],
 		}),
 	)
@@ -41,8 +50,9 @@ const TransactionLive = HttpApiBuilder.group(
 
 		return handlers
 			.handle('append', ({ payload }) => client.transaction.append(payload))
-			.handle('get', () => client.transaction.get())
-			.handle('update', ({ payload }) => client.transaction.update(payload));
+			.handle('get', ({ params }) => client.transaction.get(params))
+			.handle('update', ({ payload }) => client.transaction.update(payload))
+			.handle('delete', ({ payload }) => client.transaction.delete(payload));
 	}),
 );
 
