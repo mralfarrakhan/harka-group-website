@@ -28,7 +28,6 @@ export enum Sheets {
 export class Client extends Context.Service<
 	Client,
 	{
-		readonly query: () => Effect.Effect<string, SheetsError>;
 		readonly transaction: {
 			append: (payload: TransactionRequestType) => Effect.Effect<void, SheetsError>;
 		};
@@ -81,21 +80,6 @@ export const ClientLive = Layer.effect(
 			'10 minutes',
 		);
 
-		const query = () =>
-			Effect.gen(function* () {
-				const doc = yield* getDocument;
-
-				const res = yield* pipe(
-					doc.sheetsByIndex,
-					Array.head,
-					Effect.fromOption,
-					Effect.mapError(({ cause }) => new QueryError({ cause })),
-					Effect.map((e) => e.title),
-				);
-
-				return res;
-			});
-
 		const transactionAppend = (request: TransactionRequestType) =>
 			Effect.gen(function* () {
 				const transactionSheet = yield* getTransactionSheet;
@@ -127,7 +111,6 @@ export const ClientLive = Layer.effect(
 			});
 
 		return {
-			query: query,
 			transaction: {
 				append: transactionAppend,
 			},
