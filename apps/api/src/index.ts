@@ -1,11 +1,10 @@
-import { Console, Effect, Layer } from 'effect';
+import { Console, Effect, Layer, Logger } from 'effect';
 import { HttpRouter, HttpServer } from 'effect/http';
 import * as Sheets from './sheets';
 import { ApiLive } from './server';
 
 const app2 = ApiLive.pipe(
-	Layer.tapCause(Console.log),
-	Layer.provideMerge(Layer.mergeAll(HttpServer.layerServices, Sheets.ClientLive)),
+	Layer.provideMerge(Layer.mergeAll(HttpServer.layerServices, Sheets.ClientLive, Logger.layer([Logger.consoleJson]))),
 	HttpRouter.toWebHandler,
 );
 

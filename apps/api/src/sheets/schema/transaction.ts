@@ -1,5 +1,5 @@
 import { Schema, Struct } from 'effect';
-import { DDMMYY } from './utilities';
+import { DDMMYY, OptionFromEmptyStringOr, RpFromString } from './utilities';
 
 export const TransactionCategory = Schema.Literals(['JUAL CASH LUNAS', 'TERIMA DP PEMBELI', 'TUKAR TAMBAH']);
 export const TransactionStatus = Schema.Literals(['LUNAS', 'BELUM LUNAS']);
@@ -27,9 +27,10 @@ export const TransactionDelete = Transaction.mapFields(Struct.pick(['no']));
 export const TransactionSheet = Schema.Struct({
 	...Transaction.fields,
 	no: Schema.FiniteFromString,
-	sellingPrice: Schema.FiniteFromString,
-	downPayment: Schema.OptionFromOptionalNullOr(Schema.FiniteFromString),
-	remainingBalance: Schema.OptionFromOptionalNullOr(Schema.FiniteFromString),
+	sellingPrice: RpFromString,
+	downPayment: OptionFromEmptyStringOr(RpFromString),
+	remainingBalance: OptionFromEmptyStringOr(RpFromString),
+	notes: OptionFromEmptyStringOr(Schema.String),
 }).pipe(
 	Schema.encodeKeys({
 		no: 'No',

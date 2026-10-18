@@ -1,24 +1,32 @@
 import { Effect, Layer, Schema } from 'effect';
-import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiError, HttpApiGroup } from 'effect/http-api';
-import { Client, TransactionCreate, TransactionRead, TransactionUpdate } from './sheets';
+import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup } from 'effect/http-api';
+import {
+	Client,
+	InitializationError,
+	QueryError,
+	TransactionCreate,
+	TransactionNotFoundError,
+	TransactionRead,
+	TransactionUpdate,
+} from './sheets';
 
 const Transactions = HttpApiGroup.make('transactions')
 	.add(
 		HttpApiEndpoint.post('append', '/append', {
 			payload: TransactionCreate,
-			error: HttpApiError.InternalServerError,
+			error: [InitializationError, QueryError],
 		}),
 	)
 	.add(
 		HttpApiEndpoint.get('get', '/', {
 			success: Schema.Array(TransactionRead),
-			error: HttpApiError.InternalServerError,
+			error: [InitializationError, QueryError],
 		}),
 	)
 	.add(
 		HttpApiEndpoint.patch('update', '/update', {
 			payload: TransactionUpdate,
-			error: HttpApiError.InternalServerError,
+			error: [InitializationError, QueryError, TransactionNotFoundError],
 		}),
 	)
 	.prefix('/sheets/transactions');
@@ -32,13 +40,9 @@ const TransactionLive = HttpApiBuilder.group(
 		const client = yield* Client;
 
 		return handlers
-			.handle('append', ({ payload }) =>
-				client.transaction.append(payload).pipe(Effect.mapError(() => new HttpApiError.InternalServerError())),
-			)
-			.handle('get', () => client.transaction.get().pipe(Effect.mapError(() => new HttpApiError.InternalServerError())))
-			.handle('update', ({ payload }) =>
-				client.transaction.update(payload).pipe(Effect.mapError(() => new HttpApiError.InternalServerError())),
-			);
+			.handle('append', ({ payload }) => client.transaction.append(payload))
+			.handle('get', () => client.transaction.get())
+			.handle('update', ({ payload }) => client.transaction.update(payload));
 	}),
 );
 
