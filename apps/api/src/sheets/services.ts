@@ -1,8 +1,8 @@
 import { env } from 'cloudflare:workers';
-import { Array, Console, Context, Data, Effect, Layer, Number, Option, Order, pipe, Record } from 'effect';
+import { Array, Console, Context, Data, Effect, Layer, Number, Option, Order, pipe, Record, Schema } from 'effect';
 import { JWT } from 'google-auth-library';
-import { GoogleSpreadsheet, GoogleSpreadsheetRow } from 'google-spreadsheet';
-import { TransactionRequestType, TransactionType } from './schemas';
+import { GoogleSpreadsheet } from 'google-spreadsheet';
+import { Transaction, TransactionRequestType, TransactionType } from './schemas';
 
 export class InitializationError extends Data.TaggedError('InitializationError')<{
 	readonly cause: unknown;
@@ -58,7 +58,28 @@ const loadDocument = Effect.tryPromise({
 export const ClientLive = Layer.effect(
 	Client,
 	Effect.gen(function* () {
-		const [getDocument, _invalidateDocument] = yield* Effect.cachedInvalidateWithTTL(loadDocument, '10 minutes');
+		const [getDocument] = yield* Effect.cachedInvalidateWithTTL(loadDocument, '10 minutes');
+
+		const [getTransactionSheet] = yield* Effect.cachedInvalidateWithTTL(
+			Effect.gen(function* () {
+				const doc = yield* getDocument;
+
+				const sheet = yield* pipe(
+					doc.sheetsByTitle,
+					Record.get(Sheets.Transaction),
+					Effect.fromOption,
+					Effect.mapError(({ cause }) => new QueryError({ cause })),
+				);
+
+				yield* Effect.tryPromise({
+					try: () => sheet.loadHeaderRow(3),
+					catch: (cause: unknown) => new QueryError({ cause }),
+				});
+
+				return sheet;
+			}),
+			'10 minutes',
+		);
 
 		const query = () =>
 			Effect.gen(function* () {
@@ -77,33 +98,12 @@ export const ClientLive = Layer.effect(
 
 		const transactionAppend = (request: TransactionRequestType) =>
 			Effect.gen(function* () {
-				const doc = yield* getDocument;
+				const transactionSheet = yield* getTransactionSheet;
 
-				const transactionSheet = yield* pipe(
-					doc.sheetsByTitle,
-					Record.get(Sheets.Transaction),
-					Effect.fromOption,
-					Effect.mapError(({ cause }) => new QueryError({ cause })),
-				);
-
-				const latestNo = yield* pipe(
-					Effect.tryPromise({
-						try: () => transactionSheet.getRows<TransactionType>(),
-						catch: (cause) => new QueryError({ cause }),
-					}),
-					Effect.flatMap((rows) =>
-						pipe(
-							rows,
-							Array.head,
-							Option.map((first) =>
-								Array.reduce(rows, first, Order.max(Order.mapInput(Number.Order, (row) => Number.Number(row.get('No'))))),
-							),
-							Option.map((r) => Number.Number(r.get('No'))),
-							Effect.fromOption,
-							Effect.mapError(({ cause }) => new QueryError({ cause })),
-						),
-					),
-				);
+				const latestNo = yield* Effect.tryPromise({
+					try: () => transactionSheet.getRows<TransactionType>(),
+					catch: (cause: unknown) => new QueryError({ cause }),
+				}).pipe(Effect.map((rows) => rows.reduce((max, row) => Math.max(max, Number.Number(row.get('No')) || 0), 0)));
 
 				const sisa = pipe(
 					request['DP/ Panjar'],
@@ -116,8 +116,12 @@ export const ClientLive = Layer.effect(
 					sisa: sisa,
 				};
 
+				const payloadJson = yield* Schema.encodeEffect(Transaction)(payload).pipe(
+					Effect.mapError(({ cause }) => new QueryError({ cause })),
+				);
+
 				yield* Effect.tryPromise({
-					try: () => transactionSheet.addRow(payload as Record<string, any>),
+					try: () => transactionSheet.addRow(payloadJson as Record<string, any>),
 					catch: (cause) => new QueryError({ cause }),
 				});
 			});
