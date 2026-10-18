@@ -1,13 +1,14 @@
 import { Schema, Struct } from 'effect';
+import { DDMMYY } from './utilities';
 
 export const TransactionCategory = Schema.Literals(['JUAL CASH LUNAS', 'TERIMA DP PEMBELI', 'TUKAR TAMBAH']);
 export const TransactionStatus = Schema.Literals(['LUNAS', 'BELUM LUNAS']);
 
-export const Transaction = Schema.Struct({
-	no: Schema.Finite,
-	transactionDate: Schema.DateFromString,
+const Transaction = Schema.Struct({
+	no: Schema.Finite.check(Schema.isGreaterThan(0)),
+	transactionDate: DDMMYY,
 	carDescription: Schema.String,
-	plateNumber: Schema.String,
+	plateNumber: Schema.String.check(Schema.isPattern(/^([A-Za-z]{1,2})\s*([1-9][0-9]{0,3})\s*([A-Za-z]{0,3})$/)),
 	category: TransactionCategory,
 	buyerName: Schema.String,
 	phoneNumber: Schema.String,
@@ -18,8 +19,10 @@ export const Transaction = Schema.Struct({
 	status: TransactionStatus,
 	notes: Schema.OptionFromOptionalNullOr(Schema.String),
 });
-
-export const TransactionRequest = Transaction.mapFields(Struct.omit(['no']));
+export const TransactionCreate = Transaction.mapFields(Struct.omit(['no']));
+export const TransactionRead = Transaction;
+export const TransactionUpdate = Transaction.mapFields(Struct.mapOmit(['no'], Schema.optionalKey));
+export const TransactionDelete = Transaction.mapFields(Struct.pick(['no']));
 
 export const TransactionSheet = Schema.Struct({
 	...Transaction.fields,
@@ -44,9 +47,5 @@ export const TransactionSheet = Schema.Struct({
 		notes: 'Catatan',
 	}),
 );
-
-export type TransactionType = typeof Transaction.Type;
-
-export type TransactionRequestType = typeof TransactionRequest.Type;
 
 export type TransactionSheetType = typeof TransactionSheet.Encoded;

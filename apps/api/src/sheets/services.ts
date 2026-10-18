@@ -1,8 +1,8 @@
 import { env } from 'cloudflare:workers';
-import { Array, Console, Context, Data, Effect, Layer, Number, Option, Order, pipe, Record, Schema } from 'effect';
+import { Array, Boolean, Console, Context, Data, Effect, Layer, Number, Option, pipe, Record, Schema } from 'effect';
 import { JWT } from 'google-auth-library';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
-import { TransactionRequestType, TransactionSheet, TransactionSheetType, TransactionType } from './schemas';
+import { TransactionCreate, TransactionRead, TransactionSheet, TransactionSheetType, TransactionUpdate } from './schema';
 
 export class InitializationError extends Data.TaggedError('InitializationError')<{
 	readonly cause: unknown;
@@ -29,8 +29,9 @@ export class Client extends Context.Service<
 	Client,
 	{
 		readonly transaction: {
-			append: (payload: TransactionRequestType) => Effect.Effect<void, SheetsError>;
-			get: () => Effect.Effect<TransactionType[], SheetsError>;
+			append: (payload: typeof TransactionCreate.Type) => Effect.Effect<void, SheetsError>;
+			get: () => Effect.Effect<(typeof TransactionRead.Type)[], SheetsError>;
+			update: (payload: typeof TransactionUpdate.Type) => Effect.Effect<void, SheetsError>;
 		};
 	}
 >()('SheetsClient') {}
@@ -84,7 +85,7 @@ export const ClientLive = Layer.effect(
 		const decodeTransactionRow = Schema.decodeUnknownEffect(TransactionSheet);
 		const encodeTransactionRow = Schema.encodeEffect(TransactionSheet);
 
-		const transactionAppend = (request: TransactionRequestType) =>
+		const transactionAppend = (request: typeof TransactionCreate.Type) =>
 			Effect.gen(function* () {
 				const transactionSheet = yield* getTransactionSheet;
 
@@ -127,10 +128,32 @@ export const ClientLive = Layer.effect(
 				return decodedRows;
 			});
 
+		const transactionUpdate = (request: typeof TransactionUpdate.Type) =>
+			Effect.gen(function* () {
+				const transactionSheet = yield* getTransactionSheet;
+
+				const target = yield* Effect.tryPromise({
+					try: () => transactionSheet.getRows<TransactionSheetType>(),
+					catch: (cause: unknown) => new QueryError({ cause }),
+				}).pipe(
+					Effect.map(
+						Array.findFirst((z) =>
+							pipe(
+								z.get('No'),
+								Number.parse,
+								Option.exists((no) => no === request.no),
+							),
+						),
+					),
+					Effect.tap(Console.log),
+				);
+			});
+
 		return {
 			transaction: {
 				append: transactionAppend,
 				get: transactionsGet,
+				update: transactionUpdate,
 			},
 		};
 	}),
